@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Saved Payment Methods</title>
+  <style>
+    .paymentMethod {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .paymentMethod:hover {
+      background-color: #f9f9f9;
+    }
+    .creditCardIcon {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Saved Payment Methods</h1>
+  
+<!-- list of the payment methods -->
+  <fieldset>
+    <legend>Payment Method List</legend>
+    <div id="paymentList">
+      <div class="paymentMethod" onclick="showPaymentDetails('Visa', '**** **** **** 1234', 'John Doe')"> 
+        <img src="/Profile/img/credit-card.png" alt="Credit Card Icon" class="creditCardIcon">
+        Visa ending in 1234
+      </div>
+      <div class="paymentMethod" onclick="showPaymentDetails('Mastercard', '**** **** **** 5678', 'Jane Smith')">
+        <img src="/Profile/img/credit-card.png" alt="Credit Card Icon" class="creditCardIcon">
+        Mastercard ending in 5678
+      </div>
+      <!-- Add more payment methods here -->
+    </div>
+  </fieldset>
+
+  <div id="paymentPopup" style="display: none;">
+    <h2>Edit Payment Method</h2>
+    <div id="paymentPopupContent">
+      <!-- Payment method details will be displayed here -->
+    </div>
+  </div>
+
+  <script>
+    function showPaymentDetails(type, number, owner) {
+      document.getElementById("paymentPopup").style.display = "block";
+      document.getElementById("paymentPopupContent").innerHTML = `
+        <div>
+          <strong>Type:</strong> ${type}
+        </div>
+        <div>
+          <strong>Number:</strong> ${number}
+        </div>
+        <div>
+          <strong>Owner:</strong> ${owner}
+        </div>
+        <button onclick="editPayment('${type}', '${number}', '${owner}')">Edit</button>
+        <button onclick="deletePayment('${type}', '${number}', '${owner}')">Delete</button>
+      `;
+    }
+
+    function editPayment(type, number, owner) {
+      // Add functionality to edit the payment method here
+    }
+
+    function deletePayment(type, number, owner) {
+      // Add functionality to delete the payment method here
+    }
+  </script>
+</body>
+</html>
