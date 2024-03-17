@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Past Orders</title>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" type="x-icon" href="../Data/ICON.png">
+</head>
+<body>
+    <h1>Past Orders</h1>
+
+    <fieldset>
+        <legend>Search Orders</legend>
+        <form>
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search">
+        <button type="submit">Search</button>  <span><em>Under work</em></span>
+        </form>
+    </fieldset>
+
+    <fieldset>
+        <fieldset>
+            <legend>Order List</legend>
+            <div id="orderList">
+            <div class="bookSnippet" onclick="showOrderDetails(12345, 'The Great Gatsby', 'F. Scott Fitzgerald', 'March 5, 2022')">The Great Gatsby</div>
+            <div class="bookSnippet" onclick="showOrderDetails(67890, 'To Kill a Mockingbird', 'Harper Lee', 'March 15, 2022')">To Kill a Mockingbird</div>
+            <!-- Add more book snippets here -->
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Order Details</legend>
+            <div id="orderDetails">
+            <!-- Order details will be displayed here -->
+            </div>
+        </fieldset>
+    </fieldset>
+      <script>
+        function showOrderDetails(orderID, bookTitle, author, orderDate) {
+          document.getElementById("orderDetails").innerHTML = `
+            <div>
+              <strong>Order ID:</strong> ${orderID}
+            </div>
+            <div>
+              <strong>Book Title:</strong> ${bookTitle}
+            </div>
+            <div>
+              <strong>Author:</strong> ${author}
+            </div>
+            <div>
+              <strong>Order Date:</strong> ${orderDate}
+            </div>
+          `;
+        }
+      </script>
+
+</body>
+</html>

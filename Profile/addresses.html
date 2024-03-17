@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Saved Addresses</title>
+        <meta charset="UTF-8" />
+        <link rel="shortcut icon" type="x-icon" href="../Data/ICON.png">
+        <style>
+            .addressItem {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            }
+            .addressItem:hover {
+            background-color: #f9f9f9;
+            }
+        </style>
+        </head>
+    <body>
+        <h1>Saved Addresses</h1>
+
+        <fieldset>
+            <legend>Address List</legend>
+            <div id="addressList">
+            <div class="addressItem" onclick="showAddressDetails('123 Main St', 'New York', 'USA')">123 Main St</div>
+            <div class="addressItem" onclick="showAddressDetails('456 Elm St', 'Los Angeles', 'USA')">456 Elm St</div>
+            <!-- Add more address items here -->
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Address Details</legend>
+            <div id="addressDetails">
+            <!-- Address details will be displayed here -->
+            </div>
+        </fieldset>
+
+        <script>
+            function showAddressDetails(street, city, country) {
+            document.getElementById("addressDetails").innerHTML = `
+                <div>
+                <strong>Street:</strong> ${street}
+                </div>
+                <div>
+                <strong>City:</strong> ${city}
+                </div>
+                <div>
+                <strong>Country:</strong> ${country}
+                </div>
+                <button onclick="editAddress('${street}', '${city}', '${country}')">Edit</button>
+                <button onclick="deleteAddress('${street}', '${city}', '${country}')">Delete</button>
+            `;
+            }
+
+            function editAddress(street, city, country) {
+            // Add functionality to edit the address here
+            }
+
+            function deleteAddress(street, city, country) {
+            // Add functionality to delete the address here
+            }
+        </script>
+    </body>
+</html>
