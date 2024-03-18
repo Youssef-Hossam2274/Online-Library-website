@@ -2,55 +2,57 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="shortcut icon" type="x-icon" href="../Data/ICON.png">
+        <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
         <title>Edit details</title>
     </head>
+
     <body>
-        <header>
-            <h1>Edit details </h1>
-            <nav>
-              <ul>
-                <li><a href="Home.html">Home</a></li>
-                <li><a href="products.html">Books</a></li>
-                <li><a href="Registration/Login.html">Login</a></li>
-                <li><a href="Registration/SignUp.html">Sign Up</a></li>
-                <li><a href="Profile/profile.html">Profile</a></li>
-              </ul>
-            </nav>
-          </header>
+      <header>
+        <h1>OnlineLibrary</h1>
+        <nav>
+          <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="../HTML/book_list.html">Books</a></li>
+            <li><a href="../HTML/Login.html">Login</a></li>
+            <li><a href="../HTML/SignUp.html">Sign Up</a></li>
+            <li><a href="../HTML/profile.html">Profile</a></li>
+          </ul>
+        </nav>
+      </header>
+      <hr>
+
+      <h1>Edit Book</h1>
+
+      <Form>
+          <label for="">add image</label>
+          <input type="file"><br><br>
           
-        <hr><br><br>
-        
-        <Form>
-            <label for="">add image</label>
-            <input type="file"><br><br>
-            
-            <label for="Book_name"> Edit Book</label><br>
-            <input id="Book_name" type="text" placeholder="Book name"> <br><br>
+          <label for="Book_name"> Edit Book</label><br>
+          <input id="Book_name" type="text" placeholder="Book name"> <br><br>
 
-            <label for="Author"> Edit author</label><br>
-            <input id="Author" type="text" placeholder="Author"> <br><br>
+          <label for="Author"> Edit author</label><br>
+          <input id="Author" type="text" placeholder="Author"> <br><br>
 
-            <label for="category"> Edit category</label><br>
-            <input id="category" type="text" placeholder="category"><br><br>
+          <label for="category"> Edit category</label><br>
+          <input id="category" type="text" placeholder="category"><br><br>
 
-            <label for="description">Edit description</label><br>
-            <textarea name="description" id="description" placeholder="Write description here" cols="50" rows="5"></textarea> <br> <br>
+          <label for="description">Edit description</label><br>
+          <textarea name="description" id="description" placeholder="Write description here" cols="50" rows="5"></textarea> <br> <br>
 
-            <input type="submit" value="Save changes">
-            <input type="reset" value="reset">
+          <input type="submit" value="Save changes">
+          <input type="reset" value="reset">
 
-        </Form>
+      </Form>
 
-        <br><br>
+      <br><br>
 
-        <footer>
-            <ul>
-              <li><a href="#">About us</a></li>
-              <li><a href="#">Contact us</a></li>
-              <li><a href="#">Terms of use</a></li>
-              <li><a href="#">Privacy policy</a></li>
-            </ul>
-          </footer>
+      <footer>
+          <ul>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Contact us</a></li>
+            <li><a href="#">Terms of use</a></li>
+            <li><a href="#">Privacy policy</a></li>
+          </ul>
+      </footer>
     </body>
 </html>
