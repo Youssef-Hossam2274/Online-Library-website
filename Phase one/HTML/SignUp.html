@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SignUp</title>
+        <meta charset="UTF-8" />
+        <meta name="Sign Up" content="Create a new account">
+        <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
+    </head>
+    <body>
+
+        <header>
+            <a href="Home.html"><img src="../img/ICON.png" alt="ICON eror path" width="70"></a>
+            <h1>OnlineLibrary</h1>
+            <nav>
+              <ul>
+                  <li><a href="Home.html">Home</a></li>
+                  <li><a href="../HTML/all_books.html">Books</a></li>
+                  <li><a href="../HTML/borrowed_books.html">borrowed books (User)</a></li>
+                  <li><a href="../HTML/admin_book.html">list of added books (Admin)</a></li>
+                  <li><a href="../HTML/profile.html">Profile</a></li>
+                  <li><a href="../HTML/Login.html">Login</a></li>
+                  <li><a href="../HTML/SignUp.html">Sign Up</a></li>
+              </ul>
+            </nav>
+          </header>
+
+        <hr> 
+        <h1>Registration</h1>
+
+        <form action="" method="GET">
+            <div>
+                <label for="userName">User Name</label> <br>
+                <input id = "userName" type="text" placeholder="Enter user name" required> <br><br>
+            </div>
+            <div>
+                <label for="password"> Password</label><br>
+                <input id = "password" type="password" placeholder="Create a new password" required><br><br>
+            </div>
+            <div>
+                <label for="Confirm password"> Confirm Password</label> <br>
+                <input id ="Confirm password" type="password" placeholder="Confirm password" required><br><br>
+            </div>
+
+            <div>
+                <label for="email"> Email</label><br>
+                <input id="email" type="email" placeholder="xxxxx@gmail.com" required><br><br>
+            </div>
+            
+            <div>
+                <input id="usr" type="radio" name = "userType" value="user" checked>
+                <label for="usr">User</label>
+            </div>
+
+            <div>
+                <input id="admn" type="radio" name = "userType" value="admin">
+                <label for="admn">Admin</label>
+            </div>
+
+            <br><br>
+            
+            <input type="submit" value="Sign Up">
+        </form>       
+    </body>
+            
+</html>
