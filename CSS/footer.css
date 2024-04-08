@@ -1,0 +1,28 @@
+footer {
+    background-color: #161886;
+    height: 7vh;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    list-style: none;
+}
+
+.footer-links li {
+    margin-right: 20px;
+}
+
+.footer-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.footer-links li a:hover {
+    font-size: 21px;
+    font-weight: bold;
+}
