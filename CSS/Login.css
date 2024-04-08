@@ -1,61 +1,41 @@
 h1{
-    text-align: center;
+    margin: 100px 0 50px 100px;
 }
-
-.loginForm{
-    padding-left: 10%;
-    width: auto;
+form{
+    width: 40%;
     display: inline-block;
+    margin-left: 150px;
 }
 
-.loginForm div{
-    width: 400px;
-    color: #C9C9C9;
-    border: 1px solid black;
+form input{
+    width: 350px;
+    height: 45px;
+    background-color: #EBEBEB;
+    color:black;
+    padding-left: 15px;
+    margin-bottom: 15px;
+    border-color: white;
+    border-style: solid;
+    border-width: 1px;
     border-radius: 10px;
-    margin-bottom: 20px;
-    vertical-align: middle;
-
 }
-.label{
-    margin-bottom: 6px;
-    margin-left: -10px;
-}
-
 .forgetPassword{
-    margin-left: 63%;
-    margin-top: -15px;
+    /* margin-top: -1000px; */
+    padding-left: 250px;
 }
 
-p{
-    padding-left: 20px;
-
-}
-
-
-button{
-    color:#FFFBFB ;
-    border-color:#0063D8 ;
-    border-radius: 10px;
-    display: block;
+.loginButton{
+    color: white;
     background-color: #0063D8;
-    height: 55px;
-    width: 400px;
-    margin-bottom: 20px;
-    margin-top: 30px;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
-
-
 
 img{
-    vertical-align: -50px;
-    padding-left: 10%;
-    width: auto;
-    display: inline-block;
+    vertical-align: -70px;
 }
 
 a{
-    margin-top: 50px;
-    padding-top: 50px;
     text-decoration: none;
 }
