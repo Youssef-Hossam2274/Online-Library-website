@@ -1,0 +1,85 @@
+.main-section {
+    background-image: url(../img/Library.png);
+    background-size: 103vh;
+    background-repeat: no-repeat;
+    background-position: 90%;
+    height: 80vh;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10%;
+}
+
+.main-section > h1 {
+    font-size: 50px;
+    color: #03045e;
+    margin-top: 10%;
+}
+
+.main-section > p {
+    font-size: 20px;
+    color: #333;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.special-word {
+    color: #0077b6;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/* form */
+
+.search-form {
+    display: flex;
+    margin-top: 15%;
+}
+
+.search-form > input {
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+}
+
+.search-form [type="text"] {
+    width: 30%;
+}
+
+.search-form [type="submit"] {
+    padding: 10px 20px;
+    width: 10%;
+    font-size: 18px;
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* recent books */
+
+.recent-books {
+    padding-left: 3%;
+
+    background-color: #eee;
+}
+
+.recent-books h1 {
+    font-size: 30px;
+    color: #03045e;
+    margin-bottom: 1%;
+}
+
+.recent-books ul {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.recent-books img {
+    width: 200px;
+    height: 300px;
+    border-radius: 5px;
+}
