@@ -1,6 +1,7 @@
 footer {
+    margin-top: 60px;
     background-color: #161886;
-    height: 7vh;
+    height: 15vh;
 }
 
 .footer-links {
