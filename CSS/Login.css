@@ -1,5 +1,5 @@
-h1{
-    margin: 100px 0 50px 100px;
+.loginHeader{
+    margin: 50px 0px 50px 0px;
 }
 form{
     width: 40%;
@@ -42,4 +42,6 @@ a{
 
 ::placeholder {
     color: #9F9F9F; /* Change placeholder text color here */
-}
+} 
+
+
