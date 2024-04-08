@@ -4,41 +4,52 @@
         <title>Login</title>
         <meta charset="UTF-8" />
         <meta name="Login" content="Enter to account">
+        <link rel="stylesheet" href="../CSS/Login.css">
         <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
     </head>
-    <body>
-        <header>
-            <a href="Home.html"><img src="../img/ICON.png" alt="ICON eror path" width="70"></a>
-            <h1>OnlineLibrary</h1>
-            <nav>
-              <ul>
-                  <li><a href="Home.html">Home</a></li>
-                  <li><a href="../HTML/all_books.html">Books</a></li>
-                  <li><a href="../HTML/borrowed_books.html">borrowed books (User)</a></li>
-                  <li><a href="../HTML/admin_book.html">list of added books (Admin)</a></li>
-                  <li><a href="../HTML/profile.html">Profile</a></li>
-                  <li><a href="../HTML/Login.html">Login</a></li>
-                  <li><a href="../HTML/SignUp.html">Sign Up</a></li>
-              </ul>
-            </nav>
-          </header>
-        <hr>
-        <h1>Log in</h1>
 
-        <form >
-            <div>
-                <label for="userName">User Name</label> <br>
-                <input id = "userName" type="text" placeholder="Enter user name" required> <br><br>
+    <body>
+        <div class="loginForm">
+            <h1>Log in</h1>
+            
+            <p class="label">Username</p>
+            <div class="userNmaeInput">
+                <p>Enter your user name</p>
             </div>
+
+            <p class="label">Password</p>
+            <div class="password">
+                <p>Enter your password</p>
+            </div>
+            <p class="forgetPassword">Forget Passwrod?</p>
+                        
+            <button>Login</button>
+
+            <a href="SignUp.html"> Don't have an account? <b>Sign Up</b> </a>
+            
+            
+        </div>
+        <img src="/img/login_photo.png" alt=""> 
+        
+        
+        <div class="imgPart">
+        </div>
+        
+        <!-- <form >
+            <div id="userName">
+                <label for="userNameInput">Username</label> <br>
+                <input id = "userNameInput" type="text" placeholder="Enter user name" required> <br><br>
+            </div>
+
             <div>
                 <label for="password"> Password</label><br>
                 <input id = "password" type="password" placeholder="Enter Password" required><br>
             </div>
-            <a href="forgetPassword.html">Forget Password</a><br><br>
+            <a href="forgetPassword.html">Forget Passwor?</a><br><br>
             
             <input type="submit" value="Enter"><br><br>
-            <a href="SignUp.html">Create a new account</a>
-        </form>
+        </form> -->
     </body>
             
 </html>
+
