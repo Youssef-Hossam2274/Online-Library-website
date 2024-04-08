@@ -1,16 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
+
+header{
+    border-top: 20px solid #1fa4a8;
+    display: flex;
+    color: black;
+    
+}
+.site-upper-logo {
+    cursor: pointer;
+    position: absolute;
+    display: inline-flexbox;
+    top: -17px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    letter-spacing: 15px;
+    z-index: 999;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li{
+    list-style-type: none;
+    justify-content: center;
+    display: inline;
+    
+}
+.nav ul li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 20px;
+    background-color: #333;
+}
+nav ul li a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+    transition: all 0.3s ease 0s;
+    display: inline-block;
+    padding: 0px 20px;
+    
+}
+
+nav ul li a:hover{
+    color: #1fa4a8;
+}
+
+nav ul button{
+    font-family: Kode Mono;
+    font-weight: 500;
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: rgb(8, 142, 172);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+nav ul button :hover{
+    background-color: rgba(0, 136, 168, 0.6);
+}
+body {
+    margin: 0;
+    background-color: rgb(256, 256, 256);
+    color: #000000;
+    font-family: Kode Mono;
+    font-size: 12px;
+}
+
+.profile-general-image {
+    position: relative; /* changed from 'absolute' to 'relative' */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-general-image img {
+    width: var(--profileImgSize); /* size proportional to font size */
+    height: var(--profileImgSize); /* size proportional to font size */
+}
+
+.profile-page-name {
+    position: relative;
+    font-size: var(--profileFontSize); /* make size variable */
+}
+
+/* Define variable in root (to maintain consistent size across multiple elements) */
+:root {
+    --profileFontSize: 2.5em; /* fixed size */
+    --profileImgSize: calc(var(--profileFontSize) * 1.5); /* size proportional to font size, fixed multiplier */
+}
+
+.profile-page-name {text-align: center;}  
+.profile-options-list { 
+    list-style-type: none;
+    padding: 5px;
+}
+.profile-options-list li{
+    border: 2px gray;
+    padding: 10px;
+}
+
+
+
 h1{
     margin: 100px 0 50px 100px;
 }
 form{
     width: 40%;
     display: inline-block;
-    margin-left: 150px;
+    margin-left: 200px;
 }
 
 form input{
     width: 350px;
     height: 45px;
-    background-color: #EBEBEB;
+    background-color: #efefef;
     color:black;
     padding-left: 15px;
     margin-bottom: 15px;
@@ -20,11 +136,11 @@ form input{
     border-radius: 10px;
 }
 .forgetPassword{
-    /* margin-top: -1000px; */
     padding-left: 250px;
 }
 
 .loginButton{
+    width: 370px;
     color: white;
     background-color: #0063D8;
     display: block;
@@ -38,4 +154,8 @@ img{
 
 a{
     text-decoration: none;
+}
+
+::placeholder {
+    color: #9F9F9F; /* Change placeholder text color here */
 }
