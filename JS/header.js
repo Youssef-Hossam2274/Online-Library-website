@@ -1,5 +1,4 @@
-let header = 
-            `
+let header = `
             <header class="website-header">
                 <div class="logo">
                     <a href="Home.html"
@@ -18,12 +17,11 @@ let header =
                         <li>
                             <a href="../HTML/admin_book.html">list of added books (Admin)</a>
                         </li>
-                        <li><a href="../HTML/profile.html">Profile</a></li>
-                        <li><a href="../HTML/Login.html">Login</a></li>
-                        <li><a href="../HTML/SignUp.html">Sign Up</a></li>
+                        <li class="profile-icon"><a href="../HTML/profile.html"><img src="../img/man.png" alt="profile" width="30"></a></li>
+                        <li><button class="login-btn" onclick="location.href='../HTML/Login.html'">Login</button></li>
                     </ul>
                 </nav>
 
             </header>
-            `
+            `;
 document.write(header);

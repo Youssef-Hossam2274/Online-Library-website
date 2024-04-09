@@ -9,13 +9,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px;
-    background-color: #019bb9ad;
+    background-color: #000000e0;
     height: 80px;
     transition: 0.2s;
 }
 
 .website-header:hover {
-    background-color: #a4d1e9;
+    background-color: #000000;
 }
 
 .logo {
@@ -45,14 +45,30 @@
 }
 
 .nav-links ul li a:hover {
-    font-size: 21px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 /* signup button */
 
-.nav-links ul li:last-child {
-    background-color: rgb(38, 38, 146);
+.login-btn {
+    background-color: #0077b6;
+    color: #fff;
+    padding: 10px 20px;
     border-radius: 5px;
-    padding: 3px 20px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background-color: white;
+    color: #0077b6;
+}
+
+/* profile-icon */
+
+.profile-icon img {
+    width: 40px;
+    cursor: pointer;
 }
