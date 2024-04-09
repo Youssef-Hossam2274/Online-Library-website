@@ -24,6 +24,7 @@ footer {
 }
 
 .footer-links li a:hover {
-    font-size: 21px;
-    font-weight: bold;
+    /* font-size: 21px;
+    font-weight: bold; */
+    color: #0063D8;
 }

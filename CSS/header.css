@@ -44,8 +44,9 @@
 }
 
 .nav-links ul li a:hover {
-    font-size: 20px;
-    font-weight: bold;
+    /* font-size: 20px; */
+    color: #0063D8;
+    /* font-weight: bold; */
 }
 
 /* signup button */
