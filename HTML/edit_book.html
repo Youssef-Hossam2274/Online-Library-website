@@ -1,53 +1,47 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
-        <title>Edit details</title>
-    </head>
+<html lang="en">
 
-    <body>
-      <header>
-        <a href="Home.html"><img src="../img/ICON.png" alt="ICON eror path" width="70"></a>
-        <h1>OnlineLibrary</h1>
-        <nav>
-          <ul>
-              <li><a href="Home.html">Home</a></li>
-              <li><a href="../HTML/all_books.html">Books</a></li>
-              <li><a href="../HTML/borrowed_books.html">borrowed books (User)</a></li>
-              <li><a href="../HTML/admin_book.html">list of added books (Admin)</a></li>
-              <li><a href="../HTML/profile.html">Profile</a></li>
-              <li><a href="../HTML/Login.html">Login</a></li>
-              <li><a href="../HTML/SignUp.html">Sign Up</a></li>
-          </ul>
-        </nav>
-      </header>
-      <hr>
+<head>
+    <title>Add Book</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../CSS/add_book.css">
+    <meta name="description" content="Add a book to books list">
+    <link rel="stylesheet" href="../CSS/header.css" />
+    <link rel="stylesheet" href="../CSS/footer.css" />
+    <script src="../JS/header.js"></script>
+</head>
 
-      <h1>Edit Book</h1>
+<body>
+    <h2 >Edit Book</h2>
+    <form action="" id="book_details">
 
-      <Form>
-          <label for="">add image</label>
-          <input type="file"><br><br>
-          
-          <label for="Book_name"> Edit Book</label><br>
-          <input id="Book_name" type="text" placeholder="Book name"> <br><br>
+        <div id="book_img">
+            <label for="book_img">Book Cover</label>
+            <img src="../img/book-cover-placeholder.png" alt="placeholder" id="cover-pic">
+            <input type="file" name="" id="upload-img" accept="image/*">
+            <label for="upload-img" class="cover-label">Upload Cover Photo</label>
+        </div>
 
-          <label for="Author"> Edit author</label><br>
-          <input id="Author" type="text" placeholder="Author"> <br><br>
+        <label for="book_title">Book Title</label>
+        <input type="text" name="" id="book_title">
 
-          <label for="category"> Edit category</label><br>
-          <input id="category" type="text" placeholder="category"><br><br>
+        <label for="description">Book description</label>
+        <textarea name="description" id="description" placeholder="Write description here" cols="50"
+            rows="5"></textarea>
+        <label for="author_name">Author Name</label>
+        <input type="text" name="" id="author_name">
+        <label for="publish_date">Publish Date</label>
+        <input type="date" name="" id="publish_date">
+        <label for="price">Book Price</label>
+        <input type="number" name="" id="price">
+        <div class="button-container">
+            <input type="submit" name="" id="" value="Add">
+            <input type="reset" name="" id="" value="Reset">
+        </div>
 
-          <label for="description">Edit description</label><br>
-          <textarea name="description" id="description" placeholder="Write description here" cols="50" rows="5"></textarea> <br> <br>
+    </form>
+    <script src="../JS/add_book.js"></script>
+    <script src="../JS/footer.js"></script>
+</body>
 
-          <input type="submit" value="Save changes">
-          <input type="reset" value="reset">
-
-      </Form>
-
-      <br><br>
-
-    </body>
 </html>
