@@ -36,30 +36,15 @@ textarea {
   font-size: 14px;
 }
 
-input[type="submit"],
-input[type="reset"] {
-  background-color: #0074d9;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 input[type="reset"] {
   background-color: #ccc;
 }
 
-input[type="submit"],
-input[type="reset"] {
-  display: block;
-  margin: 0 auto;
-}
-
-h1 {
+h2 {
   text-align: center;
   color: #0074d9;
   margin: 40px;
+  font-size: 40px;
 }
 
 input[type="submit"],
@@ -84,18 +69,6 @@ input[type="reset"]:hover {
   background-color: #005ea6;
 }
 
-#book_img_container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-img#book_img {
-  max-width: 100%;
-  max-height: 200px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 input {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
@@ -131,6 +104,7 @@ textarea:focus {
   font-size: 16px;
   transition: background-color 0.8s ease;
   margin: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 .cover-label:hover {
   background-color: #005ea6;
