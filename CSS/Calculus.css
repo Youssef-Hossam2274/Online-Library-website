@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.book-profile {
+    display: grid;
+    width: 70%;
+    grid-template-columns: 1fr 5fr;
+    column-gap: 50px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Image side */
+.img-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.img-side img {
+    width: 200px;
+    /* box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); */
+    border-radius: 10px;
+}
+
+.controls {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn {
+    width: 100%;
+    height: 35px;
+    border: none;
+    border-radius: 20px;
+    margin: 5px auto;
+    background-color: transparent;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #0077b6;
+    border: 1px solid #0077b6;
+    position: relative;
+    transition: 0.4s color;
+}
+
+.btn::after {
+    content: "";
+    background-color: #0077b6;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    transform: rotateY(90deg);
+    z-index: -1;
+    transition: 0.4s;
+}
+
+.btn:hover {
+    color: white;
+}
+
+.btn:hover:after {
+    transform: rotateY(0deg);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/********* Override colors ***********/
+.edit-btn {
+    border: 1px solid #42d289;
+    color: #42d289;
+}
+.edit-btn::after {
+    background-color: #42d289;
+}
+
+.remove-btn {
+    border: 1px solid #ef233c;
+    color: #ef233c;
+}
+.remove-btn::after {
+    background-color: #ef233c;
+}
+
+/*************** book info side ***************/
+.book-info-side {
+    position: relative;
+}
+
+.book-info-side::before {
+    content: "";
+    width: 1px;
+    height: 100%;
+    background-color: #0076b6;
+    position: absolute;
+    left: -20px;
+    top: 0;
+}
+
+.book-title h1 {
+    color: #0077b6;
+}
+
+.book-title span {
+    margin: 5px 0 0 10px;
+    color: #0076b6a4;
+    font-weight: 600;
+}
+
+.book-title span::before {
+    content: "by";
+    color: black;
+    font-size: 0.8rem;
+    margin-right: 8px;
+}
