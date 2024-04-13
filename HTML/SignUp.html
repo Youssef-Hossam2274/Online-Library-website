@@ -13,24 +13,26 @@
     <body>
         
         <form method="post">
-            <h1 class="loginHeader">Registration</h1>
+            <h1 class="Header">Registration</h1>
             <div id="userName">
-                <label for="userNameInput">Username</label> <br>
+                <label for="userNameInput">Username</label>
                 <input id = "userNameInput" type="text" placeholder="Enter user name" required>
             </div>
 
-            <div>
-                <label for="password"> Password</label><br>
+            <label for="password"> Password</label>
+            <div class="password-box">
                 <input id = "password" type="password" placeholder="Enter Password" required>
+                <img src="../img/close-eye.png" id = "eyeIcon1">
             </div>
-
-            <div>
-                <label for="ConfirmPassword"> Confirm Password</label><br>
+            
+            <label for="ConfirmPassword"> Confirm Password</label>
+            <div class="confirm-box">
                 <input id = "ConfirmPassword" type="password" placeholder="Confirm your password" required>
+                <img src="../img/close-eye.png" id = "eyeIcon2">
             </div>
 
             <div>
-                <label for="e-mail"> Email </label><br>
+                <label for="e-mail"> Email </label>
                 <input id = "e-mail" type="email" placeholder="Enter e-mail" required>
             </div>
             
@@ -39,45 +41,10 @@
             <a href="Login.html">already exist an account? <b>Log In</b></a>
         </form>
 
-        <img class="banner" src="/img/Library.png" alt="login_photo not found">
-
-
-        <!-- <h1>Registration</h1>
-            
-            <form action="" method="GET">
-                <div>
-                    <label for="userName">User Name</label> <br>
-                    <input id = "userName" type="text" placeholder="Enter user name" required> <br><br>
-                </div>
-                <div>
-                    <label for="password"> Password</label><br>
-                    <input id = "password" type="password" placeholder="Create a new password" required><br><br>
-                </div>
-                <div>
-                    <label for="Confirm password"> Confirm Password</label> <br>
-                    <input id ="Confirm password" type="password" placeholder="Confirm password" required><br><br>
-                </div>
-                
-                <div>
-                    <label for="email"> Email</label><br>
-                    <input id="email" type="email" placeholder="xxxxx@gmail.com" required><br><br>
-                </div>
-                
-                <div>
-                    <input id="usr" type="radio" name = "userType" value="user" checked>
-                    <label for="usr">User</label>
-                </div>
-                
-                <div>
-                    <input id="admn" type="radio" name = "userType" value="admin">
-                    <label for="admn">Admin</label>
-                </div>
-                
-                <br><br>
-                
-                <input type="submit" value="Sign Up"> -->
-            </form>       
-        </body>
         
+            <img class="banner" src="/img/Library.png" alt="login_photo not found">
+            <script src="../JS/signUp.js"></script>
             <script src="/JS/footer.js"></script>
-        </html>
+    </body>
+        
+</html>

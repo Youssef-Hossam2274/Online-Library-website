@@ -1,28 +1,48 @@
-.loginHeader{
+.Header{
     margin: 50px 0px 50px 0px;
+    color: #0063D8;
+    font-family: Arial, sans-serif;
 }
+
 form{
     width: 40%;
     display: inline-block;
     margin-left: 200px;
+    font-family: Arial, sans-serif;
 }
 
-form input{
+input{
+    display: block;
     width: 350px;
     height: 45px;
     background-color: #efefef;
     color:black;
     padding-left: 15px;
     margin-bottom: 25px;
-    border-color: white;
-    border-style: solid;
-    border-width: 1px;
+    margin-top: 5px;
+    border-width: 0px;
     border-radius: 10px;
 }
-
-.forgetPassword{
-    padding-left: 250px;
+input:focus{
+    outline-color: #0063D8;
 }
+
+.password-box, .confirm-box{
+    display: flex;
+    align-items: center;
+}
+
+.password-box img, .confirm-box img{
+    width: 32px;
+    margin-top: -20px;
+    margin-left: -40px;
+    cursor: pointer;
+}
+
+label{
+    margin-left: 5px;
+}
+
 
 .loginButton{
     width: 370px;
@@ -41,6 +61,7 @@ form input{
 
 a{
     text-decoration: none;
+    color: #0063D8;
 }
 
 ::placeholder {
