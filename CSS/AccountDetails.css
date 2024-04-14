@@ -1,0 +1,47 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+.account-details-title{
+    text-align: center;
+    font-size: 40px;
+    margin-top: 30px;
+}
+
+
+p {
+    display: block;
+    margin: 20px;
+}
+fieldset {
+    margin: 10px;
+}
+
+.save-changes-btn-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#save-account-details-btn {
+    margin: 20px 0px 20px 10px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: #0063D8;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+footer {
+    margin-top: auto;
+}
+
+

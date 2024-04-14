@@ -1,80 +1,36 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Saved Addresses</title>
         <meta charset="UTF-8" />
+        <title class="address-page-title">Saved Addresses</title>
         <link rel="shortcut icon" type="x-icon" href="../Data/ICON.png">
-        <header>
-            <a href="Home.html"><img src="../img/ICON.png" alt="ICON eror path" width="70"></a>
-            <h1>OnlineLibrary</h1>
-            <nav>
-              <ul>
-                  <li><a href="Home.html">Home</a></li>
-                  <li><a href="../HTML/all_books.html">Books</a></li>
-                  <li><a href="../HTML/borrowed_books.html">borrowed books (User)</a></li>
-                  <li><a href="../HTML/admin_book.html">list of added books (Admin)</a></li>
-                  <li><a href="../HTML/profile.html">Profile</a></li>
-                  <li><a href="../HTML/Login.html">Login</a></li>
-                  <li><a href="../HTML/SignUp.html">Sign Up</a></li>
-              </ul>
-            </nav>
-          </header>
-        <style>
-            .addressItem {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 5px;
-            cursor: pointer;
-            }
-            .addressItem:hover {
-            background-color: #f9f9f9;
-            }
-        </style>
+        <link rel="stylesheet" href="../CSS/header.css" />
+        <link rel="stylesheet" href="../CSS/footer.css" />
+        <link rel="stylesheet" href="../CSS/addresses.css">
+        <script src="../JS/header.js"></script>
+        <script src="../JS/addresses.js"></script>
         </head>
+
     <body>
-        <h1>Saved Addresses</h1>
+        <main>
+            <h1 class="saved-addresses-title">Saved Addresses</h1>
 
-        <fieldset>
-            <legend>Address List</legend>
-            <div id="addressList">
-            <div class="addressItem" onclick="showAddressDetails('123 Main St', 'New York', 'USA')">123 Main St</div>
-            <div class="addressItem" onclick="showAddressDetails('456 Elm St', 'Los Angeles', 'USA')">456 Elm St</div>
-            <!-- Add more address items here -->
-            </div>
-        </fieldset>
-
-        <fieldset>
-            <legend>Address Details</legend>
-            <div id="addressDetails">
-            <!-- Address details will be displayed here -->
-            </div>
-        </fieldset>
-
-        <script>
-            function showAddressDetails(street, city, country) {
-            document.getElementById("addressDetails").innerHTML = `
-                <div>
-                <strong>Street:</strong> ${street}
+            <fieldset class="address-list">
+                <legend class="address-list-title">Address List</legend>
+                <div id="addressList">
+                <div class="addressItem" onclick="showAddressDetails('123 Main St', 'New York', 'USA')">123 Main St</div>
+                <div class="addressItem" onclick="showAddressDetails('456 Elm St', 'Los Angeles', 'USA')">456 Elm St</div>
+                <!-- Add more address items here -->
                 </div>
-                <div>
-                <strong>City:</strong> ${city}
+            </fieldset>
+
+            <fieldset class="address-details-list">
+                <legend class="address-details-title">Address Details</legend>
+                <div id="addressDetails">
+                <!-- Address details will be displayed here -->
                 </div>
-                <div>
-                <strong>Country:</strong> ${country}
-                </div>
-                <button onclick="editAddress('${street}', '${city}', '${country}')">Edit</button>
-                <button onclick="deleteAddress('${street}', '${city}', '${country}')">Delete</button>
-            `;
-            }
-
-            function editAddress(street, city, country) {
-            // Add functionality to edit the address here
-            }
-
-            function deleteAddress(street, city, country) {
-            // Add functionality to delete the address here
-            }
-        </script>
-
+            </fieldset>
+        </main>
+        <script src="../JS/footer.js"></script>
     </body>
 </html>

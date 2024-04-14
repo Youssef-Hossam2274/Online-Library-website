@@ -1,0 +1,163 @@
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background-color: #f5f5f5;
+    /* background-image: url("../img/books-svgrepo-com.svg")  */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-size: 50%;
+    background-position-x: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.upper-section {
+    /* background-color:#aec4c9; */
+    fill-opacity:70%;
+    justify-content: space-between;
+}
+
+.page-title{
+    font-size: 40px;
+    text-align: left;
+    margin-top: 30px;
+    padding-left: 10%;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+}
+
+/* order */
+.order {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    margin-top:  20px;
+    margin-left: 15%;
+    margin-right: 15%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: #f0f9ff;
+}
+
+.order .order-id {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium';
+    color: #aec4c9;
+}
+
+.order .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.order .info .title {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium';
+    padding: 0px;
+}
+
+.order .info .order-date-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+#order-date {
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    background-color:#aab9c4;
+    border-radius: 70px;
+}
+
+#order-address {
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    background-color:#aab9c4;
+    border-radius: 70px;
+}
+
+/* order-status */
+
+#in-use-order-status {
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 10px;
+    border: 2px solid #ffd000;
+    background-color:#d8ba3457;
+    border-radius: 70px;
+}
+
+#late-order-status {
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 10px;
+    border: 2px solid #ff0000;
+    background-color:#db0b0b71;
+    border-radius: 70px;
+}
+
+#returned-order-status {
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 10px;
+    border: 2px solid #00ff00;
+    background-color:#13961367;
+    border-radius: 70px;
+}
+/* ------------------------ */
+.order .info .des {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+#order-price {
+    font-size: 20px;
+    font-weight: bold;
+    font-family:'Verdana';
+}
+
+.order:hover {
+    background-color: #ced6df;
+}
+
+
+.order.expanded {
+    height: auto;
+}
+#toggle-buttons {
+    position:relative;
+    bottom: 0;
+    right: 0;
+    display:none;
+}
+.order.expanded .toggle-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    margin-top: auto;
+}
+
