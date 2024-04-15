@@ -4,120 +4,190 @@
     box-sizing: border-box;
     font-family: sans-serif;
 }
-
-.book-profile {
-    display: grid;
-    width: 70%;
-    grid-template-columns: 1fr 5fr;
-    column-gap: 50px;
-    margin: 20px auto;
-    padding: 20px;
+ul {
+    list-style: none;
 }
 
-/* Image side */
-.img-side {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.img-side img {
-    width: 200px;
-    /* box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); */
-    border-radius: 10px;
-}
-
-.controls {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.btn {
-    width: 100%;
-    height: 35px;
-    border: none;
-    border-radius: 20px;
-    margin: 5px auto;
-    background-color: transparent;
-    font-size: 0.9rem;
-    cursor: pointer;
-    color: #0077b6;
-    border: 1px solid #0077b6;
-    position: relative;
-    transition: 0.4s color;
-}
-
-.btn::after {
-    content: "";
-    background-color: #0077b6;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
+html,
+body {
     height: 100%;
-    border-radius: 20px;
-    transform: rotateY(90deg);
-    z-index: -1;
-    transition: 0.4s;
+    width: 100%;
 }
 
-.btn:hover {
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.page-body {
+    width: 80%;
+    margin: 5% auto;
+}
+
+/* ************* Overview section *************** */
+hr {
+    border: none;
+    height: 1px;
+    background-color: rgba(128, 128, 128, 0.445);
+}
+
+hr.sub {
+    margin: 40px auto 20px;
+}
+
+hr.top {
+    margin: 50px auto;
+}
+
+.overview {
+    display: grid;
+    grid-template-columns: 4fr 7fr;
+    column-gap: 80px;
+}
+
+.img-side {
+    position: relative;
+    overflow: hidden;
+}
+
+.book-img {
+    width: 100%;
+    box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.3);
+}
+
+.img-side::before {
+    content: "Available";
+    background-color: #56cb5b;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 3px;
+    width: 100%;
+    transform-origin: top left;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 32%;
+    left: -18%;
+}
+
+/* ****************** Right side ***************** */
+
+.book-title h1 {
+    font-size: 2.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.book-title p {
+    color: rgba(128, 128, 128, 0.443);
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.book-title p::before {
+    content: "by";
+    font-size: 0.9rem;
+    margin: auto 10px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    margin: 10px 0 0 10px;
+    color: gray;
+}
+
+.stars {
+    margin-right: 10px;
+}
+
+.rating .checked {
+    color: #ffea4f;
+}
+
+.status::before {
+    content: url("../img/check.png");
+    position: absolute;
+    left: 15px;
+}
+
+.book-info div {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.book-info div::before {
+    content: attr(before-content) ":";
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-right: 20px;
+    opacity: 0.8;
+}
+
+.status {
+    background-color: #56cb5b;
+    margin: 20px 0;
+    color: white;
+    width: 25%;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    text-align: right;
+    border-radius: 50px;
+    position: relative;
+}
+
+.buttons {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+    column-gap: 10px;
+    margin-top: 40px;
+}
+
+.button {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    transition: 0.3s opacity;
+}
+
+.borrow-btn {
+    background-color: #1f1f1f;
+    border: none;
     color: white;
 }
 
-.btn:hover:after {
-    transform: rotateY(0deg);
+.fav-btn {
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
 }
 
-.btn:active {
+.button:hover {
+    opacity: 0.8;
+}
+
+.button:active {
     transform: translateY(1px);
 }
 
-/********* Override colors ***********/
-.edit-btn {
-    border: 1px solid #42d289;
-    color: #42d289;
-}
-.edit-btn::after {
-    background-color: #42d289;
+/* *********** Description ********* */
+
+.description {
+    width: 70%;
 }
 
-.remove-btn {
-    border: 1px solid #ef233c;
-    color: #ef233c;
-}
-.remove-btn::after {
-    background-color: #ef233c;
+.description h2 {
+    opacity: 0.8;
 }
 
-/*************** book info side ***************/
-.book-info-side {
-    position: relative;
-}
-
-.book-info-side::before {
-    content: "";
-    width: 1px;
-    height: 100%;
-    background-color: #0076b6;
-    position: absolute;
-    left: -20px;
-    top: 0;
-}
-
-.book-title h1 {
-    color: #0077b6;
-}
-
-.book-title span {
-    margin: 5px 0 0 10px;
-    color: #0076b6a4;
-    font-weight: 600;
-}
-
-.book-title span::before {
-    content: "by";
+.description p {
+    margin: 20px auto;
     color: black;
-    font-size: 0.8rem;
-    margin-right: 8px;
+    font-size: 0.8;
+    line-height: 24px;
+    opacity: 0.7;
 }
