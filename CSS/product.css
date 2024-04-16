@@ -34,7 +34,8 @@ section {
 .Book img {
     width: 80%;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin: 0 auto 10px;
+    display: block;
 }
 
 .Book h3 {
