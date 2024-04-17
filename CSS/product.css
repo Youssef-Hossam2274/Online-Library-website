@@ -11,9 +11,7 @@ body {
 
 section {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    width: calc(100% - 20px);
     margin: 10px;
 }
 
