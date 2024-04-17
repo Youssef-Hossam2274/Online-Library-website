@@ -17,7 +17,7 @@ body {
 section {
     display: flex;
     justify-content: space-between;
-    margin: 80px;
+    margin: 0 100px;
 }
 
 .Book {
