@@ -8,50 +8,76 @@
         <link rel="stylesheet" href="../CSS/header.css" />
         <link rel="stylesheet" href="../CSS/footer.css" />
         <link rel="stylesheet" href="../CSS/AccountDetails.css"/>
+        <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
         <script src="../JS/header.js"></script>
 
-          <hr> <br>
     </head>
     <body>
-    <!-- <nav></nav> -->
-    <main>
-        <h1 class="account-details-title"> Account Details</h1>
-        <form class="edit-user-info" method="post">
-            <p class="first-name-input">
-                <label for="account-first-name">First Name&nbsp;<span class="required">*</span></label>
-                <input type="text" class="user-info-input" name="account-first-name" id="account-first-name" autocomplete="given-name" value />
-            </p>
-            <p class="last-name-input">
-                <label for="account_last_name">Last Name&nbsp;<span class="required">*</span></label>
-                <input type="text" class="user-info-input" name="account_last_name" id="account_last_name" autocomplete="family-name" value />
-            </p>
-            <p class="display-name-input">
-                <label for="account_display_name">Name appearing&nbsp;<span class="required">*</span></label>
-                <input type="text" class="user-info-input" name="account_display_name" id="account_display_name" placeholder="example" /> <span><em> This is how you would appear in orders and reviews</em></span>
-            </p>
-            <p class="email-input">
-                <input type="email" class="user-info-input" name="account_email" id="account_email" autocomplete="email" placeholder="example@gmail.com" />
-            </p>
-            <fieldset>
-                <legend>Change password</legend>
-                <p class="current-password-input">
-                    <label for="password_current">Current password</label>
-                    <input type="password" class="user-info-input" name="password_current" id="password_current" autocomplete="off" /> <span><em>Leave the field empty if you do not want to change it</em></span>
+        <div class="upper-section">
+          <h1 class="page-title">Account Details</h1>
+        </div>  
+        <div class="lower-section">
+          <div class="sidebar">
+            <ul class="profile-options-list">
+              <li class="ProfileDetails"><a href="AccountDetails.html">
+                <i class="fa-solid fa-address-book"></i>
+                Account Details
+              </a></li>
+              <li class="profileOrders"><a href="orders.html">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Orders
+              </a></li>
+              <li class="ProfileAddresses"><a href="addresses.html">
+                <i class="fa-solid fa-location-dot"></i>
+                Addresses
+              </a></li>
+              <li class="ProfilePaymentDetails"><a href="paymentDetails.html">
+                <i class="fa-regular fa-credit-card"></i>
+                Payment Details
+              </a></li>
+              <li class="SignOut" style="border-bottom: none;"><a href="Login.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Sign Out
+              </a></li>
+            </div>
+          
+        <div class="personal-info-container">
+            <form class="edit-user-info" method="post">
+                
+                <div id="username-and-email-container">
+                  <p class="display-name-input">
+                    <label for="account_display_name" class="user-info-label">Appearing user name</label>
+                    <input type="text" class="user-info-input" name="account_display_name" id="account_display_name" placeholder="example" />
+                    <span><em> This is how you would appear in orders and reviews</em></span>
                 </p>
-                <p class="new-password-input">
-                    <label for="password_1">New password</label>
-                    <input type="password" class="user-info-input" name="password_1" id="password_1" autocomplete="off" /> <span><em>Leave the field empty if you don't want to change it</em></span>
+                <p class="email-input">
+                    <label for="account_display_email" class="user-info-label">User Email</label>
+                    <input type="email" class="user-info-input" name="account_email" id="account_email" autocomplete="email" placeholder="example@gmail.com" />
                 </p>
-                <p class="confirm-new-password-input">
-                    <label for="password_2">Confirm new password</label>
-                    <input type="password" class="user-info-input" name="password_2" id="password_2" autocomplete="off" />
-                </p>
-            </fieldset>
-            <div class="save-changes-btn-container">
+                </div>
+                <fieldset class="password-input-container">
+                    <legend>Change password</legend>
+                    <p class="current-password-input">
+                        <label for="password_current">Current password</label>
+                        <input type="password" class="user-info-input" name="password_current" id="password_current" autocomplete="off" /> <span><em>Leave the field empty if you do not want to change it</em></span>
+                    </p>
+                    <p class="new-password-input">
+                        <label for="password_1">New password</label>
+                        <input type="password" class="user-info-input" name="password_1" id="password_1" autocomplete="off" /> <span><em>Leave the field empty if you don't want to change it</em></span>
+                    </p>
+                    <p class="confirm-new-password-input">
+                        <label for="password_2">Confirm new password</label>
+                        <input type="password" class="user-info-input" name="password_2" id="password_2" autocomplete="off" />
+                    </p>
+                </fieldset>
+            </form>
+            <div id="save-changes-btn-container">
                 <button type="submit" class="save-changes-btn" name="save_account_details" id="save-account-details-btn">Save changes </button>
             </div>
-        </form>
-    </main>
-    <script src="../JS/footer.js"></script>
+        </div>
+    </div>
+          <script src="../JS/footer.js"></script>
     </body>
+    <hr>
+    <br>
 </html>
