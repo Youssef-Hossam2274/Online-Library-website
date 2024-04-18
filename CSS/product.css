@@ -59,7 +59,6 @@ section {
 }
 
 .Book button {
-    align-items: center;
     padding: 10px 20px;
     background-color: hsl(202, 96%, 37%);
     color: #fff;
@@ -69,9 +68,7 @@ section {
     cursor: pointer;
     position: absolute;
     bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
+    left: 10%;
 }
 
 .search-container {
