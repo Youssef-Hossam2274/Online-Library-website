@@ -16,13 +16,19 @@
     <body>
         <div class="page-body">
             <div class="overview">
-                <div class="img-side">
-                    <img src="../img/Calculus.jpg" class="book-img" />
+                <div class="image-side">
+                    <div class="image-container">
+                        <img src="../img/Calculus.jpg" id="book-image" />
+                        <div id="status-banner">available</div>
+                    </div>
+                    <div class="zoom-container">
+                        <img src="../img/Calculus.jpg" id="zoomed-image" />
+                    </div>
                 </div>
                 <div class="book-info-side">
                     <div class="book-title">
                         <h1>Advanced Calculus</h1>
-                        <p>Leonard Richardson</p>
+                        <a href="#" id="author-anchor">Leonard Richardson</a>
                     </div>
                     <div class="rating">
                         <div class="stars">
@@ -32,21 +38,26 @@
                             <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span>
                         </div>
-                        <p><span>1k</span> reviews</p>
+                        <p class="reviews-count">
+                            <span id="review-num">1,000+</span> reviews
+                        </p>
                     </div>
-                    <hr class="sub" />
+                    <hr class="sub-spacer" />
                     <div class="book-info">
-                        <div class="genre" before-content="Genre">
-                            <ul>
-                                <li>Mathematics</li>
+                        <div class="category-line">
+                            <p class="sub-title">Categories</p>
+                            <ul class="category-list">
+                                <li><a href="#">Mathematics</a></li>
+                                <li><a href="#">Statistics</a></li>
                             </ul>
                         </div>
-                        <div class="publish" before-content="Published">
-                            January 1, 2024
+                        <div class="publish-date-line">
+                            <p class="sub-title">Publish Date</p>
+                            <p class="date-field" id="date">January 1, 2024</p>
                         </div>
                     </div>
-                    <hr class="sub" />
-                    <div class="status">Available</div>
+                    <hr class="sub-spacer" />
+                    <div class="status" id="status-field">available</div>
                     <div class="buttons">
                         <button type="submit" class="borrow-btn button">
                             Borrow
@@ -57,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <hr class="top" />
+            <hr class="main-spacer" />
             <div class="description">
                 <h2>Description</h2>
                 <p>
@@ -67,7 +78,10 @@
                     the fruitful links existing with linear algebra
                 </p>
             </div>
+            <hr class="main-spacer" />
+            <div class="related-books"></div>
         </div>
     </body>
     <script src="../JS/footer.js"></script>
+    <script src="../JS/zoom.js"></script>
 </html>
