@@ -15,13 +15,43 @@
                 <img src="../img/man.png" alt="profile Image">
             </section>
             <h1 class="profile-page-name">Profile</h1>
+            
+            <div class="content" id="content">
+                <div class="sidebar">
+            
+                <div class="profile-info">
+                    <img src="../img/profile-icon.png" alt="">
+                    <div>Hello <strong>User</strong> </div>
+                </div>
+                
                 <ul class="profile-options-list">
-                    <li class="ProfileDetails"><a href="AccountDetails.html">Account Details</a></li>
-                    <li class="profileOrders"><a href="orders.html">Orders</a></li>
-                    <li class="ProfileAddresses"><a href="addresses.html">Addresses</a></li>
-                    <li class="ProfilePaymentDetails"><a href="paymentDetails.html">Payment Details</a></li>
-                    <li class="SignOut"><a href="Login.html">Sign Out</a></li>
+                    <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
+                    <i class="fa-solid fa-address-book"></i>
+                    Account Details
+                    </a></li>
+                    <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Orders
+                    </a></li>
+                    <li class="ProfileAddresses"onclick="AddressesClick()"><a href="addresses.html">
+                    <i class="fa-solid fa-location-dot"></i>
+                    Addresses
+                    </a></li>
+                    <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
+                    <i class="fa-regular fa-credit-card"></i>
+                    Payment Details
+                    </a></li>
+                    <li class="SignOut"  style="border-bottom: none;" onclick="SignOutClick()"><a href="Login.html">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Sign Out
+                    </a></li>
                 </ul>
+                </div>
+  
+                <div class="personal-info-container">
+                    
+                </div>
+      </div>
         </main>
         <script src="../JS/footer.js"></script>
     </body>
