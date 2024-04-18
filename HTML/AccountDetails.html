@@ -10,39 +10,45 @@
         <link rel="stylesheet" href="../CSS/AccountDetails.css"/>
         <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
         <script src="../JS/header.js"></script>
-        <script src="../JS/sidebar.js"></script>
 
     </head>
+    
     <body>
-        <div class="upper-section">
-          <h1 class="page-title">Account Details</h1>
-        </div>  
-        <div class="lower-section">
-          <div class="sidebar">
-            <ul class="profile-options-list">
-              <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
-                <i class="fa-solid fa-address-book"></i>
-                Account Details
-              </a></li>
-              <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
-                <i class="fa-solid fa-cart-shopping"></i>
-                Orders
-              </a></li>
-              <li class="ProfileAddresses" onclick="AddressesClick()"> <a href="addresses.html">
-                <i class="fa-solid fa-location-dot"></i>
-                Addresses
-              </a></li>
-              <li class="ProfilePaymentDetails" onclick="PaymentClick()" ><a href="paymentDetails.html">
-                <i class="fa-regular fa-credit-card"></i>
-                Payment Details
-              </a></li>
-              <li class="SignOut" onclick="SignOutClick()" style="border-bottom: none;"><a href="Login.html">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Sign Out
-              </a></li>
-            </div>
+      <h1 class="page-header"> Account Details</h1>
+      
+      <div class="content" id="content">
+        <div class="sidebar">
+      
+          <div class="profile-info">
+            <img src="../img/profile-icon.png" alt="">
+            <div>Hello <strong>User</strong> </div>
+          </div>
           
-        <div class="personal-info-container">
+          <ul class="profile-options-list">
+            <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
+              <i class="fa-solid fa-address-book"></i>
+              Account Details
+            </a></li>
+            <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
+              <i class="fa-solid fa-cart-shopping"></i>
+              Orders
+            </a></li>
+            <li class="ProfileAddresses"onclick="AddressesClick()"><a href="addresses.html">
+              <i class="fa-solid fa-location-dot"></i>
+              Addresses
+            </a></li>
+            <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
+              <i class="fa-regular fa-credit-card"></i>
+              Payment Details
+            </a></li>
+            <li class="SignOut"  style="border-bottom: none;" onclick="SignOutClick()"><a href="Login.html">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              Sign Out
+            </a></li>
+          </ul>
+        </div>
+  
+          <div class="personal-info-container">
             <form class="edit-user-info" method="post">
                 
                 <div id="username-and-email-container">
@@ -76,9 +82,7 @@
                 <button type="submit" class="save-changes-btn" name="save_account_details" id="save-account-details-btn">Save changes </button>
             </div>
         </div>
-    </div>
-          <script src="../JS/footer.js"></script>
+      </div>
+      <script src="../JS/footer.js"></script>
     </body>
-    <hr>
-    <br>
 </html>
