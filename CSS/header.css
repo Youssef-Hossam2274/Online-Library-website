@@ -90,3 +90,26 @@
     /* border-radius: 5px; */
     background-color: #000000e0;
 }
+
+        /* scroll-up button */
+
+.scroll-up{
+    background-color: #0063D8;
+    display: flex;
+    position: fixed;
+    border-radius: 5px;
+    right: 10px;
+    bottom: 30px;
+    padding: 7px;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.scroll-up.show{
+    visibility: visible;
+}
+
+.scroll-up img{
+    width: 20px;
+    height: 20px;
+}
