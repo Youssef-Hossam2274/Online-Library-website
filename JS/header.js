@@ -24,5 +24,22 @@ let header = `
                 </nav>
 
             </header>
+
+            <div class="scroll-up" id="scroll-up">
+                <img src="../img/arrow-up.svg" alt="">
+            </div>
             `;
 document.write(header);
+
+
+let scroll_up = document.getElementById("scroll-up");
+window.onscroll = function(){
+    if(this.scrollY >= 600)
+        scroll_up.classList.add("show");
+    else
+        scroll_up.classList.remove("show");
+}
+
+scroll_up.onclick = function(){
+    window.scrollTo({top: 0, behavior: "smooth"})
+}
