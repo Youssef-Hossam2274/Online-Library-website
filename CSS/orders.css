@@ -46,7 +46,9 @@ body{
     padding-bottom: 10px;
 }
 .profile-info img{
-    width: 60px;
+    width: 70px;
+    border-radius: 35px;
+    margin-left: 10px;
 }
 .profile-info div{
     color: #aab9c4;
