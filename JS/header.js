@@ -2,9 +2,9 @@ let header = `
             <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
             <header class="website-header">
                 <div class="logo">
-                    <a href="Home.html"
-                        ><img src="../img/ICON.png" alt="ICON eror path" width="70"
-                    /></a>
+                    <a href="Home.html">
+                        <img src="../img/ICON.png" alt="ICON eror path" width="70"/>
+                    </a>
                     <h1>OnlineLibrary</h1>
                 </div>
 

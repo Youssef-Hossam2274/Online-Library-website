@@ -2,129 +2,742 @@
 <html>
 
 <head>
-
-    <title>Online Library</title>
     <meta charset="UTF-8" />
-    <meta name="Products">
-    <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
-
+    <link rel="stylesheet" href="../CSS/header.css" />
+    <link rel="stylesheet" href="../CSS/footer.css" />
+    <link rel="stylesheet" href="../CSS/product.css" />
+    <script src="../JS/header.js"></script>
+    <title>Books</title>
 </head>
 
 <body>
-    <header>
-        <a href="Home.html"><img src="../img/ICON.png" alt="ICON eror path" width="70"></a>
-        <h1>OnlineLibrary</h1>
-        <nav>
-          <ul>
-              <li><a href="Home.html">Home</a></li>
-              <li><a href="../HTML/all_books.html">Books</a></li>
-              <li><a href="../HTML/borrowed_books.html">borrowed books (User)</a></li>
-              <li><a href="../HTML/admin_book.html">list of added books (Admin)</a></li>
-              <li><a href="../HTML/profile.html">Profile</a></li>
-              <li><a href="../HTML/Login.html">Login</a></li>
-              <li><a href="../HTML/SignUp.html">Sign Up</a></li>
-          </ul>
-        </nav>
-    </header>
-
-    <div class="Mathematics" style="text-align: center;">
-        <hr>
-        <h1>Mathematics</h1>
-        <hr>
+    <h1>Trending Books:</h1>
+    <section id="Science">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
-                <img src="../img/Calculus.webp"></a>
+                <img src="../img/Calculus.jpg" /></a>
             <h3>Advanced Calculus</h3>
             <p><strong>Author(s):</strong> Leonard Richardson</p>
-            <p><strong>About this book</strong> <br>
-                Features an introduction to advanced calculus and highlights its inherent concepts from linear algebra
-                Advanced Calculus reflects <br> the unifying role of linear algebra in an effort to smooth readers'
-                transition
-                to advanced mathematics.
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
             </p>
+            <button>borrow</button>
         </div>
-        <hr>
-    </div>
 
-    <div class="Medicine" style="text-align: center;">
-        <h1>Medicine</h1>
-        <hr>
+
         <div class="Book">
             <a href="Calculus.html" target="_blank">
-                <img src="../img/Cancer_Medicine.webp" alt=""></a>
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
             <h3>Cancer Medicine</h3>
             <p><strong>Author(s):</strong> Michel Rigo</p>
-            <p><strong>About this book</strong> <br>
-                Advanced Graph Theory focuses on some of the main notions arising in graph theory with an emphasis from
-                the very start <br>
-                of the book on the possible applications of the theory and the fruitful links existing with linear
-                algebra
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
             </p>
+            <button>borrow</button>
         </div>
-        <hr>
-    </div>
 
-
-    <div class="Statistic" style="text-align: center;">
-        <h1>Statistic</h1>
-        <hr>
         <div class="Book">
             <a href="Calculus.html" target="_blank">
-                <img src="../img/Biostatistics.webp"></a>
-            <h3>Applied Biostatistics for the Health Sciences</h3>
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
             <p><strong>Author(s):</strong> Richard J. Rossi</p>
-            <p><strong>About this book</strong> <br>
-                In this newly revised edition of Applied Biostatistics for the Health Sciences, accomplished
-                statistician Dr. Richard
-                Rossi delivers <br>a robust and easy-to-understand exploration of statistics in the context of applied
-                health science and
-                biostatistics.
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
             </p>
+            <button>borrow</button>
         </div>
-        <hr>
-    </div>
 
-
-    <div class="Chemistry" style="text-align: center;">
-        <h1>Chemistry</h1>
-        <hr>
         <div class="Book">
             <a href="Calculus.html" target="_blank">
-                <img src="../img/Medical.webp"></a>
-            <h3>A History of a cGMP Medical Event Investigation</h3>
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
             <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
-            <p><strong>About this book</strong> <br>
-                Beginning with the untimely death of a young mother, A History of a cGMP Medical Event Investigation
-                unfolds a
-                fictitious case study that captures how <br> unchecked human flaws during the development and launch of
-                a new drug can lead
-                to disastrous consequences.
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
             </p>
+            <button>borrow</button>
         </div>
-        <hr>
-    </div>
 
-
-    <div class="Computer Science" style="text-align: center;">
-        <h1>Computer Science</h1>
-        <hr>
         <div class="Book">
             <a href="Calculus.html" target="_blank">
-                <img src="../img/Data_Science.webp"></a>
-            <h3>Advances in Data Science: Symbolic, Complex and Network Data</h3>
-            <p><strong>Author(s):</strong> Edwin Diday, Rong Guan, Gilbert Saporta, Huiwen Wang</p>
-            <p><strong>About this book</strong> <br>
-                Data science unifies statistics, data analysis and machine learning to achieve a better understanding of
-                the masses of
-                data which are produced today, and to improve prediction. <br> Special kinds of data (symbolic, network,
-                complex,
-                compositional) are increasingly frequent in data science.
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
             </p>
+            <button>borrow</button>
         </div>
-        <hr>
-    </div>
+
+    </section>
+
+    <h1>Classic Books:</h1>
+    <section id="Science">
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Calculus.jpg" /></a>
+            <h3>Advanced Calculus</h3>
+            <p><strong>Author(s):</strong> Leonard Richardson</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
+            </p>
+            <button>borrow</button>
+        </div>
 
 
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
+            <h3>Cancer Medicine</h3>
+            <p><strong>Author(s):</strong> Michel Rigo</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
+            <p><strong>Author(s):</strong> Richard J. Rossi</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
+            <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
+            </p>
+            <button>borrow</button>
+        </div>
+
+    </section>
+
+
+    <h1>Books We Love:</h1>
+    <section id="Science">
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Calculus.jpg" /></a>
+            <h3>Advanced Calculus</h3>
+            <p><strong>Author(s):</strong> Leonard Richardson</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
+            <h3>Cancer Medicine</h3>
+            <p><strong>Author(s):</strong> Michel Rigo</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
+            <p><strong>Author(s):</strong> Richard J. Rossi</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
+            <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
+            </p>
+            <button>borrow</button>
+        </div>
+
+    </section>
+
+
+    <h1>Recently Returned:</h1>
+    <section id="Science">
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Calculus.jpg" /></a>
+            <h3>Advanced Calculus</h3>
+            <p><strong>Author(s):</strong> Leonard Richardson</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
+            <h3>Cancer Medicine</h3>
+            <p><strong>Author(s):</strong> Michel Rigo</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
+            <p><strong>Author(s):</strong> Richard J. Rossi</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
+            <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
+            </p>
+            <button>borrow</button>
+        </div>
+
+    </section>
+
+    <h1>Romance:</h1>
+
+    <section id="Science">
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Calculus.jpg" /></a>
+            <h3>Advanced Calculus</h3>
+            <p><strong>Author(s):</strong> Leonard Richardson</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
+            <h3>Cancer Medicine</h3>
+            <p><strong>Author(s):</strong> Michel Rigo</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
+            <p><strong>Author(s):</strong> Richard J. Rossi</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
+            <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
+            </p>
+            <button>borrow</button>
+        </div>
+
+    </section>
+
+    <h1>Kids:</h1>
+
+    <section id="Science">
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Calculus.jpg" /></a>
+            <h3>Advanced Calculus</h3>
+            <p><strong>Author(s):</strong> Leonard Richardson</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
+            <h3>Cancer Medicine</h3>
+            <p><strong>Author(s):</strong> Michel Rigo</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
+            <p><strong>Author(s):</strong> Richard J. Rossi</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
+            <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
+            </p>
+            <button>borrow</button>
+        </div>
+
+    </section>
+
+    <h1>Thrillers:</h1>
+    <section id="Science">
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Calculus.jpg" /></a>
+            <h3>Advanced Calculus</h3>
+            <p><strong>Author(s):</strong> Leonard Richardson</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
+            <h3>Cancer Medicine</h3>
+            <p><strong>Author(s):</strong> Michel Rigo</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
+            <p><strong>Author(s):</strong> Richard J. Rossi</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
+            <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
+            </p>
+            <button>borrow</button>
+        </div>
+
+    </section>
+
+    <h1>Textbooks:</h1>
+
+    <section id="Science">
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Calculus.jpg" /></a>
+            <h3>Advanced Calculus</h3>
+            <p><strong>Author(s):</strong> Leonard Richardson</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
+            <h3>Cancer Medicine</h3>
+            <p><strong>Author(s):</strong> Michel Rigo</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
+            <p><strong>Author(s):</strong> Richard J. Rossi</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
+            <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
+            </p>
+            <button>borrow</button>
+        </div>
+
+    </section>
+
+
+    <h1>Authors Alliance & MIT Press:</h1>
+    <section id="Science">
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Calculus.jpg" /></a>
+            <h3>Advanced Calculus</h3>
+            <p><strong>Author(s):</strong> Leonard Richardson</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Features an introduction to advanced calculus and highlights its
+                inherent concepts from linear algebra Advanced Calculus reflects
+                <br />
+                the unifying role of linear algebra in an effort to smooth readers'
+                transition to advanced mathematics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Cancer_Medicine.webp" alt="" /></a>
+            <h3>Cancer Medicine</h3>
+            <p><strong>Author(s):</strong> Michel Rigo</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Advanced Graph Theory focuses on some of the main notions arising in
+                graph theory with an emphasis from the very start <br />
+                of the book on the possible applications of the theory and the
+                fruitful links existing with linear algebra
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Biostatistics.webp" /></a>
+            <h3>Applied Biostatistics</h3>
+            <p><strong>Author(s):</strong> Richard J. Rossi</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In this newly revised edition of Applied Biostatistics for the Health
+                Sciences, accomplished statistician Dr. Richard Rossi delivers <br />a
+                robust and easy-to-understand exploration of statistics in the context
+                of applied health science and biostatistics.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Medical.webp" /></a>
+            <h3>A History of a cGMP </h3>
+            <p><strong>Author(s):</strong> Michael A. Brown PhD, PE,</p>
+            <p>
+                <strong>About this book</strong> <br />
+                Beginning with the untimely death of a young mother, A History of a
+                cGMP Medical Event Investigation unfolds a fictitious case study that
+                captures how <br />
+                unchecked human flaws during the development and launch of a new drug
+                can lead to disastrous consequences.
+            </p>
+            <button>borrow</button>
+        </div>
+
+        <div class="Book">
+            <a href="Calculus.html" target="_blank">
+                <img src="../img/Deep Learning.webp" /></a>
+            <h3>Deep Learning</h3>
+            <p><strong>Author(s):</strong> Stéphane Tufféry</p>
+            <p>
+                <strong>About this book</strong> <br />
+                In Deep Learning: From Big Data to Artificial Intelligence with R, expert researcher Dr. Stéphane
+                Tufféry delivers an insightful discussion of the applications of deep learning and big data
+            </p>
+            <button>borrow</button>
+        </div>
+
+    </section>
+
+    <script src="../JS/footer.js"></script>
 </body>
 
 </html>
