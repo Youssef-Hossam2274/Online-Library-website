@@ -1,11 +1,9 @@
-
-
 function searchBooks() {
     var input, filter, sections, i, j, books, book, title, txtValue;
 
     input = document.getElementById('searchInput');
     filter = input.value.toUpperCase();
-    sections = document.querySelectorAll("section.Book_sections");
+    sections = document.querySelectorAll("section");
 
     for (i = 0; i < sections.length; i++) {
 
@@ -20,6 +18,22 @@ function searchBooks() {
 
             else { book.style.display = "none"; }
 
+        }
+    }
+}
+
+function filterByCategory() {
+
+    var select, sections, i, category;
+    select = document.getElementById('categorySelect');
+    category = select.value.toLowerCase();
+    sections = document.querySelectorAll("section");
+
+    for (i = 0; i < sections.length; i++) {
+        if (sections[i].className.toLowerCase() !== category && category !== 'all') {
+            sections[i].style.display = "none";
+        } else {
+            sections[i].style.display = "";
         }
     }
 }
