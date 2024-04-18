@@ -71,7 +71,6 @@ body{
     padding: 20px;
     border-bottom: #b9b3b385 1px solid;
     border-right: #b9b3b385 1px solid;
-    /* padding: 20px; */
 }
 
 .sidebar li:hover {
@@ -282,7 +281,7 @@ body{
     background-color: #ced6df;
 }
 
-/* ----------Buttons-------------- */
+/* ----------Buttons--under work------------ */
 
 .order.expanded {
     height: auto;
