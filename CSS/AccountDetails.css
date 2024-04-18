@@ -220,3 +220,48 @@ footer {
 }
 
 
+.change-photo{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    border-bottom: #b9b3b385 1px solid;
+    border-right: #b9b3b385 1px solid;
+}
+
+input[type = "reset"]
+{
+    width: 30%;
+}
+
+input[type = "file"]{
+    display: none;
+}
+
+.change-photo img{
+    width: 30px;
+}
+.upload-photo{
+    background-color: #0063D8;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+}
+.change-photo i{
+    margin-right: 10px;
+}
+
+label:active{
+    transform: scale(0.9);
+}
+
+.change{
+    background-color: #0063D8;
+
+}
+.reset{
+    background-color: white;
+}
