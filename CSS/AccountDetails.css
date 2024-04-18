@@ -224,7 +224,6 @@ footer {
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
-    /* flex-wrap: wrap; */
     padding: 0;
     margin: 0;
     align-items: center;
@@ -244,7 +243,7 @@ input[type = "file"]{
 .change-photo img{
     width: 30px;
 }
-.upload-photo{
+.upload-photo-label{
     background-color: #0063D8;
     padding: 10px;
     border-radius: 10px;

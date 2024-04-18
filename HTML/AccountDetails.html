@@ -8,9 +8,9 @@
         <link rel="stylesheet" href="../CSS/header.css" />
         <link rel="stylesheet" href="../CSS/footer.css" />
         <link rel="stylesheet" href="../CSS/AccountDetails.css"/>
+        <script src="../JS/header.js"></script>
         <script src="../JS/sidebar.js"></script>
         <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
-        <script src="../JS/header.js"></script>
 
     </head>
     
@@ -21,13 +21,13 @@
         <div class="sidebar">
       
           <div class="profile-info">
-            <img src="../img/profile-icon.png" alt="">
+            <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
             <div>Hello <strong>User</strong> </div>
           </div>
           
-          <form class="change-photo">
-            <input id="upload-photo" type="file" value="upload photo">
-            <label class="upload-photo"  for="upload-photo"><i class="fa-solid fa-upload"></i> Upload</label>
+          <form class="change-photo"> 
+            <input id="upload-photo" type="file"  accept="image/*">
+            <label class="upload-photo-label"  for="upload-photo"><i class="fa-solid fa-upload"></i> Upload</label>
             <input class="reset" type="reset" value="reset">
           </form>
           
@@ -103,6 +103,7 @@
             </div>
         </div>
       </div>
+      <script src="../JS/AccountDetails.js"></script>
       <script src="../JS/footer.js"></script>
     </body>
 </html>

@@ -1,22 +1,22 @@
-const myProfileImage = document.getElementById("profile-pic");
+const myImage = document.getElementById("profile-pic");
 
-const uploadInput = document.getElementById("upload-profile-img");
+const uploadInput = document.getElementById("upload-photo");
 
 uploadInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-            myProfileImage.src = e.target.result;
+            myImage.src = e.target.result;
         };
         reader.readAsDataURL(file);
     }
 });
 
-const myForm = document.getElementById("profile-details");
+const myForm = document.getElementById("profile-info");
 
 function resetImage() {
-    myProfileImage.src = "../img/profile-placeholder.png";
+    myImage.src = "../img/book-cover-placeholder.png";
 }
 
 myForm.addEventListener("reset", resetImage);
