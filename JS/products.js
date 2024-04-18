@@ -14,7 +14,7 @@ function searchBooks() {
 
             book = books[j];
             title = book.getElementsByTagName("h3")[0];
-            txtValue = title.textContent || title.innerText;
+            txtValue = title.innerText;
 
             if (txtValue.toUpperCase().indexOf(filter) > -1) { book.style.display = ""; }
 
