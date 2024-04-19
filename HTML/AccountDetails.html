@@ -8,63 +8,89 @@
         <link rel="stylesheet" href="../CSS/header.css" />
         <link rel="stylesheet" href="../CSS/footer.css" />
         <link rel="stylesheet" href="../CSS/AccountDetails.css"/>
-        <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
         <script src="../JS/header.js"></script>
         <script src="../JS/sidebar.js"></script>
+        <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
 
     </head>
+    
     <body>
-        <div class="upper-section">
-          <h1 class="page-title">Account Details</h1>
-        </div>  
-        <div class="lower-section">
-          <div class="sidebar">
-            <ul class="profile-options-list">
-              <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
-                <i class="fa-solid fa-address-book"></i>
-                Account Details
-              </a></li>
-              <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
-                <i class="fa-solid fa-cart-shopping"></i>
-                Orders
-              </a></li>
-              <li class="ProfileAddresses" onclick="AddressesClick()"> <a href="addresses.html">
-                <i class="fa-solid fa-location-dot"></i>
-                Addresses
-              </a></li>
-              <li class="ProfilePaymentDetails" onclick="PaymentClick()" ><a href="paymentDetails.html">
-                <i class="fa-regular fa-credit-card"></i>
-                Payment Details
-              </a></li>
-              <li class="SignOut" onclick="SignOutClick()" style="border-bottom: none;"><a href="Login.html">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Sign Out
-              </a></li>
-            </div>
+      <h1 class="page-header"> Account Details</h1>
+      
+      <div class="content" id="content">
+        <div class="sidebar">
+      
+          <div class="profile-info">
+            <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
+            <div>Hello <strong>User</strong> </div>
+          </div>
           
-        <div class="personal-info-container">
+          <form class="change-photo"> 
+            <input id="upload-photo" type="file"  accept="image/*">
+            <label class="upload-photo-label"  for="upload-photo"><i class="fa-solid fa-upload"></i> Upload</label>
+            <input class="reset" type="reset" value="reset">
+          </form>
+          
+          <ul class="profile-options-list">
+            <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
+              <i class="fa-solid fa-address-book"></i>
+              Account Details
+            </a></li>
+            <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
+              <i class="fa-solid fa-cart-shopping"></i>
+              Orders
+            </a></li>
+            <li class="ProfileAddresses"onclick="AddressesClick()"><a href="addresses.html">
+              <i class="fa-solid fa-location-dot"></i>
+              Addresses
+            </a></li>
+            <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
+              <i class="fa-regular fa-credit-card"></i>
+              Payment Details
+            </a></li>
+            <li class="SignOut"  style="border-bottom: none;" onclick="SignOutClick()"><a href="Login.html">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              Sign Out
+            </a></li>
+          </ul>
+        </div>
+  
+          <div class="personal-info-container">
             <form class="edit-user-info" method="post">
                 
                 <div id="username-and-email-container">
+                  <p class="first-name-input">
+                    <label for="account_display_name" class="first-name-label">First name</label>
+                    <input type="text" class="user-info-input" name="account_display_name" id="account_display_name" placeholder="First name" />
+                  </p>
+                  <p class="second-name">
+                    <label for="second-name" class="second-name-label">Second name</label>
+                    <input type="text" class="user-info-input" name="account_email" id="account_email" autocomplete="email" placeholder="Second name" />
+                  </p>
+                </div>
+
+                <div id="user-email">
+                  <p id="email-input"> 
+                    <label for="user-email-input" class="user-info-label" aria-hidden="true">Email</label>
+                    <input type="text" id="user-email-input" name="account_email" placeholder="example" />
+                  </p>
+                </div>
+
+                <div id="phone-number">
                   <p class="display-name-input">
-                    <label for="account_display_name" class="user-info-label">Appearing user name</label>
-                    <input type="text" class="user-info-input" name="account_display_name" id="account_display_name" placeholder="example" />
-                    <span><em> This is how you would appear in orders and reviews</em></span>
-                </p>
-                <p class="email-input">
-                    <label for="account_display_email" class="user-info-label">User Email</label>
-                    <input type="email" class="user-info-input" name="account_email" id="account_email" autocomplete="email" placeholder="example@gmail.com" />
+                    <label for="account_display_name" class="user-info-label">Phone number</label>
+                    <input type="text" id="phone-number-input" placeholder="01213456789" />
                 </p>
                 </div>
+
                 <fieldset class="password-input-container">
                     <legend>Change password</legend>
                     <p class="current-password-input">
                         <label for="password_current">Current password</label>
-                        <input type="password" class="user-info-input" name="password_current" id="password_current" autocomplete="off" /> <span><em>Leave the field empty if you do not want to change it</em></span>
-                    </p>
+                        <input type="password" class="user-info-input" name="password_current" id="password_current" autocomplete="off" />                    </p>
                     <p class="new-password-input">
                         <label for="password_1">New password</label>
-                        <input type="password" class="user-info-input" name="password_1" id="password_1" autocomplete="off" /> <span><em>Leave the field empty if you don't want to change it</em></span>
+                        <input type="password" class="user-info-input" name="password_1" id="password_1" autocomplete="off" /> 
                     </p>
                     <p class="confirm-new-password-input">
                         <label for="password_2">Confirm new password</label>
@@ -76,9 +102,8 @@
                 <button type="submit" class="save-changes-btn" name="save_account_details" id="save-account-details-btn">Save changes </button>
             </div>
         </div>
-    </div>
-          <script src="../JS/footer.js"></script>
+      </div>
+      <script src="../JS/AccountDetails.js"></script>
+      <script src="../JS/footer.js"></script>
     </body>
-    <hr>
-    <br>
 </html>

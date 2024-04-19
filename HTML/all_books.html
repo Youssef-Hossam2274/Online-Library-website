@@ -11,8 +11,22 @@
 </head>
 
 <body>
-    <h1>Trending Books:</h1>
-    <section id="Science">
+    <div class="search-container">
+        <input type="text" id="searchInput" onkeyup="searchBooks()" placeholder="Search for books...">
+        <select id="categorySelect" onchange="filterByCategory()">
+            <option value="all">All Categories</option>
+            <option value="medicine">Medicine</option>
+            <option value="Romance">Romance</option>
+            <option value="Academic/Reference:">Academic/Reference:</option>
+            <option value="Language">Language</option>
+            <option value="Art/Design">Art/Design</option>
+            <option value="Technology/Computers">Technology/Computers</option>
+            <option value="Health/Wellness">Health/Wellness</option>
+            <option value="Drama">Drama</option>
+        </select>
+    </div>
+
+    <section class="Medicine">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -91,8 +105,7 @@
 
     </section>
 
-    <h1>Classic Books:</h1>
-    <section id="Science">
+    <section class="Romance">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -171,9 +184,7 @@
 
     </section>
 
-
-    <h1>Books We Love:</h1>
-    <section id="Science">
+    <section class="History">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -252,9 +263,7 @@
 
     </section>
 
-
-    <h1>Recently Returned:</h1>
-    <section id="Science">
+    <section class="Academic/Reference:">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -333,9 +342,7 @@
 
     </section>
 
-    <h1>Romance:</h1>
-
-    <section id="Science">
+    <section class="Language">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -414,9 +421,7 @@
 
     </section>
 
-    <h1>Kids:</h1>
-
-    <section id="Science">
+    <section class="Art/Design">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -495,8 +500,7 @@
 
     </section>
 
-    <h1>Thrillers:</h1>
-    <section id="Science">
+    <section class="Technology/Computers">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -575,9 +579,7 @@
 
     </section>
 
-    <h1>Textbooks:</h1>
-
-    <section id="Science">
+    <section class="Health/Wellness">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -656,9 +658,7 @@
 
     </section>
 
-
-    <h1>Authors Alliance & MIT Press:</h1>
-    <section id="Science">
+    <section class="Drama">
         <div class="Book">
             <a href="Calculus.html" target="_blank">
                 <img src="../img/Calculus.jpg" /></a>
@@ -738,6 +738,7 @@
     </section>
 
     <script src="../JS/footer.js"></script>
+    <script src="../JS/products.js"></script>
 </body>
 
 </html>
