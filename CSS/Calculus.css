@@ -15,7 +15,7 @@ body {
 }
 
 .page-body {
-    width: 80%;
+    width: 1000px;
     margin: 50px auto;
 }
 
@@ -29,11 +29,10 @@ hr {
 
 .overview {
     display: flex;
-    flex-flow: nowrap row;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 40px;
 }
-
 
 /* ****************** Left side ***************** */
 .image-side {
@@ -81,17 +80,16 @@ hr {
     width: 145px;
     padding: 6px;
     text-align: center;
-    background-color: #56CB5B;
+    background-color: #56cb5b;
     transform: rotate(45deg);
     user-select: none;
     color: white;
     text-transform: uppercase;
 }
 
-
 /* ****************** Right side ***************** */
 .book-info-side {
-    width: 60%; 
+    width: 60%;
 }
 
 .book-title {
@@ -150,7 +148,6 @@ hr {
     color: #e7d02b;
 }
 
-
 /* Book categories & publish date */
 .book-info {
     margin: 20px auto;
@@ -158,7 +155,7 @@ hr {
 }
 
 .book-info div {
-    margin-bottom: 30px; 
+    margin-bottom: 30px;
 }
 
 .sub-title {
@@ -204,7 +201,6 @@ hr {
 .date-field {
     display: inline-block;
 }
-
 
 /* Availability status */
 .status {
@@ -284,4 +280,67 @@ hr {
     color: rgba(0, 0, 0, 0.5);
     font-family: Arial, Helvetica, sans-serif;
     line-height: 24px;
+}
+
+/* Medium screens */
+@media screen and (max-width: 1200px) {
+    .page-body {
+        width: 900px;
+    }
+    #status-banner {
+        font-size: 0.8rem;
+        padding: 5px;
+        top: 20px;
+        right: -37px;
+    }
+    .status {
+        font-size: 0.9rem;
+        padding: 10px;
+        width: 150px;
+    }
+}
+
+/* Small screens */
+@media screen and (max-width: 992px) {
+    .page-body {
+        width: 700px;
+    }
+}
+
+/* Tablets */
+@media screen and (max-width: 768px) {
+    .page-body {
+        width: 550px;
+    }
+    .overview {
+        height: 1350px;
+    }
+}
+
+/* Mobiles */
+@media screen and (max-width: 591px) {
+    .page-body {
+        width: 300px;
+    }
+    .overview {
+        height: 1000px;
+    }
+}
+
+/* Custom for horizontal view screens */
+@media screen and (max-width: 768px) {
+    .overview {
+        width: 100%;
+        justify-content: center;
+        align-items: space-between;
+    }
+    .image-side {
+        width: 100%;
+    }
+    .book-info-side {
+        width: 100%;
+    }
+    .description {
+        width: 100%;
+    }
 }
