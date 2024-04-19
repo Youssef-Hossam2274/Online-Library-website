@@ -1,6 +1,9 @@
 const myImage = document.getElementById("profile-pic");
-
 const uploadInput = document.getElementById("upload-photo");
+let remove_photo = document.getElementById("remove-photo-label");
+remove_photo.onclick = function(){
+    myImage.src = "../img/profile-icon.png";
+}
 
 uploadInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
@@ -8,6 +11,7 @@ uploadInput.addEventListener("change", (event) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             myImage.src = e.target.result;
+            myImage.style.borderRadius  = 35 + "px";
         };
         reader.readAsDataURL(file);
     }
@@ -20,3 +24,4 @@ function resetImage() {
 }
 
 myForm.addEventListener("reset", resetImage);
+

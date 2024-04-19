@@ -6,22 +6,21 @@
         <link rel="stylesheet" href="../CSS/header.css" />
         <link rel="stylesheet" href="../CSS/footer.css" />
         <link rel="stylesheet" href="../CSS/profile.css">
+        <link rel="stylesheet" href="../CSS/sidebar.css">
+        <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
+
         <script src="../JS/header.js"></script>
     </head>
     <body>
-        <hr />
-        <main>
-            <section class="profile-general-image">
-                <img src="../img/man.png" alt="profile Image">
-            </section>
-            <h1 class="profile-page-name">Profile</h1>
-            
-            <div class="content" id="content">
-                <div class="sidebar">
-            
+
+        <h1 class="page-header">My Account</h1>
+
+        <div class="content" id="content">
+
+            <div class="sidebar">
                 <div class="profile-info">
-                    <img src="../img/profile-icon.png" alt="">
-                    <div>Hello <strong>User</strong> </div>
+                    <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
+                    <div>Hello <span style="color: black;">user</span> </div>
                 </div>
                 
                 <ul class="profile-options-list">
@@ -30,12 +29,16 @@
                     Account Details
                     </a></li>
                     <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Orders
+                        <i class="fa-solid fa-list"></i>
+                        Your Books
                     </a></li>
                     <li class="ProfileAddresses"onclick="AddressesClick()"><a href="addresses.html">
                     <i class="fa-solid fa-location-dot"></i>
                     Addresses
+                    </a></li>
+                    <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
+                    <i class="fa-solid fa-heart"></i>
+                    Favorite
                     </a></li>
                     <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
                     <i class="fa-regular fa-credit-card"></i>
@@ -46,13 +49,13 @@
                     Sign Out
                     </a></li>
                 </ul>
-                </div>
-  
-                <div class="personal-info-container">
-                    
-                </div>
-      </div>
-        </main>
+            </div>
+
+            <div class="personal-info-container">
+                
+            </div>
+        </div>
+
         <script src="../JS/footer.js"></script>
     </body>
-    </html>
+</html>
