@@ -10,67 +10,81 @@ h1 {
 }
 
 body {
-    background-color: #f5f5f5;
+    background-color: #f0f8ff;
 }
 
-section {
+main{
     display: flex;
-    /* justify-content: space-between; */
-    justify-content: flex-start;
-    margin: 0 100px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 150px;
+    margin-right: 100px;
 }
+
 
 .Book {
-    width: calc(20% - 20px);
-    margin-bottom: 20px;
-    padding: 10px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     position: relative;
-    padding-bottom: 40px;
-    margin-right: 20px;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-between;
+    justify-content: center;
+    margin-bottom: 40px;
+    margin-left: 30px;
 }
 
-.Book img {
-    width: 80%;
-    height: 65%;
-    border-radius: 5px;
-    margin: 0 auto 10px;
-    display: block;
+.background-img{
+    background-color: #E7EFF2;
+    display: flex;
+    width: 100%;
+    height: 200px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.background-img img{
+    width: 150px;
+    height: 180px;
+    border-radius: 10px;
 }
 
-.Book h3 {
-    font-size: 16px;
+.content{
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content h3{
+    margin: 0;
     margin-bottom: 5px;
 }
-
-.Book p {
-    font-size: 12px;
-    line-height: 1.3;
-    margin-bottom: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.content span{
+    font-size: 10px;
+    margin-bottom: 30px;
 }
 
-.Book button:hover {
-    background-color: hsl(202, 96%, 47%);
-}
 
 .Book button {
     padding: 10px 20px;
     background-color: hsl(202, 96%, 37%);
     color: #fff;
-    width: 80%;
     border: none;
-    border-radius: 20px;
     cursor: pointer;
-    position: absolute;
-    bottom: 10px;
-    left: 10%;
+    border-radius: 5px;
+}
+
+
+.Book button:hover {
+    background-color: hsl(202, 96%, 47%);
 }
 
 

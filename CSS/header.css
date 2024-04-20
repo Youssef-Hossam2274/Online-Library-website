@@ -28,6 +28,9 @@
 .logo h1 {
     color: #0063d8;
 }
+.logo a{
+    text-decoration: none;
+}
 
 /* nav-links */
 

@@ -98,7 +98,8 @@ function fetchID() {
 
 // addNewBook(newBook);
 let id = fetchID();
-fetchData(id);
+let cur_id = window.localStorage.getItem("single-book-id");
+fetchData(cur_id);
 
 // Adding the zooming event to book image in-case of wide screen
 if (screen.width > 768) {
