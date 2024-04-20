@@ -6,6 +6,7 @@ function searchBooks() {
     books = document.querySelectorAll(".Book");
 
     for (i = 0; i < books.length; i++) {
+
         title = books[i].querySelector("h3");
         author = books[i].querySelector("span");
 
@@ -81,7 +82,7 @@ function AddAllBooks() {
         let currentBook = books[i];
         let book =
             `;
-        <div class="Book ${currentBook.category}">
+        <div class="Book">
             <div class="background-img">
                 <a href="../HTML/book.html" target="_blank">
                     <img src="../img/blank.png" />
@@ -103,6 +104,7 @@ function AddAllBooks() {
     }
 }
 
+
 AddAllBooks();
 
 
@@ -117,5 +119,4 @@ function fetchID() {
 }
 
 fetchID();
-
 set_categorty_select_list();
