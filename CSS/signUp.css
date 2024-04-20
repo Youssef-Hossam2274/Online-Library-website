@@ -1,71 +1,160 @@
-.Header{
-    margin: 50px 0px 50px 0px;
+body{
+    background-color: #f0f8ff;
+}
+.page-title{
     color: #0063D8;
-    font-family: Arial, sans-serif;
+    margin-left: 250px;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
-form{
-    width: 40%;
-    display: inline-block;
-    margin-left: 200px;
-    font-family: Arial, sans-serif;
-}
-
-input{
-    display: block;
-    width: 350px;
-    height: 45px;
-    background-color: #efefef;
-    color:black;
-    padding-left: 15px;
-    margin-bottom: 25px;
-    margin-top: 5px;
-    border-width: 0px;
-    border-radius: 10px;
-}
-input:focus{
-    outline-color: #0063D8;
-}
-
-.password-box, .confirm-box{
+.container{
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
 }
 
-.password-box img, .confirm-box img{
-    width: 32px;
-    margin-top: -20px;
-    margin-left: -40px;
-    cursor: pointer;
+.signup-content{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-between;
+    flex-direction: column;
+    margin-left: 100px;
+
 }
 
-label{
-    margin-left: 5px;
+.user-name-box input, .password-box input,
+.email-box input, .confirm-password-box input
+{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+    font-size: 18px;
 }
 
-
-.loginButton{
-    width: 370px;
-    color: white;
-    background-color: #0063D8;
-    display: block;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.banner{
-    vertical-align: -70px;
-    width: 600px;
-    height: 600px;
-}
-
-a{
+.signup-content a{
     text-decoration: none;
     color: #0063D8;
 }
 
-::placeholder {
-    color: #9F9F9F; /* Change placeholder text color here */
-} 
+.user-name-box, .password-box,
+.confirm-password-box, .email-box{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    width: 400px;
+    border: solid;
+    border-color: #0063D8;
+    border-width: 0;
+}
 
 
+.signup-content label{
+    color: rgb(171, 162, 162);
+    position: absolute;
+    transition: 0.5s;
+    cursor:auto;
+}
+
+.signup-content input:focus ~ label,
+.signup-content input:valid ~ label,
+.signup-content input:hover ~ label
+{
+    font-size: 20px;
+    color: #0063D8;
+    top: 0;
+    transform: translateX(-10px) translateY(-30px);
+}
+
+
+.password-box i{
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#open-eye{
+    color: #0063D8;
+    display: none;
+}
+
+
+.sinup-button{
+    padding: 10px;
+    position: relative;
+    display: flex;
+    background-color: #0063D8;
+    color: white;
+    width: 400px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.4s;
+}
+
+.sinup-button:hover{
+    background-color: #063f85;
+}
+.signup-content a{
+    margin-top: 10px;
+    margin-left: -150px;
+}
+
+.banner img{
+    width: 600px;
+    height: 600px;
+
+}
+
+.user-type{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.admin, .user{
+    background-color: white;
+    padding: 15px 40px;
+    display: flex;
+    border-radius: 10px;
+    transition: 0.5s;
+    cursor: pointer;
+    
+}
+.user-type i{
+    margin-right: 10px;
+}
+
+.admin:hover, .user:hover{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #0063D8;
+}
+.type-active{
+    background-color: #0063D8;
+    color: white;
+}
+
+
+@media screen and (max-width: 768px) {
+    .banner{
+        display: none;
+    }
+    .page-title{
+        margin-left: 150px;
+    }
+    .signup-content{
+        margin-left: 0
+    }
+
+}

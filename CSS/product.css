@@ -15,7 +15,8 @@ body {
 
 section {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: flex-start;
     margin: 0 100px;
 }
 
@@ -28,6 +29,7 @@ section {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     position: relative;
     padding-bottom: 40px;
+    margin-right: 20px;
 
 }
 

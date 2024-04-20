@@ -8,43 +8,62 @@
         <link rel="stylesheet" href="../CSS/header.css">
         <link rel="stylesheet" href="../CSS/footer.css">
         <link rel="stylesheet" href="../CSS/signUp.css">
+        <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
         <script src="../JS/header.js"></script>
     </head>
     <body>
         
-        <form method="post">
-            <h1 class="Header">Registration</h1>
-            <div id="userName">
-                <label for="userNameInput">Username</label>
-                <input id = "userNameInput" type="text" placeholder="Enter user name" required>
-            </div>
+        <h1 class="page-title"> Sign Up</h1>
 
-            <label for="password"> Password</label>
-            <div class="password-box">
-                <input id = "password" type="password" placeholder="Enter Password" required>
-                <img src="../img/close-eye.png" id = "eyeIcon1">
-            </div>
-            
-            <label for="ConfirmPassword"> Confirm Password</label>
-            <div class="confirm-box">
-                <input id = "ConfirmPassword" type="password" placeholder="Confirm your password" required>
-                <img src="../img/close-eye.png" id = "eyeIcon2">
-            </div>
+        <main class="container">
+            <form class="signup-content">
+                <div class="user-name-box">
+                    <input type="text" id="user-input" required>
+                    <label class="user-name-label" for="user-input"> User name</label>
+                </div>
+                
+                <div class="password-box">
+                    <input type="password" id="password-input" required >
+                    <label class="password-label" id="password-label" for="password-input"> Password</label>
+                    <i class="fa-solid fa-eye" id="open-eye"></i>
+                    <i class="fa-solid fa-eye-slash" id="close-eye"></i>
+                </div>
+                
+                <div class="confirm-password-box">
+                    <input type="password" id="password-input" required >
+                    <label class="password-label" id="password-label" for="password-input"> Confirm Password</label>
+                </div>
 
-            <div>
-                <label for="e-mail"> Email </label>
-                <input id = "e-mail" type="email" placeholder="Enter e-mail" required>
-            </div>
-            
-            
-            <input class="loginButton" type="submit" value="Sign UP">
-            <a href="Login.html">already exist an account? <b>Log In</b></a>
-        </form>
+                <div class="email-box">
+                    <input type="email" id="user-input" required>
+                    <label class="email-label" for="user-input"> email</label>
+                </div>
+                
+                <div class="user-type">
 
-        
-            <img class="banner" src="../img/Library.png" alt="login_photo not found">
-            <script src="../JS/signUp.js"></script>
-            <script src="../JS/footer.js"></script>
+                    <div class="user type-active" id="user">
+                        <i class="fa-solid fa-user"></i>
+                        <span>user</span>
+                    </div>
+                    <div class="admin" id="admin">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span>admin</span>
+                    </div>
+                    
+                </div>
+
+                
+                
+                <input class="sinup-button" type="submit" value="Sign Up" required>
+                <a href="Login.html"> already exist an account? <strong>Log In</strong></a>
+            </form>
+            
+            <div class="banner">
+                <img src="../img/Library.png" alt="">
+            </div>
+        </main>
+        <script src="../JS/login.js"></script>
+        <script src="../JS/footer.js"></script>
     </body>
         
 </html>

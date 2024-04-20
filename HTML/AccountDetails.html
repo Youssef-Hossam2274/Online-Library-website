@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="../CSS/header.css" />
         <link rel="stylesheet" href="../CSS/footer.css" />
         <link rel="stylesheet" href="../CSS/AccountDetails.css"/>
+        <link rel="stylesheet" href="../CSS/profile.css"/>
+
         <script src="../JS/header.js"></script>
         <script src="../JS/sidebar.js"></script>
         <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
@@ -22,14 +24,19 @@
       
           <div class="profile-info">
             <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
-            <div>Hello <strong>User</strong> </div>
+            <div>Hello <span style="color: black;">user</span> </div>
           </div>
           
-          <form class="change-photo"> 
-            <input id="upload-photo" type="file"  accept="image/*">
-            <label class="upload-photo-label"  for="upload-photo"><i class="fa-solid fa-upload"></i> Upload</label>
-            <input class="reset" type="reset" value="reset">
-          </form>
+          <div class="change-photo">
+
+            <form class=""> 
+              <input id="upload-photo" type="file"  accept="image/*">
+              <label class="upload-photo-label"  for="upload-photo"><i class="fa-solid fa-upload"></i> Upload</label>
+            </form>
+            <span class="remove-photo-label" id = "remove-photo-label" ></i> Remove</span>
+
+          </div>
+
           
           <ul class="profile-options-list">
             <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
@@ -37,12 +44,16 @@
               Account Details
             </a></li>
             <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
-              <i class="fa-solid fa-cart-shopping"></i>
-              Orders
+              <i class="fa-solid fa-list"></i>
+              Your Books
             </a></li>
             <li class="ProfileAddresses"onclick="AddressesClick()"><a href="addresses.html">
               <i class="fa-solid fa-location-dot"></i>
               Addresses
+            </a></li>
+            <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
+              <i class="fa-solid fa-heart"></i>
+              Favorite
             </a></li>
             <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
               <i class="fa-regular fa-credit-card"></i>
