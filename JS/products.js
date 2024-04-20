@@ -1,25 +1,40 @@
 function searchBooks() {
-    var input, filter, sections, i, j, books, book, title, author, txtValue;
+    var input, filter, books, i, title, author, txtValue, authorValue;
 
     input = document.getElementById('searchInput');
     filter = input.value.toUpperCase();
-    books = sections[i].getElementsByClassName('content');
+    books = document.querySelectorAll(".Book");
 
-    for (j = 0; j < books.length; j++) {
-
-        book = books[j];
-        title = book.getElementsByTagName("h3")[0];
-        author = book.getElementsByTagName("span")[0];
+    for (i = 0; i < books.length; i++) {
+        title = books[i].querySelector("h3");
+        author = books[i].querySelector("span");
 
         txtValue = title.innerText.toUpperCase();
         authorValue = author.innerText.toUpperCase();
 
-
-        if (txtValue.indexOf(filter) > -1 || authorValue.indexOf(filter) > -1) { book.style.display = ""; }
-
-        else { book.style.display = "none"; }
+        if (txtValue.indexOf(filter) > -1 || authorValue.indexOf(filter) > -1) {
+            books[i].style.display = "";
+        } else {
+            books[i].style.display = "none";
+        }
     }
+}
 
+
+function filterByCategory() {
+
+    var select, sections, i, category;
+    select = document.getElementById('categorySelect');
+    category = select.value.toLowerCase();
+    sections = document.querySelectorAll("section");
+
+    for (i = 0; i < sections.length; i++) {
+        if (sections[i].className.toLowerCase() !== category && category !== 'all') {
+            sections[i].style.display = "none";
+        } else {
+            sections[i].style.display = "";
+        }
+    }
 }
 
 class Book {
@@ -46,13 +61,14 @@ function set_categorty_select_list() {
     let books = JSON.parse(window.localStorage.getItem("books"));
     let select_list = document.getElementById("categorySelect");
 
-    for (let i = 0; i < books.length; ++i) {
-        let option = document.createElement("option");
-        option.value = books.category;
-        option.text = books[i].category;
-        select_list.add(option);
+    if (books) {
+        for (let i = 0; i < books.length; ++i) {
+            let option = document.createElement("option");
+            option.value = books.category;
+            option.text = books[i].category;
+            select_list.add(option);
+        }
     }
-
 }
 
 
@@ -99,4 +115,4 @@ function fetchID() {
 }
 
 fetchID();
-searchBooks();
+set_categorty_select_list();
