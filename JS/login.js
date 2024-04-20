@@ -19,15 +19,31 @@ open_eye.onclick = close_eye.onclick = function()
     }
 }
 
-let user = document.getElementById("user");
-let admin = document.getElementById("admin");
 
-user.onclick = function(){
-    user.classList.add("type-active");
-    admin.classList.remove("type-active");
+
+
+function checkUser(){
+
+    let user_name = document.getElementById("user-input").value;
+    let user_password = document.getElementById("password-input").value;
+
+    const usersArr = JSON.parse(window.localStorage.getItem("users"));
+    
+    window.sessionStorage.setItem("userName", "not found");
+    window.sessionStorage.setItem("isAdmin", "not found");
+
+    for(let i = 0; i < usersArr.length; ++i)
+    {
+        if(usersArr[i].userName == user_name && usersArr[i].password == user_password )
+        {
+            window.sessionStorage.setItem("userName", usersArr[i].userName);
+            window.sessionStorage.setItem("isAdmin", usersArr[i].isAdmin);
+        }
+    }
+    
 }
 
-admin.onclick = function(){
-    admin.classList.add("type-active");
-    user.classList.remove("type-active");
-}
+
+const myForm = document.querySelector(".login-content");
+myForm.addEventListener("submit", checkUser);
+// window.sessionStorage.clear();
