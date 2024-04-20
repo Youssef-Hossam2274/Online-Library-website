@@ -4,7 +4,6 @@ function searchBooks() {
 
     input = document.getElementById('searchInput');
     filter = input.value.toUpperCase();
-    sections = document.querySelectorAll("section");
 
     for (i = 0; i < sections.length; i++) {
 
@@ -68,19 +67,22 @@ function showAllBooks()
     let books = JSON.parse(window.localStorage.getItem("books"));
     for(let i = 0; i < books.length ; i += 1)
     {
-        let currentBook = books[i];
+        // let currentBook = books[i];
+        // if(category != currentBook.category)
+        //     continue;
+
         let book = 
         `;
-        <div class="Book">
+        <div class="Book ${currentBook.category}">
             <div class="background-img">
-                <a href="Calculus" target="_blank">
+                <a href="../HTML/book.html" target="_blank">
                     <img src="../img/blank.png" />
                 </a>
             </div>
             <div class="content">
-                <h3>Advanced ${currentBook.title}</h3> 
-                <span><strong>Author(s):</strong> ${currentBook.author}</span>
-                <button >Show details </button>
+                <h3>${currentBook.title}</h3> 
+                <span><strong>Author(s):</strong>${currentBook.author}</span>
+                <button>Show details</button>
             </div>
         </div>
         `;
@@ -94,6 +96,8 @@ function showAllBooks()
 }
 
 showAllBooks();
+
+
 function fetchID()
 {
     let books = document.querySelectorAll(".Book");
@@ -101,8 +105,7 @@ function fetchID()
     for(let i = 0; i < books.length; ++i)
     {
         buttons[i].onclick = function(){
-            let id = window.localStorage.setItem("single-book-id", i);
-            console.log(i);
+            window.localStorage.setItem("single-book-id", i);
         }
     }
 }
