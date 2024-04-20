@@ -1,7 +1,98 @@
+class Book {
+    constructor(
+        imageURL,
+        title,
+        author,
+        category,
+        publishDate,
+        availability,
+        description
+    ) {
+        this.imageURL = imageURL;
+        this.title = title;
+        this.author = author;
+        this.category = category;
+        this.publishDate = publishDate;
+        this.availability = availability;
+        this.description = description;
+    }
+}
+
 const myImage = document.getElementById("cover-pic");
-
 const uploadInput = document.getElementById("upload-img");
+const myForm = document.getElementById("book_details");
+const categoryList = document.getElementById("category-list");
 
+// Functions
+function addBookToCategory(bookIndex, categoryName) {
+    // getting categories json
+    const categoryJSON = window.localStorage.getItem("categories");
+    const categoryArr = JSON.parse(categoryJSON);
+
+    // finding the category with name
+    for (let category of categoryArr) {
+        if (category.name == categoryName) {
+            category.books.push(bookIndex);
+        }
+    }
+}
+
+function addBook() {
+    // Creating the book object
+    const newBook = new Book(
+        myImage.src,
+        document.getElementById("book_title").value,
+        document.getElementById("author_name").value,
+        categoryList.value,
+        document.getElementById("publish_date").value,
+        true,
+        document.getElementById("description").value
+    );
+
+    // Adding the book to local storage
+    let booksJSON = window.localStorage.getItem("books");
+    let updatedJSON, booksArr;
+
+    if (booksJSON) {
+        booksArr = JSON.parse(booksJSON);
+        booksArr.push(newBook);
+        updatedJSON = JSON.stringify(booksArr);
+    } else {
+        updatedJSON = JSON.stringify([newBook]);
+    }
+    window.localStorage.setItem("books", updatedJSON);
+
+    // Adding the book to its category => if there is a category
+    if (!categoryList.disabled) {
+        addBookToCategory(booksArr.length - 1, categoryList.value);
+    }
+}
+
+function fetchCategories() {
+    let categories;
+
+    // getting local storage
+    categories = JSON.parse(window.localStorage.getItem("categories"));
+
+    // Getting category names
+    if (categories) {
+        let categoryNames = categories.map((category) => category.name);
+
+        for (let name of categoryNames) {
+            let option = new Option(name, name);
+            categoryList.appendChild(option);
+        }
+    } else {
+        categoryList.disabled = true;
+    }
+}
+
+function reset() {
+    myImage.src = "../img/book-cover-placeholder.png";
+    fetchCategories();
+}
+
+// Events
 uploadInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -12,11 +103,20 @@ uploadInput.addEventListener("change", (event) => {
         reader.readAsDataURL(file);
     }
 });
+myForm.addEventListener("submit", addBook);
+myForm.addEventListener("reset", reset);
 
-const myForm = document.getElementById("book_details");
+// Calling functions
+fetchCategories();
 
-function resetImage() {
-    myImage.src = "../img/book-cover-placeholder.png";
-}
+//------------------ Adding category for testing
+// class Category {
+//     constructor(name) {
+//         this.name = name;
+//         books = [];
+//     }
+// }
 
-myForm.addEventListener("reset", resetImage);
+// categories = [
+//     new Category("")
+// ]

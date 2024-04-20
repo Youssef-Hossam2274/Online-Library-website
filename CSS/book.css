@@ -136,6 +136,10 @@ hr {
     margin-right: 15px;
 }
 
+.checked {
+    color: orange;
+}
+
 .reviews-count {
     color: #9E9E9E;
 }

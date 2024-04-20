@@ -40,5 +40,3 @@ This project is an online library website designed to facilitate the borrowing o
 
 
 ## License
-
-

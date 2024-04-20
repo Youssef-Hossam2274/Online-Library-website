@@ -1,62 +1,62 @@
 // Selecting all elements
-let bookImage = document.querySelector("#book-image");
-let zoomContainer = document.querySelector(".zoom-container");
-let zoomedImage = document.querySelector("#zoomed-image");
-let bookTitle = document.querySelector(".book-title > h1");
-let bookAuthor = document.querySelector(".book-title > p");
-let categoryField = document.querySelector("#category-field");
-let dateField = document.querySelector("#date-field");
-let statusBanner = document.querySelector("#status-banner");
-let statusIco = document.querySelector("#status-icon");
-let statusBlock = document.querySelector("#status-block");
-let descriptionBox = document.querySelector(".description > p");
+const bookImage = document.querySelector("#book-image");
+const zoomContainer = document.querySelector(".zoom-container");
+const zoomedImage = document.querySelector("#zoomed-image");
+const bookTitle = document.querySelector(".book-title > h1");
+const bookAuthor = document.querySelector(".book-title > p");
+const categoryField = document.querySelector("#category-field");
+const dateField = document.querySelector("#date-field");
+const statusBanner = document.querySelector("#status-banner");
+const statusIco = document.querySelector("#status-icon");
+const statusBlock = document.querySelector("#status-block");
+const descriptionBox = document.querySelector(".description > p");
 
 // --------- Adding data to local storage for testing
-// class Book {
-//     constructor(
-//         title,
-//         author,
-//         category,
-//         publishDate,
-//         availability,
-//         description
-//     ) {
-//         this.title = title;
-//         this.author = author;
-//         this.category = category;
-//         this.publishDate = publishDate;
-//         this.availability = availability;
-//         this.description = description;
-//     }
-// }
+class Book {
+    constructor(
+        imageURL,
+        title,
+        author,
+        category,
+        publishDate,
+        availability,
+        description
+    ) {
+        this.imageURL = imageURL;
+        this.title = title;
+        this.author = author;
+        this.category = category;
+        this.publishDate = publishDate;
+        this.availability = availability;
+        this.description = description;
+    }
+}
 
 // --------- Adding a book
-// function addNewBook(newBook) {
-//     let booksJSON = window.localStorage.getItem("books");
-//     let updatedJSON;
+function addNewBook(newBook) {
+    let booksJSON = window.localStorage.getItem("books");
+    let updatedJSON;
 
-//     if (booksJSON) {
-//         let booksArr = JSON.parse(booksJSON);
-//         booksArr.push(newBook);
-//         updatedJSON = JSON.stringify(booksArr);
-//     } else {
-//         updatedJSON = JSON.stringify([newBook]);
-//     }
-//     window.localStorage.setItem("books", updatedJSON);
-// }
+    if (booksJSON) {
+        let booksArr = JSON.parse(booksJSON);
+        booksArr.push(newBook);
+        updatedJSON = JSON.stringify(booksArr);
+    } else {
+        updatedJSON = JSON.stringify([newBook]);
+    }
+    window.localStorage.setItem("books", updatedJSON);
+}
 
 // -------- Creating student
-// let newBook = new Book(
-//     "DummyBook3",
-//     "Mommy",
-//     "I love you",
-//     "January 1, 2024",
-//     true
-// );
-// newBook.description =
-//     "Advanced Graph Theory focuses on some of the main notions arising in graph theory with an emphasis from the very start of the book on the possible applications of the theory and the fruitful links existing with linear algebra";
-
-// addNewBook(newBook);
+let newBook = new Book(
+    "DummyBook3",
+    "Mommy",
+    "I love you",
+    "January 1, 2024",
+    false
+);
+newBook.description =
+    "Advanced Graph Theory focuses on some of the main notions arising in graph theory with an emphasis from the very start of the book on the possible applications of the theory and the fruitful links existing with linear algebra";
 
 
 // -------- Fetching page info based on book id
@@ -67,6 +67,8 @@ function fetchData(id) {
 
     let currentBook = books[id];
     // Updating page details
+    bookImage.src = currentBook.imageURL;
+    zoomedImage.src = currentBook.imageURL;
     bookTitle.innerHTML = currentBook.title;
     bookAuthor.innerHTML = currentBook.author;
     categoryField.innerHTML = currentBook.category;
@@ -94,6 +96,7 @@ function fetchID() {
     return parseInt(psearch.get('id'));
 }
 
+// addNewBook(newBook);
 let id = fetchID();
 fetchData(id);
 
