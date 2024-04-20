@@ -1,3 +1,27 @@
+function searchBooks() {
+    var input, filter, sections, i, j, books, book, title, author, txtValue;
+
+    input = document.getElementById('searchInput');
+    filter = input.value.toUpperCase();
+    books = sections[i].getElementsByClassName('content');
+
+    for (j = 0; j < books.length; j++) {
+
+        book = books[j];
+        title = book.getElementsByTagName("h3")[0];
+        author = book.getElementsByTagName("span")[0];
+
+        txtValue = title.innerText.toUpperCase();
+        authorValue = author.innerText.toUpperCase();
+
+
+        if (txtValue.indexOf(filter) > -1 || authorValue.indexOf(filter) > -1) { book.style.display = ""; }
+
+        else { book.style.display = "none"; }
+    }
+
+}
+
 class Book {
     constructor(
         imageURL,
@@ -18,13 +42,24 @@ class Book {
     }
 }
 
+function set_categorty_select_list() {
+    let books = JSON.parse(window.localStorage.getItem("books"));
+    let select_list = document.getElementById("categorySelect");
+
+    for (let i = 0; i < books.length; ++i) {
+        let option = document.createElement("option");
+        option.value = books.category;
+        option.text = books[i].category;
+        select_list.add(option);
+    }
+
+}
+
 
 function showAllBooks() {
     let books = JSON.parse(window.localStorage.getItem("books"));
     for (let i = 0; i < books.length; i += 1) {
         let currentBook = books[i];
-        // if(category != currentBook.category)
-        //     continue;
 
         let book =
             `;
@@ -64,3 +99,4 @@ function fetchID() {
 }
 
 fetchID();
+searchBooks();
