@@ -1,5 +1,10 @@
+body{ 
+    min-height: 100vh;
+}
+
 footer {
-    margin-top: 60px;
+    position: sticky;
+    top: 100%;
     background-color: #000000e0;
     height: 15vh;
 }
