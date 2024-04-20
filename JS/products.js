@@ -24,19 +24,19 @@ function searchBooks() {
 
 function filterByCategory() {
 
-    var select, sections, i, category;
+    // var select, sections, i, category;
 
-    select = document.getElementById('categorySelect');
-    category = select.value.toLowerCase();
-    sections = document.querySelectorAll("section");
+    // select = document.getElementById('categorySelect');
+    // category = select.value.toLowerCase();
+    // sections = document.querySelectorAll("section");
 
-    for (i = 0; i < sections.length; i++) {
-        if (sections[i].className.toLowerCase() !== category && category !== 'all') {
-            sections[i].style.display = "none";
-        } else {
-            sections[i].style.display = "";
-        }
-    }
+    // for (i = 0; i < sections.length; i++) {
+    //     if (sections[i].className.toLowerCase() !== category && category !== 'all') {
+    //         sections[i].style.display = "none";
+    //     } else {
+    //         sections[i].style.display = "";
+    //     }
+    // }
 }
 
 class Book {
@@ -61,17 +61,17 @@ class Book {
 
 function set_categorty_select_list() {
 
-    let books = JSON.parse(window.localStorage.getItem("books"));
-    let select_list = document.getElementById("categorySelect");
+    // let books = JSON.parse(window.localStorage.getItem("books"));
+    // let select_list = document.getElementById("categorySelect");
 
-    if (books) {
-        for (let i = 0; i < books.length; ++i) {
-            let option = document.createElement("option");
-            option.value = books.category;
-            option.text = books[i].category;
-            select_list.add(option);
-        }
-    }
+    // if (books) {
+    //     for (let i = 0; i < books.length; ++i) {
+    //         let option = document.createElement("option");
+    //         option.value = books.category;
+    //         option.text = books[i].category;
+    //         select_list.add(option);
+    //     }
+    // }
 }
 
 
@@ -119,4 +119,4 @@ function fetchID() {
 }
 
 fetchID();
-set_categorty_select_list();
+// set_categorty_select_list();
