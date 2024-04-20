@@ -19,4 +19,15 @@ open_eye.onclick = close_eye.onclick = function()
     }
 }
 
-let password_label = getElementById("password-label");
+let user = document.getElementById("user");
+let admin = document.getElementById("admin");
+
+user.onclick = function(){
+    user.classList.add("type-active");
+    admin.classList.remove("type-active");
+}
+
+admin.onclick = function(){
+    admin.classList.add("type-active");
+    user.classList.remove("type-active");
+}

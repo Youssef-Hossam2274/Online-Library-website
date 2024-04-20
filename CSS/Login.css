@@ -37,7 +37,7 @@ body{
     color: #0063D8;
 }
 
-.user-name-box{
+.user-name-box, .password-box{
     position: relative;
     display: flex;
     flex-direction: row;
@@ -51,39 +51,27 @@ body{
     border-color: #0063D8;
     border-width: 0;
 }
-
-.user-name-label{
-    color: rgb(171, 162, 162);
-    position: absolute;
-    transition: 0.5s;
-    
-}
-
 
 .password-box{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 50px;
-    width: 400px;
-    border: solid;
-    border-color: #0063D8;
-    border-width: 0;
     margin-bottom: 100px;
 }
 
-.password-label{
+.password-box a{
     position: absolute;
+    bottom: -25px;
+    right: 5px;
+}
+
+.login-content label{
     color: rgb(171, 162, 162);
+    position: absolute;
     transition: 0.5s;
+    cursor:auto;
 }
 
 .login-content input:focus ~ label,
-.login-content input:valid ~ label
+.login-content input:valid ~ label,
+.login-content input:hover ~ label
 {
     font-size: 20px;
     color: #0063D8;
@@ -102,12 +90,6 @@ body{
     display: none;
 }
 
-.password-box a{
-    position: absolute;
-    bottom: -25px;
-    right: 5px;
-}
-
 
 .login-button{
     padding: 10px;
@@ -122,8 +104,28 @@ body{
     justify-content: center;
     cursor: pointer;
     font-size: 20px;
+    transition: 0.4s;
+}
+
+.login-button:hover{
+    background-color: #063f85;
 }
 .login-content a{
     margin-top: 10px;
     margin-left: -150px;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .banner{
+        display: none;
+    }
+    .page-title{
+        margin-left: 150px;
+    }
+    .login-content{
+        margin-left: 0
+    }
+
 }
