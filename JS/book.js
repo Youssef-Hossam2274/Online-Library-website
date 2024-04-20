@@ -13,89 +13,6 @@ const descriptionBox = document.querySelector(".description > p");
 const userId = parseInt(window.sessionStorage.getItem("user_id")); // NaN means that current user didn't login
 let id = -1;
 
-// --------- Adding data to local storage for testing
-class Book {
-    constructor(
-        imageURL,
-        title,
-        author,
-        category,
-        publishDate,
-        availability,
-        description
-    ) {
-        this.imageURL = imageURL;
-        this.title = title;
-        this.author = author;
-        this.category = category;
-        this.publishDate = publishDate;
-        this.availability = availability;
-        this.description = description;
-    }
-}
-
-class User {
-    constructor(
-        userName,
-        firstName,
-        lastName,
-        password,
-        imageURL,
-        isAdmin,
-        books,
-        favorites,
-        email
-    ) {
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.imageURL = imageURL;
-        this.isAdmin = isAdmin;
-        this.books = books;
-        this.favorites = favorites;
-        this.email = email;
-    }
-}
-
-// Creating user
-let testUser = new User(
-    "sayed",
-    "sayed",
-    "reda",
-    "123",
-    "",
-    true,
-    [0],
-    [],
-    "email@email.com"
-);
-
-// -------- Creating student
-let newBook = new Book(
-    "DummyBook3",
-    "Mommy",
-    "I love you",
-    "January 1, 2024",
-    false
-);
-newBook.description =
-    "Advanced Graph Theory focuses on some of the main notions arising in graph theory with an emphasis from the very start of the book on the possible applications of the theory and the fruitful links existing with linear algebra";
-
-// --------- Adding a book
-// function addNewBook(newBook) {
-//     let booksJSON = window.localStorage.getItem("books");
-//     let updatedJSON;
-
-//     if (booksJSON) {
-//         let booksArr = JSON.parse(booksJSON);
-//         booksArr.push(newBook);
-//         updatedJSON = JSON.stringify(booksArr);
-//     } else {
-//         updatedJSON = JSON.stringify([newBook]);
-//     }
-//     window.localStorage.setItem("books", updatedJSON);
-// }
 
 // -------- Fetching page info based on book id
 function checkId(id) {
@@ -107,19 +24,18 @@ function checkId(id) {
     }
 }
 
-// function showMessage(msg, color) {
-//     let msgBox = document.querySelector('.msg-box');
-//     msgBox.innerHTML = msg;
-//     msgBox.style.backgroundColor = color;
+function showMessage(msg) {
+    let msgBox = document.querySelector('.msg-box');
+    msgBox.innerHTML = msg;
 
-//     // Show
-//     msgBox.style.display = 'block';
+    // Show
+    msgBox.classList.toggle('active');
 
-//     // Go
-//     setTimeout(() => {
-//         msgBox.style.display = 'none';
-//     }, 3000);
-// }
+    // Go
+    setTimeout(() => {
+        msgBox.classList.remove('active');
+    }, 3000);
+}
 
 function checkVisitor() {
     // Checks the type of user to display and un-display stuff
@@ -167,6 +83,9 @@ function removeCurrentBook() {
             admin.books.splice(i, 1);
         }
     }
+
+    // Showing the message
+    showMessage(`${bookTitle.innerHTML} has been deleted successfully`);
 }
 
 function fetchData(id) {

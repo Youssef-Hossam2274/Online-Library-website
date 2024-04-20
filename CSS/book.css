@@ -297,7 +297,7 @@ hr {
 /* POP UP objects */
 .msg-box {
     width: 300px;
-    background-color: #4caf4fc2;
+    background-color: #2195f3be;
     padding: 20px;
     border-radius: 6px;
     color: white;
@@ -305,6 +305,11 @@ hr {
     top: 100px;
     right: -100%;
     z-index: 1000;
+    transition: 0.5s right;
+}
+
+.msg-box.active {
+    right: 20px;
 }
 
 /* Medium screens */
