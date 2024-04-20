@@ -200,7 +200,6 @@ function fetchID() {
     let psearch = new URLSearchParams(window.location.search);
     return parseInt(psearch.get("id"));
 }
-id = fetchID();
 
 // Adding the zooming event to book image in-case of wide screen
 if (screen.width > 768 && checkId(id)) {
