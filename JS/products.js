@@ -1,5 +1,6 @@
 function searchBooks() {
-    var input, filter, sections, i, j, books, book, title, txtValue;
+
+    var input, filter, sections, i, j, books, book, title, author, txtValue;
 
     input = document.getElementById('searchInput');
     filter = input.value.toUpperCase();
@@ -12,12 +13,15 @@ function searchBooks() {
 
             book = books[j];
             title = book.getElementsByTagName("h3")[0];
-            txtValue = title.innerText;
+            author = book.getElementsByTagName("p")[0];
 
-            if (txtValue.toUpperCase().indexOf(filter) > -1) { book.style.display = ""; }
+            txtValue = title.innerText.toUpperCase();
+            authorValue = author.innerText.toUpperCase();
+
+
+            if (txtValue.indexOf(filter) > -1 || authorValue.indexOf(filter) > -1) { book.style.display = ""; }
 
             else { book.style.display = "none"; }
-
         }
     }
 }
