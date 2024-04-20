@@ -24,6 +24,7 @@ function searchBooks() {
 function filterByCategory() {
 
     var select, sections, i, category;
+
     select = document.getElementById('categorySelect');
     category = select.value.toLowerCase();
     sections = document.querySelectorAll("section");
@@ -58,6 +59,7 @@ class Book {
 }
 
 function set_categorty_select_list() {
+
     let books = JSON.parse(window.localStorage.getItem("books"));
     let select_list = document.getElementById("categorySelect");
 
@@ -72,11 +74,11 @@ function set_categorty_select_list() {
 }
 
 
-function showAllBooks() {
+function AddAllBooks() {
     let books = JSON.parse(window.localStorage.getItem("books"));
+
     for (let i = 0; i < books.length; i += 1) {
         let currentBook = books[i];
-
         let book =
             `;
         <div class="Book ${currentBook.category}">
@@ -101,7 +103,7 @@ function showAllBooks() {
     }
 }
 
-showAllBooks();
+AddAllBooks();
 
 
 function fetchID() {
@@ -115,6 +117,5 @@ function fetchID() {
 }
 
 fetchID();
+
 set_categorty_select_list();
-
-
