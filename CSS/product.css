@@ -55,7 +55,8 @@ main {
 }
 
 .Book button {
-    padding: 10px 60px;
+    padding: 10px 20px;
+    font-size: 14px;
     background-color: hsl(202, 96%, 37%);
     color: #fff;
     border: none;
