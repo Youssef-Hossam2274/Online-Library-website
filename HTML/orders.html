@@ -19,7 +19,8 @@
       <div class="sidebar">
         <div class="profile-info">
             <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
-            <div>Hello <span style="color: black;">user</span> </div>
+            <div>Hello <span id="hello-user-profile" style="color: black;">user</span> </div>
+
         </div>
         
         <ul class="profile-options-list">
@@ -31,9 +32,17 @@
               <i class="fa-solid fa-list"></i>
               Your Books
             </a></li>
-            <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="favourites.html">
+            <li class="ProfileAddresses"onclick="AddressesClick()"><a href="addresses.html">
+            <i class="fa-solid fa-location-dot"></i>
+            Addresses
+            </a></li>
+            <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
             <i class="fa-solid fa-heart"></i>
             Favorite
+            </a></li>
+            <li class="ProfilePaymentDetails"onclick="PaymentClick()"><a href="paymentDetails.html">
+            <i class="fa-regular fa-credit-card"></i>
+            Payment Details
             </a></li>
             <li class="SignOut"  style="border-bottom: none;" onclick="SignOutClick()"><a href="Login.html">
             <i class="fa-solid fa-right-from-bracket"></i>
@@ -86,7 +95,7 @@
     </div>
     
     
-    <!-- <script src="../JS/sidebar.js"></script> -->
+    <script src="../JS/orders.js"></script>
     <script src="../JS/footer.js"></script>
   </body>
 </html>

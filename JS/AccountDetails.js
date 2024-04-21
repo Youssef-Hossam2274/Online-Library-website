@@ -5,6 +5,7 @@ let remove_photo = document.getElementById("remove-photo-label");
 
 remove_photo.onclick = function(){
     myImage.src = "../img/profile-icon.png";
+    saveImage(myImage.src);
 }
 
 uploadInput.addEventListener("change", (event) => {
@@ -21,7 +22,7 @@ uploadInput.addEventListener("change", (event) => {
 });
 
 function resetImage() {
-    myImage.src = "../img/book-cover-placeholder.png";
+    myImage.src = "../img/profile-icon.png";
     saveImage(myImage.src);
 }
 
@@ -42,7 +43,7 @@ function showDetails(){
     let userData = JSON.parse(window.localStorage.getItem("users"));
     let curUser = userData[userId];
     
-    document.querySelector("#hello-user").innerHTML = curUser.firstName;
+    document.querySelector("#hello-user").innerHTML = curUser.userName;
     document.querySelector("#user-email-input").value = curUser.email;
     
     if (curUser.firstName){

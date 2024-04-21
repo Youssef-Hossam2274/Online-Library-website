@@ -1,4 +1,7 @@
 // Header for all pages
+let userId = JSON.parse(window.sessionStorage.getItem("user_id"));
+let headImageUrl = "../img/profile-icon.png";
+headerProfileImage();
 
 let header = `
         <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
@@ -10,7 +13,7 @@ let header = `
         <header class="website-header">
             <div class="logo">
                 <a href="Home.html">
-                    <img src="../img/ICON.png" alt="ICON eror path" width="70"/>
+                    <img src="../img/ICON.png" alt="ICON error path" width="70"/>
                 </a>
                 <a href="Home.html"> <h1>OnlineLibrary</h1> </a>
             </div>
@@ -25,7 +28,7 @@ let header = `
             </nav>
             
             <div class="profile">
-                <a class="profile-icon" href="../HTML/profile.html"><img src="../img/profile-icon.png" alt="profile"></a>
+                <a class="profile-icon" href="../HTML/profile.html"><img src=${headImageUrl} alt="profile"></a>
                 <button class="login-btn" onclick="location.href='../HTML/Login.html'">Log In</button>
                 <button class="signUp-btn" onclick="location.href='../HTML/SignUp.html'">Sign Up</button>
             </div>
@@ -55,21 +58,29 @@ scroll_up.onclick = function () {
 };
 
 
-
-
 let loginButton = document.querySelector(".login-btn");
 let signUpButton = document.querySelector(".signUp-btn");
 let profileIcon = document.querySelector(".profile-icon");
 
-let userId = JSON.parse(window.sessionStorage.getItem("user_id"));
 
-if (userId == null) {
+if(userId == null){
     profileIcon.style.display = "none";
-} else {
+}
+else{
     loginButton.style.display = "none";
     signUpButton.style.display = "none";
 }
 
+
+
+    
+function headerProfileImage(){
+    let userData = JSON.parse(window.localStorage.getItem("users"));
+    let curUser = userData[userId];
+    if (curUser.imageURL){
+        headImageUrl = curUser.imageURL;
+    }
+}
 // Shows an animated message
 function showMessage(msg, color = "#42bd6c", success = true) {
     let msgBox = document.querySelector(".msg-box");
