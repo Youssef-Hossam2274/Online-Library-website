@@ -87,21 +87,22 @@ label:active, .change-photo span{
     flex-direction: row;
     align-items:flex-start;
 }
+#first-name-input , #second-name-input{
+    margin-right: 40px;
+}
 
 .lower-section .personal-info-container .edit-user-info .password-input-container {
     margin-left: 1%;
 }
 
 #first-name-input-container{
-    /* margin-left: 2%; */
+    margin-right: 2%;
 }
 
-#second-name-input-container{
-    /* margin-left: 2%; */
-    /* margin-left: ; */
-}
-#user-email-input-container, #phone-number-input-container {
-    /* margin-right: 3%; */
+/* #second-name-input-container{
+} */
+#user-email-input, #phone-number-input {
+    margin-right: 20px;
 }
 
 #save-changes-btn-container .save-changes-btn {

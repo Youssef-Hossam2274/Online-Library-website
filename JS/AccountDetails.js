@@ -14,6 +14,7 @@ uploadInput.addEventListener("change", (event) => {
         reader.onload = (e) => {
             myImage.src = e.target.result;
             myImage.style.borderRadius  = 35 + "px";
+            saveImage(myImage.src);
         };
         reader.readAsDataURL(file);
     }
@@ -21,29 +22,41 @@ uploadInput.addEventListener("change", (event) => {
 
 function resetImage() {
     myImage.src = "../img/book-cover-placeholder.png";
+    saveImage(myImage.src);
 }
 
-function saveImage(){
-    window.localStorage.setItem("profile-image", myImage.src);
+function saveImage(_image_url_){
+    let userData = JSON.parse(window.localStorage.getItem("users"));
+    let curUser = userData[userId];
+    curUser.imageURL = _image_url_;
+
+    userData[userId] = curUser;
+    userData = JSON.stringify(userData);
+    window.localStorage.setItem("users", userData);
 }
 
 // -----------------------------------------------
 
 
-// myForm.addEventListener("reset", resetImage);
-
 function showDetails(){
     let userData = JSON.parse(window.localStorage.getItem("users"));
     let curUser = userData[userId];
+    
+    document.querySelector("#hello-user").innerHTML = curUser.firstName;
+    document.querySelector("#user-email-input").value = curUser.email;
+    
     if (curUser.firstName){
         document.querySelector("#first-name-input").value = curUser.firstName;
     } 
     if (curUser.lastName) {
         document.querySelector("#second-name-input").value = curUser.lastName;
     }
-    document.querySelector("#user-email-input").value = curUser.email;
     if (curUser.phoneNumber) {
         document.querySelector("#phone-number-input").value = curUser.phoneNumber;
+    }
+
+    if (curUser.imageURL) {
+        document.querySelector("#profile-pic").src = curUser.imageURL;
     }
 }
 
@@ -57,11 +70,6 @@ function saveChanges()
     let New_password_1 = document.querySelector("#new-password-1").value;
     let New_password_2 = document.querySelector("#new-password-2").value;
     
-    // if(password.trim() === "")
-    // { // validate if password is not empty
-    //     alert("your current password is required");
-    //     return false;
-    // }
     
     // work only if the user want to change the password
     if ((New_password_1.trim() !== "") && (New_password_1 === New_password_2)) {
