@@ -56,15 +56,27 @@ function removeCurrentBook() {
     window.localStorage.setItem("books", JSON.stringify(books));
 
     // ----- Remove from admin books
-    let admin = JSON.parse(window.localStorage.getItem("users"))[userID];
-    for (let i = 0; i < admin.books.length; ++i) {
-        if (admin.books[i] == bookId) {
-            admin.books.splice(i, 1);
+    let users = JSON.parse(window.localStorage.users);
+    for (let i = 0; i < users[userID].books.length; ++i) {
+        if (users[userID].books[i] == bookId) {
+            users[userID].books.splice(i, 1);
         }
     }
+    // pushing back
+    window.localStorage.users = JSON.stringify(users);
+
+    // Disabling buttons
+    borrowBtn.disabled = true;
+    favBtn.disabled = true;
 
     // Showing the message
     showMessage(`${bookTitle.innerHTML} has been deleted successfully`, "#42BD6C", true);
+    
+    // Directing to Books page
+    setTimeout(
+        () => window.location.href = "all_books.html",
+        4000
+    )
 }
 
 // Checks the type of user to display and un-display stuff
@@ -175,7 +187,7 @@ if (checkId(bookId)) {
     // Borrow button handling
     borrowBtn.addEventListener("click", () => {
         // regular visitor
-        if (userID == NaN) {
+        if (!userID) {
             showMessage("You need to be logged in to borrow this book", "#f44336", false);
         }
         // admin
@@ -203,10 +215,9 @@ if (checkId(bookId)) {
 
     // Add to favorites
     favBtn.addEventListener("click", () => {
-        console.log('HI');
         // regular visitor
-        if (userID == NaN) {
-            showMessage("You need to be logged in to borrow this book", "#f44336", false);
+        if (!userID) {
+            showMessage("You need to be logged in to add to favorites", "#f44336", false);
         }
 
         // user or admin
@@ -214,7 +225,7 @@ if (checkId(bookId)) {
             // fetching all users
             let users = JSON.parse(window.localStorage.getItem("users"));
             // adding the book to favorites
-            users[userId].favorites.push(bookId);
+            users[userID].favorites.push(bookId);
             // pushing back the users json
             window.localStorage.setItem("users", JSON.stringify(users));
 
