@@ -120,7 +120,7 @@ function AddAllBooks() {
             }
         }
     }
-}
+// }
 
 function fetchID() {
     let books = document.querySelectorAll(".Book");
@@ -144,7 +144,4 @@ if (window.sessionStorage.getItem("isAdmin")) {
     document.getElementById("addBook").style.display = "";
 } else {
     document.getElementById("addBook").style.display = "none";
-}
-else {
-    document.getElementById('addBook').style.display = 'none';
 }
