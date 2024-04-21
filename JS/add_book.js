@@ -93,9 +93,8 @@ function addBook() {
   ///////////////
   //  Admin Part/
   ///////////////
-  const uId = sessionStorage.getItem("user_id");
-  let usersJSON = window.localStorage.getItem("users");
-  let usersArr = JSON.parse(usersJSON);
+  const uId = JSON.parse(window.sessionStorage.getItem("user_id"));
+  let usersArr = JSON.parse(window.localStorage.getItem("users"));
   let cUser = usersArr[uId];
 
   let id = JSON.parse(window.localStorage.getItem("books")).length - 1;
