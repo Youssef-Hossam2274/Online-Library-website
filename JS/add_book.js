@@ -120,3 +120,38 @@ fetchCategories();
 // categories = [
 //     new Category("")
 // ]
+
+
+-----------------
+|Form Validation|
+-----------------
+*/
+
+document.addEventListener("DOMContentLoaded", function () {
+  const myForm = document.getElementById("book_details");
+
+  myForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const bookTitle = document.getElementById("book_title").value.trim();
+    const authorName = document.getElementById("author_name").value.trim();
+    const publishDate = document.getElementById("publish_date").value;
+
+    if (!bookTitle) {
+      alert("Please enter a book title.");
+      return;
+    }
+
+    if (!authorName) {
+      alert("Please enter an author name.");
+      return;
+    }
+
+    if (!publishDate) {
+      alert("Please select a publish date.");
+      return;
+    }
+
+    myForm.submit();
+  });
+});
