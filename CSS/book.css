@@ -109,7 +109,6 @@ hr {
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
-
 }
 
 #edit-btn {
@@ -126,7 +125,6 @@ hr {
 .admin-btns button:active {
     transform: translateY(1px);
 }
-
 
 /* ****************** Right side ***************** */
 .book-info-side {
@@ -267,7 +265,7 @@ hr {
 }
 
 .button:hover {
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .button:active {
@@ -275,7 +273,6 @@ hr {
 }
 
 /* *********** Description ********* */
-
 .description {
     margin-top: 50px;
     width: 70%;
@@ -296,8 +293,10 @@ hr {
 
 /* POP UP objects */
 .msg-box {
-    width: 300px;
-    background-color: #2195f3be;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    background-color: #42bd6c;
     padding: 20px;
     border-radius: 6px;
     color: white;
@@ -306,6 +305,10 @@ hr {
     right: -100%;
     z-index: 1000;
     transition: 0.5s right;
+}
+
+.msg-box span {
+    margin-right: 15px;
 }
 
 .msg-box.active {
@@ -323,6 +326,15 @@ hr {
         top: 20px;
         right: -37px;
     }
+}
+
+
+/* Disabled buttons */
+button:disabled {
+    opacity: 0.7;
+}
+button:disabled:active {
+    transform: none;
 }
 
 /* Small screens */

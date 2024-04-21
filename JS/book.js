@@ -9,8 +9,11 @@ const dateField = document.querySelector("#date-field");
 const statusBanner = document.querySelector("#status-banner");
 const statusIco = document.querySelector("#status-icon");
 const statusBlock = document.querySelector("#status-block");
+const borrowBtn = document.querySelector("#borrow-btn");
+const favBtn = document.querySelector("#fav-btn");
 const descriptionBox = document.querySelector(".description > p");
 const userId = parseInt(window.sessionStorage.getItem("user_id")); // NaN means that current user didn't login
+const isAdmin = window.sessionStorage.getItem("isAdmin");
 let id = -1;
 
 class Book {
@@ -35,9 +38,16 @@ class Book {
 
 // --------------- Functions ------------------
 // Shows an animated message
-function showMessage(msg) {
+function showMessage(msg, success = true) {
     let msgBox = document.querySelector(".msg-box");
-    msgBox.innerHTML = msg;
+
+    if (success) {
+        msgBox.innerHTML = `<span class="material-symbols-rounded"> task_alt </span> ${msg}`;
+        msgBox.style.backgroundColor = "#42bd6c";
+    } else {
+        msgBox.innerHTML = `<span class="material-symbols-rounded"> error </span> ${msg}`;
+        msgBox.style.backgroundColor = "#dd4034";
+    }
 
     // Show
     msgBox.classList.toggle("active");
@@ -52,7 +62,7 @@ function showMessage(msg) {
 function removeCurrentBook() {
     // ----- Removing from all books
     let books = JSON.parse(window.localStorage.getItem("books"));
-    books.splice(id, 1);
+    delete books[id];
 
     // Returning back to JSON;
     window.localStorage.setItem("books", JSON.stringify(books));
@@ -69,13 +79,16 @@ function removeCurrentBook() {
     showMessage(`${bookTitle.innerHTML} has been deleted successfully`);
 }
 
-
 // Checks the type of user to display and un-display stuff
-function checkUser() {
+function authorizeUser() {
+    // if user or admin
     if (userId !== NaN) {
-        let userObj = JSON.parse(window.localStorage.getItem("users"))[userId];
-        if (window.sessionStorage.isAdmin) {
+        // if only an admin
+        if (isAdmin) {
             // Search for the book in his list of added books
+            let userObj = JSON.parse(window.localStorage.getItem("users"))[
+                userId
+            ];
             for (let bookId of userObj.books) {
                 if (bookId == id) {
                     // Adding remove and edit buttons
@@ -83,10 +96,12 @@ function checkUser() {
                     document
                         .querySelector(".image-side")
                         .appendChild(
-                            parser.parseFromString(
-                                '<div class="admin-btns"><button id="edit-btn"><span class="material-symbols-rounded">edit</span>Edit</button><button id="remove-btn"><span class="material-symbols-rounded">delete</span>Remove</button></div>',
-                                "text/html"
-                            ).querySelector(".admin-btns")
+                            parser
+                                .parseFromString(
+                                    '<div class="admin-btns"><button id="edit-btn"><span class="material-symbols-rounded">edit</span>Edit</button><button id="remove-btn"><span class="material-symbols-rounded">delete</span>Remove</button></div>',
+                                    "text/html"
+                                )
+                                .querySelector(".admin-btns")
                         );
 
                     // Adding functionality
@@ -142,45 +157,17 @@ function fetchId() {
 
 // Checks if the id is already valid and found in books
 function checkId(id) {
-    let books = JSON.parse(window.localStorage.getItem("books"));
-    if (books && id < books.length && id >= 0) {
-        return true;
-    } else {
+    if (id == NaN) {
         return false;
+    } 
+    else {
+        let books = JSON.parse(window.localStorage.getItem("books"));
+        if (books && id < books.length && id >= 0 && books[id]) {
+            return true;
+        } else {
+            return false;
+        }
     }
-}
-
-// Adding the zooming event to book image in-case of wide screen
-if (screen.width > 768) {
-    bookImage.addEventListener("mousemove", (e) => {
-        // Showing the container
-        zoomContainer.style.display = "block";
-
-        // Extracting the current width and height
-        let width = parseFloat(window.getComputedStyle(bookImage).width);
-        let height = parseFloat(window.getComputedStyle(bookImage).height);
-
-        // Extracting the current mouse position portion
-        let x = e.offsetX / width;
-        let y = e.offsetY / height;
-
-        // Preserving x & y in the container
-        if (x >= 0.95) {
-            x = 0.95;
-        }
-        if (y >= 0.935) {
-            y = 0.935;
-        }
-
-        // Zooming the current part
-        zoomedImage.style.transform = `translate(-${x * 100 * 0.6}%, -${
-            y * 100 * 0.8
-        }%)`;
-    });
-
-    bookImage.addEventListener("mouseleave", (e) => {
-        zoomContainer.style.display = "none";
-    });
 }
 
 // -------------------- Main ---------------------
@@ -188,8 +175,101 @@ id = fetchId();
 
 if (checkId(id)) {
     // check the type of visitor
-    checkUser(); 
+    authorizeUser();
 
     // fetching the data
     fetchData(id);
+
+    // Do other stuff
+
+    // Borrow button handling
+    borrowBtn.addEventListener("click", () => {
+        // regular visitor
+        if (userId == NaN) {
+            showMessage("You need to be logged in to borrow this book", false);
+        }
+        // admin
+        else if (isAdmin) {
+            showMessage("Admins cannot borrow books", false);
+        }
+        // user
+        else {
+            // check book availability
+            let books = JSON.parse(window.localStorage.getItem("books"));
+            if (!books[id].availability) {
+                showMessage("This book is unavailable", false);
+            } else {
+                // add to his list of books
+                let users = JSON.parse(window.localStorage.getItem("users"));
+                users[user_id].books.push(id);
+                window.localStorage.setItem("users", JSON.stringify(users));
+
+                // make unavailable
+                books[id].availability = false;
+                window.localStorage.setItem("books", JSON.stringify(books));
+            }
+        }
+    });
+
+    // Add to favorites
+    favBtn.addEventListener("click", () => {
+        // regular visitor
+        if (userId == NaN) {
+            showMessage("You need to be logged in to borrow this book", false);
+        }
+
+        // user or admin
+        else {
+            // fetching all users
+            let users = JSON.parse(window.localStorage.getItem("users"));
+            // adding the book
+            users[user_id].books.push(id);
+            // pushing back the users json
+            window.localStorage.setItem("users", JSON.stringify(users));
+
+            showMessage(
+                "The book has been added to your favorites successfully",
+                true
+            );
+        }
+    });
+
+    // Adding the zooming event to book image in-case of wide screen
+    if (screen.width > 768) {
+        bookImage.addEventListener("mousemove", (e) => {
+            // Showing the container
+            zoomContainer.style.display = "block";
+
+            // Extracting the current width and height
+            let width = parseFloat(window.getComputedStyle(bookImage).width);
+            let height = parseFloat(window.getComputedStyle(bookImage).height);
+
+            // Extracting the current mouse position portion
+            let x = e.offsetX / width;
+            let y = e.offsetY / height;
+
+            // Preserving x & y in the container
+            if (x >= 0.95) {
+                x = 0.95;
+            }
+            if (y >= 0.935) {
+                y = 0.935;
+            }
+
+            // Zooming the current part
+            zoomedImage.style.transform = `translate(-${x * 100 * 0.6}%, -${
+                y * 100 * 0.8
+            }%)`;
+        });
+
+        bookImage.addEventListener("mouseleave", (e) => {
+            zoomContainer.style.display = "none";
+        });
+    }
+
+} 
+else {
+    favBtn.disabled = true;
+    borrowBtn.disabled = true;
+    showMessage("This book is undefined", false);
 }
