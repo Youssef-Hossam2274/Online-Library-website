@@ -14,18 +14,15 @@ let header = `
                 <ul>
                     <li><a href="Home.html">Home</a></li>
                     <li><a href="all_books.html">Books</a></li>
-                    <li>
-                        <a href="borrowed_books.html">borrowed books (User)</a>
-                    </li>
-                    <li>
-                        <a href="admin_book.html">list of added books (Admin)</a>
-                    </li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Categories</a></li>
                 </ul>
             </nav>
             
             <div class="profile">
                 <a class="profile-icon" href="../HTML/profile.html"><img src="../img/profile-icon.png" alt="profile"></a>
-                <button class="login-btn" onclick="location.href='../HTML/Login.html'">Login</button>
+                <button class="login-btn" onclick="location.href='../HTML/Login.html'">Log In</button>
+                <button class="signUp-btn" onclick="location.href='../HTML/Login.html'">Sign Up</button>
             </div>
         </header>
 
@@ -46,3 +43,21 @@ window.onscroll = function () {
 scroll_up.onclick = function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
 };
+
+
+
+
+let loginButton = document.querySelector(".login-btn");
+let signUpButton = document.querySelector(".signUp-btn");
+let profileIcon = document.querySelector(".profile-icon");
+
+let userId = JSON.parse(window.sessionStorage.getItem("user_id"));
+
+if(userId == null){
+    profileIcon.style.display = "none";
+}
+else{
+    loginButton.style.display = "none";
+    signUpButton.style.display = "none";
+}
+
