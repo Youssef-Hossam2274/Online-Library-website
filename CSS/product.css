@@ -19,7 +19,7 @@ main {
     flex-wrap: wrap;
     margin-top: 50px;
     margin-bottom: 50px;
-    margin-left: 100px;
+    margin-left: 150px;
     margin-right: 100px;
 }
 
@@ -72,22 +72,26 @@ main {
     align-items: center;
 }
 
-.content h3 {
+.content h3,
+.content span {
     margin-bottom: 5px;
-    width: 200px;
+    max-width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
+    text-align: center;
+    max-height: 3em;
+    line-height: 1em;
 }
 
 .content span {
     font-size: 10px;
     margin-bottom: 30px;
-}
-
-.Book button:hover {
-    background-color: hsl(202, 96%, 47%);
+    color: #666;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .search-container input[type="text"] {
