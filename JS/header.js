@@ -70,3 +70,22 @@ if (userId == null) {
     signUpButton.style.display = "none";
 }
 
+// Shows an animated message
+function showMessage(msg, color = "#42bd6c", success = true) {
+    let msgBox = document.querySelector(".msg-box");
+    msgBox.style.backgroundColor = color;
+
+    if (success) {
+        msgBox.innerHTML = `<span class="material-symbols-rounded"> task_alt </span> ${msg}`;
+    } else {
+        msgBox.innerHTML = `<span class="material-symbols-rounded"> error </span> ${msg}`;
+    }
+
+    // Show
+    msgBox.classList.toggle("active");
+
+    // Go
+    setTimeout(() => {
+        msgBox.classList.remove("active");
+    }, 3000);
+}
