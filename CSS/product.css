@@ -44,6 +44,7 @@ main {
     cursor: pointer;
     border-radius: 5px;
     width: 80%;
+    margin-left: -40%;
 }
 
 

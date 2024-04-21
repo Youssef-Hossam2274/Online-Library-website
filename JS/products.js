@@ -92,7 +92,9 @@ function AddAllBooks() {
             <div class="content">
                 <h3>${currentBook.title}</h3> 
                 <span><strong>Author(s):</strong>${currentBook.author}</span>
-                <button id= "ShowDetails">Show details</button>
+                <a href="../HTML/book.html?id=${i}">
+                   <button id= "ShowDetails">Show details</button> 
+                </a>
             </div>
         </div>
         `;
@@ -127,11 +129,6 @@ fetchID();
 document.getElementById('addBook').addEventListener('click', function () {
     window.location.href = "../HTML/add_book.html";
 });
-
-document.getElementById('ShowDetails').addEventListener('click', function () {
-    window.location.href = "../HTML/book.html?id=1";
-});
-
 
 // Show addBook button for Admin only
 if (window.sessionStorage.getItem("isAdmin")) {
