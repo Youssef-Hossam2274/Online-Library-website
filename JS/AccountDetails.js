@@ -2,6 +2,7 @@
 const myImage = document.getElementById("profile-pic");
 const uploadInput = document.getElementById("upload-photo");
 let remove_photo = document.getElementById("remove-photo-label");
+
 remove_photo.onclick = function(){
     myImage.src = "../img/profile-icon.png";
 }
@@ -21,12 +22,14 @@ uploadInput.addEventListener("change", (event) => {
 function resetImage() {
     myImage.src = "../img/book-cover-placeholder.png";
 }
+
+function saveImage(){
+    
+}
 // -----------------------------------------------
 
 
 // myForm.addEventListener("reset", resetImage);
-
-
 
 function showDetails(){
     let userData = JSON.parse(window.localStorage.getItem("users"));
@@ -49,55 +52,47 @@ function saveChanges()
     let userData = JSON.parse(window.localStorage.getItem("users"));
     let curUser = userData[userId];
 
-    // let password = document.querySelector("#current-password-input").value;
-    // let New_password_1 = document.querySelector("#new-password-1").value;
-    // let New_password_2 = document.querySelector("#new-password-2").value;
+    let password = document.querySelector("#current-password-input").value;
+    let New_password_1 = document.querySelector("#new-password-1").value;
+    let New_password_2 = document.querySelector("#new-password-2").value;
     
-    // if(password.trim() === "")
-    // { // validate if password is not empty
-    //     alert("your current password is required");
-    //     return false;
-    // }
+    if(password.trim() === "")
+    { // validate if password is not empty
+        alert("your current password is required");
+        return false;
+    }
+    if (password.trim() !== curUser.password) {
+        alert("your current password is incorrect");
+        return false;
+    }
+    // work only if the user want to change the password
+    if ((New_password_1.trim() !== "") && (New_password_1 === New_password_2)) {
+        curUser.password = New_password_1;    
+    }
     
-
-    // if ((New_password_1 === New_password_2) && (New_password_1.trim() !== "") && (New_password_2.trim() !== "")) {
-        
-    // }
-    
-    let _firstName_ = document.querySelector("#first-name-input").value; 
-    let _lastName_ = document.querySelector("#second-name-input").value;
-    let _phoneNumber_ = document.querySelector("#phone-number-input").value;
+    let _firstName_ = document.querySelector("#first-name-input").value.trim(); 
+    let _lastName_ = document.querySelector("#second-name-input").value.trim();
+    let _phoneNumber_ = document.querySelector("#phone-number-input").value.trim();
     curUser.firstName = _firstName_;
     curUser.lastName = _lastName_;
     curUser.phoneNumber = _phoneNumber_;
-    console.log(curUser);
 
-    // console.log(typeof _firstName_);
-    // console.log(typeof _lastName_);
-    // console.log(typeof _phoneNumber_);
-    // console.log(`_firstName_: ${_firstName_}, _lastName_: ${_lastName_}, _phoneNumber_: ${_phoneNumber_}`);
 
-    // if ((curUser.firstName && firstName.trim() !== "") || (!curUser.firstName && firstName.trim() !== "")) {
-    //     curUser.firstName = firstName;
-    // } 
-    // if ((curUser.lastName && lastName.trim() !== "") || (!curUser.lastName && lastName.trim() !== "")) {
-    //     curUser.lastName = lastName;
-    // }
-    // if ((curUser.phoneNumber && phoneNumber.trim() !== "") || (!curUser.phoneNumber && phoneNumber.trim() !== "")) {
-    //     curUser.phoneNumber = phoneNumber;
-    // }
+    if ((curUser.firstName && _firstName_.trim() !== "") || (!curUser.firstName && _firstName_.trim() !== "")) {
+        curUser.firstName = _firstName_;
+    } 
+    if ((curUser.lastName && _lastName_.trim() !== "") || (!curUser.lastName && _lastName_.trim() !== "")) {
+        curUser.lastName = _lastName_;
+    }
+    if ((curUser.phoneNumber && _phoneNumber_.trim() !== "") || (!curUser.phoneNumber && _phoneNumber_.trim() !== "")) {
+        curUser.phoneNumber = _phoneNumber_;
+    }
     
     userData[userId] = curUser;
     userData = JSON.stringify(userData);
     window.localStorage.setItem("users", userData);
 }
 
-// let userData = JSON.parse(window.localStorage.getItem("users"));
-// let curUser = userData[userId];
-// curUser.firstName = "Eslam";
-// curUser.lastName= "Sayed";
-// console.log(curUser);
-
 showDetails();
 let myForm = document.querySelector(".edit-user-info");
-myForm.addEventListener("submit", saveChanges());
+myForm.addEventListener("submit", saveChanges);

@@ -25,18 +25,29 @@ main {
 
 
 .Book {
+    width: 200px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: space-between;
-    justify-content: center;
     margin-bottom: 40px;
     margin-left: 30px;
 }
+
+.Book button {
+    position: absolute;
+    padding: 10px 20px;
+    background-color: hsl(202, 96%, 37%);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 80%;
+    margin-left: -40%;
+    margin-bottom: 10px;
+}
+
+
 
 .background-img {
     background-color: #E7EFF2;
@@ -62,28 +73,20 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    line-height: 1.3;
+    margin-bottom: 10px;
 }
 
 .content h3 {
     margin: 0;
     margin-bottom: 5px;
+    font-size: 16px;
 }
 
 .content span {
-    font-size: 10px;
+    font-size: 12px;
     margin-bottom: 30px;
 }
-
-
-.Book button {
-    padding: 10px 20px;
-    background-color: hsl(202, 96%, 37%);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
 
 .Book button:hover {
     background-color: hsl(202, 96%, 47%);
@@ -108,8 +111,6 @@ main {
     font-size: 16px;
     margin-right: 10px;
 }
-
-
 
 
 .search-container {
