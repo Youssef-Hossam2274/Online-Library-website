@@ -84,12 +84,11 @@ main {
 .content span {
     font-size: 10px;
     margin-bottom: 30px;
-    /* color: #666; */
+    color: #666;
     width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-left: 35px;
 }
 
 .search-container input[type="text"] {
