@@ -86,43 +86,22 @@ function addBook() {
   }
   window.localStorage.setItem("books", updatedJSON);
 
-  if (!categoryList.disabled) {
-    addBookToCategory(booksArr.length - 1, categoryList.value);
-  }
 
   ///////////////
   //  Admin Part/
   ///////////////
-  const uId = JSON.parse(window.sessionStorage.getItem("user_id"));
-  let usersArr = JSON.parse(window.localStorage.getItem("users"));
-  let cUser = usersArr[uId];
+  let usersJSON = window.localStorage.getItem("users");
+  let updatedJSONuser, usersArr;
 
-  let id = JSON.parse(window.localStorage.getItem("books")).length - 1;
-  cUser.books.push(id);
+  if (usersJSON) {
+    usersArr = JSON.parse(usersJSON);
+    let id = JSON.parse(window.localStorage.getItem("books")).length - 1;
+    usersArr[userId].books.push(id);
+    updatedJSONuser = JSON.stringify(usersArr);
+  }
 
-  usersArr[uId] = cUser;
-
-  window.localStorage.setItem("users", JSON.stringify(usersArr));
+  window.localStorage.setItem("users", updatedJSONuser);
 }
-
-// function fetchCategories() {
-//   let categories;
-
-//   // getting local storage
-//   categories = JSON.parse(window.localStorage.getItem("categories"));
-
-//   // Getting category names
-//   if (categories) {
-//     let categoryNames = categories.map((category) => category.name);
-
-//     for (let name of categoryNames) {
-//       let option = new Option(name, name);
-//       categoryList.appendChild(option);
-//     }
-//   } else {
-//     // categoryList.disabled = true;
-//   }
-// }
 
 function reset() {
   myImage.src = "../img/book-cover-placeholder.png";

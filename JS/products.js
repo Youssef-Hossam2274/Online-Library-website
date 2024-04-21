@@ -37,20 +37,18 @@ function searchBooks() {
 }
 
 function filterByCategory() {
-    var select, books, i, category;
 
-    select = document.getElementById("categorySelect");
-    category = select.value.toLowerCase();
-    books = document.querySelectorAll(".Book");
+    var selectBox = document.getElementById("categorySelect");
+    var selectedCategory = selectBox.value;
+    var books = document.querySelectorAll(".Book");
 
-    for (i = 0; i < books.length; i++) {
-        if (
-            books[i].category.toLowerCase() !== category &&
-            category !== "all"
-        ) {
-            books[i].style.display = "none";
-        } else {
+    for (var i = 0; i < books.length; i++) {
+        var bookCategory = books[i].category;
+
+        if (selectedCategory === "ALL CATEGORY" || bookCategory === selectedCategory) {
             books[i].style.display = "";
+        } else {
+            books[i].style.display = "none";
         }
     }
 }
@@ -76,27 +74,27 @@ class Book {
 }
 
 function set_categorty_select_list() {
-    // let books = JSON.parse(window.localStorage.getItem("books"));
-    // let select_list = document.getElementById("categorySelect");
-    // if (books) {
-    //     for (let i = 0; i < books.length; ++i) {
-    //         let option = document.createElement("option");
-    //         option.value = books.category;
-    //         option.text = books[i].category;
-    //         select_list.add(option);
-    //     }
-    // }
+    let books = JSON.parse(window.localStorage.getItem("books"));
+    let select_list = document.getElementById("categorySelect");
+    if (books) {
+        for (let i = 0; i < books.length; ++i) {
+            let option = document.createElement("option");
+            option.value = books[i].category;
+            option.text = books[i].category;
+            select_list.add(option);
+        }
+    }
 }
 
 function AddAllBooks() {
     let books = JSON.parse(window.localStorage.getItem("books"));
     if (!books) return;
-    
+
     for (let i = 0; i < books.length; i += 1) {
-            if (books[i]) {
-                let currentBook = books[i];
-                let book =
-                    `;
+        if (books[i]) {
+            let currentBook = books[i];
+            let book =
+                `;
             <div class="Book">
                 <div class="background-img">
                     <a href="../HTML/book.html?id=${i}">
@@ -113,15 +111,15 @@ function AddAllBooks() {
             </div>
             `;
 
-                    const parser = new DOMParser();
-                    const parsedDocument = parser.parseFromString(book, "text/html");
+            const parser = new DOMParser();
+            const parsedDocument = parser.parseFromString(book, "text/html");
 
-                    let MyMain = document.querySelector(".main-books");
-                    MyMain.append(parsedDocument.querySelector(".book"));
-            }
+            let MyMain = document.querySelector(".main-books");
+            MyMain.append(parsedDocument.querySelector(".book"));
         }
     }
-// }
+}
+
 
 function fetchID() {
     let books = document.querySelectorAll(".Book");
@@ -146,3 +144,5 @@ if (window.sessionStorage.getItem("isAdmin")) {
 } else {
     document.getElementById("addBook").style.display = "none";
 }
+
+set_categorty_select_list();

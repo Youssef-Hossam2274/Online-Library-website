@@ -231,7 +231,7 @@ if (checkId(bookId)) {
                     window.localStorage.setItem("books", JSON.stringify(books));
                 }
 
-                showMessage("The book has been borrowed successfully", "#d38902", true);
+                showMessage("The book has been borrowed successfully", "#42BD6C", true);
             }
         }
     });
