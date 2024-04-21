@@ -100,28 +100,29 @@
     margin-left: 5px;
     margin-top: 5px;
     padding: 10px;
-    border: 2px solid #ffd000;
-    background-color:#ffd0005e;
+    border: 2px solid #00ff00;
+    background-color:#13961367;
     border-radius: 70px;
 }
 
-#late-order-status {
+/* #late-order-status {
     margin-left: 5px;
     margin-top: 5px;
     padding: 10px;
     border: 2px solid #ff0000;
     background-color:#db0b0b71;
     border-radius: 70px;
-}
+} */
 
-#returned-order-status {
+/* #returned-order-status {
     margin-left: 5px;
     margin-top: 5px;
     padding: 10px;
-    border: 2px solid #00ff00;
-    background-color:#13961367;
+    border: 2px solid #ffd000;
+    background-color:#ffd0005e;
     border-radius: 70px;
-}
+} */
+
 /* ------------------------ */
 
 .order .info .des {

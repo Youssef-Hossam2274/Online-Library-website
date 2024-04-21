@@ -82,9 +82,9 @@ function AddAllBooks() {
                 <div id="order-date">
                   <i class="fa-solid fa-calendar-days"></i> ${currentBook.publishDate}
                 </div>
-                <div id="order-address">
-                  <i class="fa-solid fa-location-dot"></i> 132 Main St
-                </div>
+                // <div id="order-address">
+                //   <i class="fa-solid fa-location-dot"></i> 132 Main St
+                // </div>
                 <div id="in-use-order-status">In-use</div>
               </div>
               <div class="des">
@@ -99,7 +99,6 @@ function AddAllBooks() {
               <div id="book-cover">
                 <img src="../img/Calculus.webp" />
               </div>
-              <!-- <div id="order-price">$19.99</div> -->
             </div>
         </div>
           `;
