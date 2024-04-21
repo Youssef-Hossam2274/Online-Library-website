@@ -1,48 +1,57 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Log In</title>
-        <meta charset="UTF-8" />
-        <meta name="Login" content="Enter to account">
-        
-        <link rel="stylesheet" href="../CSS/header.css">
-        <link rel="stylesheet" href="../CSS/Login.css">
-        <link rel="stylesheet" href="../CSS/footer.css">
-        <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
-        
-        <script src="../JS/header.js"></script>
-    </head>
+  <head>
+    <title>Log In</title>
+    <meta charset="UTF-8" />
+    <meta name="Login" content="Enter to account" />
 
-    <body>
+    <link rel="stylesheet" href="../CSS/header.css" />
+    <link rel="stylesheet" href="../CSS/Login.css" />
+    <link rel="stylesheet" href="../CSS/footer.css" />
+    <script
+      src="https://kit.fontawesome.com/14f7813f17.js"
+      crossorigin="anonymous"
+    ></script>
 
-        <h1 class="page-title"> Log In</h1>
+    <script src="../JS/header.js"></script>
+  </head>
 
-        <main class="container">
-            <form class="login-content">
-                <div class="user-name-box">
-                    <input type="text" id="user-input" required>
-                    <label class="user-name-label" for="user-input"> User name</label>
-                    
-                </div>
-                
-                <div class="password-box">
-                    <input type="password" id="password-input" required >
-                    <label class="password-label" id="password-label" for="password-input"> Password</label>
-                    <a href="#">Forget Password ?</a>
-                    <i class="fa-solid fa-eye" id="open-eye"></i>
-                    <i class="fa-solid fa-eye-slash" id="close-eye"></i>
-                </div>
-                
-                <input class="login-button" type="submit" value="Log In" required>
-                <a href="SignUp.html"> Don't have an account? <strong>Sign Up</strong></a>
-            </form>
-            
-            <div class="banner">
-                <img src="../img/login_photo.png" alt="">
-            </div>
-        </main>
+  <body>
+    <h1 class="page-title">Log In</h1>
 
-        <script src="../JS/login.js"></script>
-        <script src="../JS/footer.js"></script>
-    </body>
+    <main class="container">
+      <form class="login-content">
+        <div class="user-name-box">
+          <input type="text" id="user-input" />
+          <label class="user-name-label" for="user-input"> User name</label>
+        </div>
+
+        <div class="password-box">
+          <input type="password" id="password-input" />
+          <label
+            class="password-label"
+            id="password-label"
+            for="password-input"
+          >
+            Password</label
+          >
+          <a href="#">Forget Password ?</a>
+          <i class="fa-solid fa-eye" id="open-eye"></i>
+          <i class="fa-solid fa-eye-slash" id="close-eye"></i>
+        </div>
+
+        <input class="login-button" type="submit" value="Log In" />
+        <a href="SignUp.html">
+          Don't have an account? <strong>Sign Up</strong></a
+        >
+      </form>
+
+      <div class="banner">
+        <img src="../img/login_photo.png" alt="" />
+      </div>
+    </main>
+
+    <script src="../JS/login.js"></script>
+    <script src="../JS/footer.js"></script>
+  </body>
 </html>
