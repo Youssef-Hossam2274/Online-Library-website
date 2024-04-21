@@ -24,19 +24,19 @@ function searchBooks() {
 
 function filterByCategory() {
 
-    // var select, sections, i, category;
+    var select, books, i, category;
 
-    // select = document.getElementById('categorySelect');
-    // category = select.value.toLowerCase();
-    // sections = document.querySelectorAll("section");
+    select = document.getElementById('categorySelect');
+    category = select.value.toLowerCase();
+    books = document.querySelectorAll(".Book");
 
-    // for (i = 0; i < sections.length; i++) {
-    //     if (sections[i].className.toLowerCase() !== category && category !== 'all') {
-    //         sections[i].style.display = "none";
-    //     } else {
-    //         sections[i].style.display = "";
-    //     }
-    // }
+    for (i = 0; i < books.length; i++) {
+        if (books[i].category.toLowerCase() !== category && category !== 'all') {
+            books[i].style.display = "none";
+        } else {
+            books[i].style.display = "";
+        }
+    }
 }
 
 class Book {
@@ -57,22 +57,22 @@ class Book {
         this.availability = availability;
         this.description = description;
     }
+
 }
 
 function set_categorty_select_list() {
 
-    let books = JSON.parse(window.localStorage.getItem("books"));
-    let select_list = document.getElementById("categorySelect");
+    // let books = JSON.parse(window.localStorage.getItem("books"));
+    // let select_list = document.getElementById("categorySelect");
 
-    if (books) {
-        for (let i = 0; i < books.length; ++i) {
-            let option = document.createElement("option");
-            option.value = books.category;
-            option.text = books[i].category;
-            select_list.add(option);
-        }
-    }
-
+    // if (books) {
+    //     for (let i = 0; i < books.length; ++i) {
+    //         let option = document.createElement("option");
+    //         option.value = books.category;
+    //         option.text = books[i].category;
+    //         select_list.add(option);
+    //     }
+    // }
 }
 
 
@@ -86,14 +86,16 @@ function AddAllBooks() {
                 `;
         <div class="Book">
             <div class="background-img">
-                <a href="../HTML/book.html" target="_blank">
+                <a href="../HTML/book.html?id=${i}">
                     <img src="${books[i].imageURL}" />
                 </a>
             </div>
             <div class="content">
                 <h3>${currentBook.title}</h3> 
                 <span><strong>Author(s):</strong>${currentBook.author}</span>
-                <button>Show details</button>
+                <a href="../HTML/book.html?id=${i}">
+                   <button id= "ShowDetails">Show details</button> 
+                </a>
             </div>
         </div>
         `;
@@ -128,7 +130,6 @@ fetchID();
 document.getElementById('addBook').addEventListener('click', function () {
     window.location.href = "../HTML/add_book.html";
 });
-
 
 // Show addBook button for Admin only
 if (window.sessionStorage.getItem("isAdmin")) {
