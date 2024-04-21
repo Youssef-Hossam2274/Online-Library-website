@@ -36,7 +36,6 @@ main {
 
 .Book button {
     position: absolute;
-    bottom: 10px;
     padding: 10px 20px;
     background-color: hsl(202, 96%, 37%);
     color: #fff;
@@ -45,6 +44,7 @@ main {
     border-radius: 5px;
     width: 80%;
     margin-left: -40%;
+    margin-bottom: 10px;
 }
 
 
@@ -73,6 +73,8 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    line-height: 1.3;
+    margin-bottom: 10px;
 }
 
 .content h3 {
