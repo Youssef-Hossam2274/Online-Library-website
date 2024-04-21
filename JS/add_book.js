@@ -86,9 +86,6 @@ function addBook() {
   }
   window.localStorage.setItem("books", updatedJSON);
 
-  if (!categoryList.disabled) {
-    addBookToCategory(booksArr.length - 1, categoryList.value);
-  }
 
   ///////////////
   //  Admin Part/
