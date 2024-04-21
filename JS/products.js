@@ -91,32 +91,32 @@ function set_categorty_select_list() {
 function AddAllBooks() {
     let books = JSON.parse(window.localStorage.getItem("books"));
 
-    if (books) {
-        for (let i = 0; i < books.length; i += 1) {
-            let currentBook = books[i];
-            let book =
-                `;
-        <div class="Book">
-            <div class="background-img">
-                <a href="../HTML/book.html?id=${i}">
-                    <img src="${books[i].imageURL}" />
-                </a>
+    for (let i = 0; i < books.length; i += 1) {
+            if (books[i]) {
+                let currentBook = books[i];
+                let book =
+                    `;
+            <div class="Book">
+                <div class="background-img">
+                    <a href="../HTML/book.html?id=${i}">
+                        <img src="${books[i].imageURL}" />
+                    </a>
+                </div>
+                <div class="content">
+                    <h3>${currentBook.title}</h3> 
+                    <span><strong>Author(s):</strong>${currentBook.author}</span>
+                    <a href="../HTML/book.html?id=${i}">
+                    <button id= "ShowDetails">Show details</button> 
+                    </a>
+                </div>
             </div>
-            <div class="content">
-                <h3>${currentBook.title}</h3> 
-                <span><strong>Author(s):</strong>${currentBook.author}</span>
-                <a href="../HTML/book.html?id=${i}">
-                   <button id= "ShowDetails">Show details</button> 
-                </a>
-            </div>
-        </div>
-        `;
+            `;
 
-                const parser = new DOMParser();
-                const parsedDocument = parser.parseFromString(book, "text/html");
+                    const parser = new DOMParser();
+                    const parsedDocument = parser.parseFromString(book, "text/html");
 
-                let MyMain = document.querySelector(".main-books");
-                MyMain.append(parsedDocument.querySelector(".book"));
+                    let MyMain = document.querySelector(".main-books");
+                    MyMain.append(parsedDocument.querySelector(".book"));
             }
         }
     }

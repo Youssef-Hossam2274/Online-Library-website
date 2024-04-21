@@ -70,19 +70,20 @@ function removeCurrentBook() {
     favBtn.disabled = true;
 
     // Showing the message
-    showMessage(`${bookTitle.innerHTML} has been deleted successfully`, "#42BD6C", true);
-    
+    showMessage(
+        `${bookTitle.innerHTML} has been deleted successfully`,
+        "#42BD6C",
+        true
+    );
+
     // Directing to Books page
-    setTimeout(
-        () => window.location.href = "all_books.html",
-        4000
-    )
+    setTimeout(() => (window.location.href = "all_books.html"), 4000);
 }
 
 // Checks the type of user to display and un-display stuff
 function authorizeUser() {
     // if user or admin
-    if (userID !== NaN) {
+    if (Number.isInteger(userID)) {
         // if only an admin
         if (isAdmin) {
             // Search for the book in his list of added books
@@ -161,8 +162,7 @@ function fetchId() {
 function checkId(bookId) {
     if (bookId == NaN) {
         return false;
-    } 
-    else {
+    } else {
         let books = JSON.parse(window.localStorage.getItem("books"));
         if (books && bookId < books.length && bookId >= 0 && books[bookId]) {
             return true;
@@ -187,8 +187,12 @@ if (checkId(bookId)) {
     // Borrow button handling
     borrowBtn.addEventListener("click", () => {
         // regular visitor
-        if (!userID) {
-            showMessage("You need to be logged in to borrow this book", "#f44336", false);
+        if (!Number.isInteger(userID)) {
+            showMessage(
+                "You need to be logged in to borrow this book",
+                "#f44336",
+                false
+            );
         }
         // admin
         else if (isAdmin) {
@@ -200,15 +204,32 @@ if (checkId(bookId)) {
             let books = JSON.parse(window.localStorage.getItem("books"));
             if (!books[bookId].availability) {
                 showMessage("This book is unavailable", "#f44336", false);
-            } else {
-                // add to his list of books
+            } 
+            else {
                 let users = JSON.parse(window.localStorage.getItem("users"));
-                users[user_id].books.push(bookId);
-                window.localStorage.setItem("users", JSON.stringify(users));
-
-                // make unavailable
-                books[bookId].availability = false;
-                window.localStorage.setItem("books", JSON.stringify(books));
+                
+                // check if already borrowed before
+                let borrowed = false;
+                for (let id of users[userID].favorites) {
+                    if (id == bookId) {
+                        borrowed = true;
+                        showMessage(
+                            "This book has been already borrowed to your favorites",
+                            "#d38902",
+                            true
+                        );
+                    }
+                }
+                
+                if (!borrowed) {
+                    // add to his list of books
+                    users[userID].books.push(bookId);
+                    window.localStorage.setItem("users", JSON.stringify(users));
+    
+                    // make unavailable
+                    books[bookId].availability = false;
+                    window.localStorage.setItem("books", JSON.stringify(books));
+                }
             }
         }
     });
@@ -216,24 +237,43 @@ if (checkId(bookId)) {
     // Add to favorites
     favBtn.addEventListener("click", () => {
         // regular visitor
-        if (!userID) {
-            showMessage("You need to be logged in to add to favorites", "#f44336", false);
+        if (!Number.isInteger(userID)) {
+            showMessage(
+                "You need to be logged in to add to favorites",
+                "#f44336",
+                false
+            );
         }
 
         // user or admin
         else {
             // fetching all users
             let users = JSON.parse(window.localStorage.getItem("users"));
-            // adding the book to favorites
-            users[userID].favorites.push(bookId);
-            // pushing back the users json
-            window.localStorage.setItem("users", JSON.stringify(users));
+            // check if already added before
+            let added = false;
+            for (let id of users[userID].favorites) {
+                if (id == bookId) {
+                    added = true;
+                    showMessage(
+                        "This book has been already added to your favorites",
+                        "#d38902",
+                        true
+                    );
+                }
+            }
 
-            showMessage(
-                "The book has been added to your favorites successfully",
-                "#42BD6C",
-                true
-            );
+            if (!added) {
+                // adding the book to favorites
+                users[userID].favorites.push(bookId);
+                // pushing back the users json
+                window.localStorage.setItem("users", JSON.stringify(users));
+
+                showMessage(
+                    "The book has been added to your favorites successfully",
+                    "#42BD6C",
+                    true
+                );
+            }
         }
     });
 
@@ -269,9 +309,7 @@ if (checkId(bookId)) {
             zoomContainer.style.display = "none";
         });
     }
-
-} 
-else {
+} else {
     favBtn.disabled = true;
     borrowBtn.disabled = true;
     showMessage("This book is undefined", "#f44336", false);
