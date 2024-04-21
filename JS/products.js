@@ -1,12 +1,27 @@
+AddAllBooks();
+
+if (sessionStorage.getItem("searchValue")) {
+    window.onload = searchBooks();
+}
+
 function searchBooks() {
     var input, filter, books, i, title, author, txtValue, authorValue;
 
-    input = document.getElementById('searchInput');
+    input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     books = document.querySelectorAll(".Book");
 
-    for (i = 0; i < books.length; i++) {
+    // if there is a searchValue in the session storage,
+    // get it and set the search input value to it.
+    // This is used in the home page search bar
+    if (sessionStorage.getItem("searchValue")) {
+        input.value = sessionStorage.getItem("searchValue");
+        filter = input.value.toUpperCase();
+        sessionStorage.removeItem("searchValue");
+        input.focus();
+    }
 
+    for (i = 0; i < books.length; i++) {
         title = books[i].querySelector("h3");
         author = books[i].querySelector("span");
 
@@ -21,17 +36,18 @@ function searchBooks() {
     }
 }
 
-
 function filterByCategory() {
-
     var select, books, i, category;
 
-    select = document.getElementById('categorySelect');
+    select = document.getElementById("categorySelect");
     category = select.value.toLowerCase();
     books = document.querySelectorAll(".Book");
 
     for (i = 0; i < books.length; i++) {
-        if (books[i].category.toLowerCase() !== category && category !== 'all') {
+        if (
+            books[i].category.toLowerCase() !== category &&
+            category !== "all"
+        ) {
             books[i].style.display = "none";
         } else {
             books[i].style.display = "";
@@ -57,14 +73,11 @@ class Book {
         this.availability = availability;
         this.description = description;
     }
-
 }
 
 function set_categorty_select_list() {
-
     // let books = JSON.parse(window.localStorage.getItem("books"));
     // let select_list = document.getElementById("categorySelect");
-
     // if (books) {
     //     for (let i = 0; i < books.length; ++i) {
     //         let option = document.createElement("option");
@@ -75,15 +88,13 @@ function set_categorty_select_list() {
     // }
 }
 
-
 function AddAllBooks() {
     let books = JSON.parse(window.localStorage.getItem("books"));
 
     if (books) {
         for (let i = 0; i < books.length; i += 1) {
             let currentBook = books[i];
-            let book =
-                `;
+            let book = `;
         <div class="Book">
             <div class="background-img">
                 <a href="../HTML/book.html?id=${i}">
@@ -109,32 +120,26 @@ function AddAllBooks() {
     }
 }
 
-
-AddAllBooks();
-
-
 function fetchID() {
     let books = document.querySelectorAll(".Book");
     let buttons = document.querySelectorAll(".Book button");
     for (let i = 0; i < books.length; ++i) {
         buttons[i].onclick = function () {
             window.localStorage.setItem("single-book-id", i);
-        }
+        };
     }
 }
 
 fetchID();
 
-
 // Link addBook button with addBook page
-document.getElementById('addBook').addEventListener('click', function () {
+document.getElementById("addBook").addEventListener("click", function () {
     window.location.href = "../HTML/add_book.html";
 });
 
 // Show addBook button for Admin only
 if (window.sessionStorage.getItem("isAdmin")) {
-    document.getElementById('addBook').style.display = "";
-}
-else {
-    document.getElementById('addBook').style.display = 'none';
+    document.getElementById("addBook").style.display = "";
+} else {
+    document.getElementById("addBook").style.display = "none";
 }
