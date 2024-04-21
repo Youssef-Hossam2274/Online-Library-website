@@ -129,7 +129,7 @@ function addNewUser(){
         "",
         "../img/profile-icon.png",
         [],
-        [0,1],
+        [],
         ""
     );
 
