@@ -43,7 +43,8 @@ class User {
         lastName,
         imageURL,
         books,
-        favorites
+        favorites,
+        phoneNumber
     ) {
         this.userName = userName;
         this.password = password;
@@ -54,6 +55,7 @@ class User {
         this.imageURL = imageURL;
         this.books = books;
         this.favorites = favorites;
+        this.phoneNumber = phoneNumber;
     }
 }
 
@@ -73,7 +75,8 @@ function addNewUser(){
         "",
         "",
         [],
-        []
+        [],
+        ""
     );
     let usersJSON = window.localStorage.getItem("users");
     let updatedJSON, usersArr;

@@ -22,7 +22,7 @@ let header = `
             <div class="profile">
                 <a class="profile-icon" href="../HTML/profile.html"><img src="../img/profile-icon.png" alt="profile"></a>
                 <button class="login-btn" onclick="location.href='../HTML/Login.html'">Log In</button>
-                <button class="signUp-btn" onclick="location.href='../HTML/Login.html'">Sign Up</button>
+                <button class="signUp-btn" onclick="location.href='../HTML/SignUp.html'">Sign Up</button>
             </div>
         </header>
 
