@@ -51,3 +51,25 @@ if(user_id != null)
 const myForm = document.querySelector(".login-content");
 myForm.addEventListener("submit", checkUser);
 // window.sessionStorage.clear();
+
+function validateForm() {
+  const username = document.getElementById("user-input").value;
+  const password = document.getElementById("password-input").value;
+
+  if (username.trim() === "") {
+    alert("Please fill in the username.");
+    return false;
+  }
+  if (password.trim() === "") {
+    alert("Please fill in the password.");
+    return false;
+  }
+
+  return true;
+}
+document
+  .querySelector(".login-button")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    validateForm();
+  });
