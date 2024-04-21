@@ -145,6 +145,7 @@
     padding: 7px;
     visibility: hidden;
     cursor: pointer;
+    z-index: 1000;
 }
 
 .scroll-up.show {
@@ -154,4 +155,28 @@
 .scroll-up img {
     width: 20px;
     height: 20px;
+}
+
+/* POP UP Message */
+.msg-box {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    background-color: #42bd6c;
+    padding: 20px;
+    border-radius: 6px;
+    color: white;
+    position: fixed;
+    top: 100px;
+    right: -100%;
+    z-index: 1000;
+    transition: 0.5s right;
+}
+
+.msg-box span {
+    margin-right: 15px;
+}
+
+.msg-box.active {
+    right: 20px;
 }

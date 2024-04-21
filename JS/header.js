@@ -2,6 +2,11 @@
 
 let header = `
         <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        />
+
         <header class="website-header">
             <div class="logo">
                 <a href="Home.html">
@@ -26,6 +31,11 @@ let header = `
             </div>
         </header>
 
+        <div class="msg-box">
+            <span class="material-symbols-rounded"> task_alt </span>
+            Hello there
+        </div>
+
         <div class="scroll-up" id="scroll-up">
             <img src="../img/arrow-up.svg" alt="">
         </div>
@@ -45,8 +55,6 @@ scroll_up.onclick = function () {
 };
 
 
-
-
 let loginButton = document.querySelector(".login-btn");
 let signUpButton = document.querySelector(".signUp-btn");
 let profileIcon = document.querySelector(".profile-icon");
@@ -61,3 +69,22 @@ else{
     signUpButton.style.display = "none";
 }
 
+// Shows an animated message
+function showMessage(msg, color = "#42bd6c", success = true) {
+    let msgBox = document.querySelector(".msg-box");
+    msgBox.style.backgroundColor = color;
+
+    if (success) {
+        msgBox.innerHTML = `<span class="material-symbols-rounded"> task_alt </span> ${msg}`;
+    } else {
+        msgBox.innerHTML = `<span class="material-symbols-rounded"> error </span> ${msg}`;
+    }
+
+    // Show
+    msgBox.classList.toggle("active");
+
+    // Go
+    setTimeout(() => {
+        msgBox.classList.remove("active");
+    }, 3000);
+}
