@@ -55,36 +55,18 @@ scroll_up.onclick = function () {
 };
 
 
+
+
 let loginButton = document.querySelector(".login-btn");
 let signUpButton = document.querySelector(".signUp-btn");
 let profileIcon = document.querySelector(".profile-icon");
 
 let userId = JSON.parse(window.sessionStorage.getItem("user_id"));
 
-if(userId == null){
+if (userId == null) {
     profileIcon.style.display = "none";
-}
-else{
+} else {
     loginButton.style.display = "none";
     signUpButton.style.display = "none";
 }
 
-// Shows an animated message
-function showMessage(msg, color = "#42bd6c", success = true) {
-    let msgBox = document.querySelector(".msg-box");
-    msgBox.style.backgroundColor = color;
-
-    if (success) {
-        msgBox.innerHTML = `<span class="material-symbols-rounded"> task_alt </span> ${msg}`;
-    } else {
-        msgBox.innerHTML = `<span class="material-symbols-rounded"> error </span> ${msg}`;
-    }
-
-    // Show
-    msgBox.classList.toggle("active");
-
-    // Go
-    setTimeout(() => {
-        msgBox.classList.remove("active");
-    }, 3000);
-}
