@@ -72,7 +72,6 @@ function set_categorty_select_list() {
             select_list.add(option);
         }
     }
-
 }
 
 
@@ -86,14 +85,14 @@ function AddAllBooks() {
                 `;
         <div class="Book">
             <div class="background-img">
-                <a href="../HTML/book.html" target="_blank">
+                <a href="../HTML/book.html?id=${i}">
                     <img src="${books[i].imageURL}" />
                 </a>
             </div>
             <div class="content">
                 <h3>${currentBook.title}</h3> 
                 <span><strong>Author(s):</strong>${currentBook.author}</span>
-                <button>Show details</button>
+                <button id= "ShowDetails">Show details</button>
             </div>
         </div>
         `;
@@ -127,6 +126,10 @@ fetchID();
 // Link addBook button with addBook page
 document.getElementById('addBook').addEventListener('click', function () {
     window.location.href = "../HTML/add_book.html";
+});
+
+document.getElementById('ShowDetails').addEventListener('click', function () {
+    window.location.href = "../HTML/book.html?id=1";
 });
 
 
