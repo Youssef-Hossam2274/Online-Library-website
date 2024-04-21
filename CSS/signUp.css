@@ -12,6 +12,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    margin-bottom: 90px;
 }
 
 .signup-content{
@@ -145,6 +146,9 @@ body{
     color: white;
 }
 
+::placeholder{
+    color: #bac3ca;
+}
 
 @media screen and (max-width: 768px) {
     .banner{
@@ -160,6 +164,4 @@ body{
 }
 .sinup-button {
   margin-bottom: 13px;
-}
-
 }
