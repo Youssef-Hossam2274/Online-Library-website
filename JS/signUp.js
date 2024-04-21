@@ -120,7 +120,7 @@ function addNewUser(){
     let userEmail = document.getElementById("email-input").value;
 
 
-    const newUser = new User(
+    let newUser = new User(
         userName,
         userPassword,
         userEmail,
