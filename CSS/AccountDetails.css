@@ -92,6 +92,11 @@ label:active, .change-photo span{
     margin-left: 1%;
 }
 
+#first-name-input-container , #second-name-input-container,
+#user-email-input-container, #phone-number-input-container {
+    margin-right: 2%;
+}
+
 #save-changes-btn-container .save-changes-btn {
     background-color: #0063D8;
     color: #fff;
