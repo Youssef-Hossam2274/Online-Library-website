@@ -17,11 +17,49 @@ uploadInput.addEventListener("change", (event) => {
     }
 });
 
-const myForm = document.getElementById("profile-info");
 
 function resetImage() {
     myImage.src = "../img/book-cover-placeholder.png";
 }
 
-myForm.addEventListener("reset", resetImage);
+// myForm.addEventListener("reset", resetImage);
 
+
+
+// console.log(userData.length);
+// console.log(curUser);
+
+function showDetails(){
+    let userData = JSON.parse(window.localStorage.getItem("users"));
+    let curUser = userData[userId];
+    document.querySelector(".first-name-input input").value = curUser.firstName;
+    document.querySelector(".second-name input").value = curUser.lastName;
+    document.querySelector("#email-input input").value = curUser.email;
+    console.log(curUser.email);
+}
+
+function saveChanges()
+{
+    let userData = JSON.parse(window.localStorage.getItem("users"));
+    let curUser = userData[userId];
+    let firstName = document.querySelectorAll(".user-info-input")[0].value;
+    let secondName = document.querySelectorAll(".user-info-input")[1].value;
+    let email = document.querySelector(".email-input input").value;
+
+    curUser.firstName = firstName;
+    curUser.lastName = secondName;
+    curUser.email = email;
+
+    userData[userId] = curUser;
+    userData = JSON.stringify(userData);
+
+    window.localStorage.setItem("users", userData);
+
+}
+
+// let userData = JSON.parse(window.localStorage.getItem("users"));
+// let curUser = userData[userId];
+
+showDetails();
+let myForm = document.querySelector(".edit-user-info");
+myForm.addEventListener("submit", saveChanges);

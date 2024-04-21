@@ -43,7 +43,8 @@ class User {
         lastName,
         imageURL,
         books,
-        favorites
+        favorites,
+        phoneNumber
     ) {
         this.userName = userName;
         this.password = password;
@@ -54,9 +55,58 @@ class User {
         this.imageURL = imageURL;
         this.books = books;
         this.favorites = favorites;
+        this.phoneNumber = phoneNumber;
     }
 }
 
+function ValidUserName(userName){
+    if(userName.trim() === "")
+    {
+        alert("User name is required");
+        return false;
+    }
+
+    const usersArr = JSON.parse(window.localStorage.getItem("users"));
+    if(usersArr)
+    {
+        for(let i = 0; i < usersArr.length; ++i)
+        {
+            if (userName == usersArr[i].userName)
+            {
+                alert("User name already exist");
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function ValidPassword(password){
+    if(password.trim() === "")
+    {
+        alert("Password is required");
+        return false;
+    }
+}
+
+function ValidEmail(email)
+{
+    // var pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    // if(email.match(pattern) == false){
+    //     alert("email is not valid")
+    //     return false;
+    // }
+    if(email.trim() == "")
+    {
+        alert("Email is requird");
+        return false;
+    }
+    else if (email.includes("@") == false)
+    {
+        alert("Email is invalid");
+        return;
+    }
+}
 
 
 function addNewUser(){
@@ -64,17 +114,44 @@ function addNewUser(){
     if (admin.className === "admin type-active")
         userType = true;
 
+    let userName = document.getElementById("user-input").value;
+    let userPassword = document.getElementById("password-input").value;
+    let confirmPassword = document.getElementById("confirm-input").value;
+    let userEmail = document.getElementById("email-input").value;
+
+
     const newUser = new User(
-        document.getElementById("user-input").value,
-        document.getElementById("password-input").value,
-        document.getElementById("email-input").value,
+        userName,
+        userPassword,
+        userEmail,
         userType,
         "",
         "",
         "",
         [],
-        []
+        [],
+        ""
     );
+
+    if(ValidUserName(userName) == false)
+        return;
+    else if(ValidPassword(userPassword) == false)
+        return;
+    else if(confirmPassword.trim() === "")
+    {
+        alert("Confirm password is required");
+        return;
+    }    
+    else if (confirmPassword != userPassword)
+    {
+        alert("Password or confirm password is wrong");
+        return;
+    }
+
+    else if(ValidEmail(userEmail) == false)
+        return;
+
+    
     let usersJSON = window.localStorage.getItem("users");
     let updatedJSON, usersArr;
 
@@ -86,17 +163,18 @@ function addNewUser(){
         updatedJSON = JSON.stringify([newUser]);
     }
     window.localStorage.setItem("users", updatedJSON);
+    
+    let users= JSON.parse(window.localStorage.getItem("users"));
+    if(users != null){
+        window.sessionStorage.setItem("user_id", users.length-1)
+        window.sessionStorage.setItem("isAdmin", users[users.length-1].isAdmin)
+    }
 
-    window.sessionStorage.setItem("user_id", usersArr.length-1);
-    window.sessionStorage.setItem("isAdmin", userType);
-
+    
 }
-
 
 const myForm = document.querySelector(".signup-content");
 myForm.addEventListener("submit", addNewUser);
 
-let user_id = JSON.parse(window.sessionStorage.getItem("user_id"));
-console.log(user_id);
-if(user_id != null)
+if(userId != null)
     window.location.href= "../HTML/Home.html"; 
