@@ -61,27 +61,29 @@ class Book {
 
 function set_categorty_select_list() {
 
-    // let books = JSON.parse(window.localStorage.getItem("books"));
-    // let select_list = document.getElementById("categorySelect");
+    let books = JSON.parse(window.localStorage.getItem("books"));
+    let select_list = document.getElementById("categorySelect");
 
-    // if (books) {
-    //     for (let i = 0; i < books.length; ++i) {
-    //         let option = document.createElement("option");
-    //         option.value = books.category;
-    //         option.text = books[i].category;
-    //         select_list.add(option);
-    //     }
-    // }
+    if (books) {
+        for (let i = 0; i < books.length; ++i) {
+            let option = document.createElement("option");
+            option.value = books.category;
+            option.text = books[i].category;
+            select_list.add(option);
+        }
+    }
+
 }
 
 
 function AddAllBooks() {
     let books = JSON.parse(window.localStorage.getItem("books"));
 
-    for (let i = 0; i < books.length; i += 1) {
-        let currentBook = books[i];
-        let book =
-            `;
+    if (books) {
+        for (let i = 0; i < books.length; i += 1) {
+            let currentBook = books[i];
+            let book =
+                `;
         <div class="Book">
             <div class="background-img">
                 <a href="../HTML/book.html" target="_blank">
@@ -96,11 +98,12 @@ function AddAllBooks() {
         </div>
         `;
 
-        const parser = new DOMParser();
-        const parsedDocument = parser.parseFromString(book, "text/html");
+            const parser = new DOMParser();
+            const parsedDocument = parser.parseFromString(book, "text/html");
 
-        let MyMain = document.querySelector(".main-books");
-        MyMain.append(parsedDocument.querySelector(".book"));
+            let MyMain = document.querySelector(".main-books");
+            MyMain.append(parsedDocument.querySelector(".book"));
+        }
     }
 }
 
@@ -119,8 +122,6 @@ function fetchID() {
 }
 
 fetchID();
-// set_categorty_select_list();
-
 
 
 // Link addBook button with addBook page
@@ -131,8 +132,8 @@ document.getElementById('addBook').addEventListener('click', function () {
 
 // Show addBook button for Admin only
 if (window.sessionStorage.getItem("isAdmin")) {
-    document.getElementById('addBook').style.display = 'none';
+    document.getElementById('addBook').style.display = "";
 }
 else {
-    document.getElementById('addBook').style.display = "";
+    document.getElementById('addBook').style.display = 'none';
 }
