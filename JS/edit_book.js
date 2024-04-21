@@ -104,7 +104,7 @@ function fetchCategories() {
 
 function reset() {
   myImage.src = "../img/book-cover-placeholder.png";
-  fetchCategories();
+  // fetchCategories();
 }
 
 // Events
@@ -122,20 +122,7 @@ myForm.addEventListener("submit", addBook);
 myForm.addEventListener("reset", reset);
 
 // Calling functions
-fetchCategories();
-
-//------------------ Adding category for testing
-// class Category {
-//     constructor(name) {
-//         this.name = name;
-//         books = [];
-//     }
-// }
-
-// categories = [
-//     new Category("")
-// ]
-// Add this script to your "add_book.js" file or include it in a <script> tag in your HTML
+// fetchCategories();
 
 //----------------- Form Validation
 
@@ -167,4 +154,66 @@ document.addEventListener("DOMContentLoaded", function () {
     myForm.submit();
     window.location.href = "all_books.html";
   });
+});
+
+///category
+
+function getCategoriesFromLocalStorage() {
+  const storedBooks = JSON.parse(localStorage.getItem("books"));
+  const uniqueCategories = new Set();
+
+  // Extract unique categories from stored books
+  if (storedBooks) {
+    storedBooks.forEach((book) => {
+      if (book.category) {
+        uniqueCategories.add(book.category);
+      }
+    });
+  } else {
+    return;
+  }
+
+  return Array.from(uniqueCategories);
+}
+
+function saveCategoryToLocalStorage(newCategory) {
+  const existingCategories = JSON.parse(localStorage.getItem("")) || [];
+
+  if (!existingCategories.includes(newCategory)) {
+    existingCategories.push(newCategory);
+
+    localStorage.setItem("BooksCategories", JSON.stringify(existingCategories));
+  }
+}
+const existingCategories = getCategoriesFromLocalStorage();
+
+// Populate the dropdown with existing categories
+const categoryDropdown = document.getElementById("category-list");
+if (existingCategories) {
+  existingCategories.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    categoryDropdown.appendChild(option);
+  });
+}
+
+const addCategoryOption = document.createElement("option");
+addCategoryOption.value = "add-new";
+addCategoryOption.textContent = "Add New Category";
+categoryDropdown.appendChild(addCategoryOption);
+
+categoryDropdown.addEventListener("change", (event) => {
+  if (event.target.value === "add-new") {
+    const newCategory = prompt("Enter a new category:");
+    if (newCategory) {
+      saveCategoryToLocalStorage(newCategory);
+
+      const newOption = document.createElement("option");
+      newOption.value = newCategory;
+      newOption.textContent = newCategory;
+      categoryDropdown.insertBefore(newOption, addCategoryOption);
+      categoryDropdown.value = newCategory; // Select the new category
+    }
+  }
 });
