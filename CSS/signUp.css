@@ -153,8 +153,13 @@ body{
     .page-title{
         margin-left: 150px;
     }
-    .signup-content{
-        margin-left: 0
-    }
+  .signup-content {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+}
+.sinup-button {
+  margin-bottom: 13px;
+}
 
 }
