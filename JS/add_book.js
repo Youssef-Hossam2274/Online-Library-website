@@ -17,6 +17,31 @@ class Book {
     this.description = description;
   }
 }
+class User {
+  constructor(
+    userName,
+    password,
+    email,
+    isAdmin,
+    firstName,
+    lastName,
+    imageURL,
+    books,
+    favorites,
+    phoneNumber
+  ) {
+    this.userName = userName;
+    this.password = password;
+    this.email = email;
+    this.isAdmin = isAdmin;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.imageURL = imageURL;
+    this.books = books;
+    this.favorites = favorites;
+    this.phoneNumber = phoneNumber;
+  }
+}
 
 const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
@@ -64,30 +89,45 @@ function addBook() {
   if (!categoryList.disabled) {
     addBookToCategory(booksArr.length - 1, categoryList.value);
   }
+
+  ///////////////
+  //  Admin Part/
+  ///////////////
+  const uId = sessionStorage.getItem("user_id");
+  let usersJSON = window.localStorage.getItem("users");
+  let usersArr = JSON.parse(usersJSON);
+  let cUser = usersArr[uId];
+
+  let id = JSON.parse(window.localStorage.getItem("books")).length - 1;
+  cUser.books.push(id);
+
+  usersArr[uId] = cUser;
+
+  window.localStorage.setItem("users", JSON.stringify(usersArr));
 }
 
-function fetchCategories() {
-  let categories;
+// function fetchCategories() {
+//   let categories;
 
-  // getting local storage
-  categories = JSON.parse(window.localStorage.getItem("categories"));
+//   // getting local storage
+//   categories = JSON.parse(window.localStorage.getItem("categories"));
 
-  // Getting category names
-  if (categories) {
-    let categoryNames = categories.map((category) => category.name);
+//   // Getting category names
+//   if (categories) {
+//     let categoryNames = categories.map((category) => category.name);
 
-    for (let name of categoryNames) {
-      let option = new Option(name, name);
-      categoryList.appendChild(option);
-    }
-  } else {
-    categoryList.disabled = true;
-  }
-}
+//     for (let name of categoryNames) {
+//       let option = new Option(name, name);
+//       categoryList.appendChild(option);
+//     }
+//   } else {
+//     // categoryList.disabled = true;
+//   }
+// }
 
 function reset() {
   myImage.src = "../img/book-cover-placeholder.png";
-  fetchCategories();
+  // fetchCategories();
 }
 
 // Events
@@ -104,21 +144,7 @@ uploadInput.addEventListener("change", (event) => {
 myForm.addEventListener("submit", addBook);
 myForm.addEventListener("reset", reset);
 
-// Calling functions
-fetchCategories();
-
-//------------------ Adding category for testing
-// class Category {
-//     constructor(name) {
-//         this.name = name;
-//         books = [];
-//     }
-// }
-
-// categories = [
-//     new Category("")
-// ]
-// Add this script to your "add_book.js" file or include it in a <script> tag in your HTML
+// fetchCategories();
 
 //----------------- Form Validation
 
@@ -150,4 +176,67 @@ document.addEventListener("DOMContentLoaded", function () {
     myForm.submit();
     window.location.href = "all_books.html";
   });
+});
+
+///////////////
+///categories//
+///////////////
+function getCategoriesFromLocalStorage() {
+  const storedBooks = JSON.parse(localStorage.getItem("books"));
+  const uniqueCategories = new Set();
+
+  // Extract unique categories from stored books
+  if (storedBooks) {
+    storedBooks.forEach((book) => {
+      if (book.category) {
+        uniqueCategories.add(book.category);
+      }
+    });
+  } else {
+    return;
+  }
+
+  return Array.from(uniqueCategories);
+}
+
+function saveCategoryToLocalStorage(newCategory) {
+  const existingCategories = JSON.parse(localStorage.getItem("")) || [];
+
+  if (!existingCategories.includes(newCategory)) {
+    existingCategories.push(newCategory);
+
+    localStorage.setItem("BooksCategories", JSON.stringify(existingCategories));
+  }
+}
+const existingCategories = getCategoriesFromLocalStorage();
+
+// Populate the dropdown with existing categories
+const categoryDropdown = document.getElementById("category-list");
+if (existingCategories) {
+  existingCategories.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    categoryDropdown.appendChild(option);
+  });
+}
+
+const addCategoryOption = document.createElement("option");
+addCategoryOption.value = "add-new";
+addCategoryOption.textContent = "Add New Category";
+categoryDropdown.appendChild(addCategoryOption);
+
+categoryDropdown.addEventListener("change", (event) => {
+  if (event.target.value === "add-new") {
+    const newCategory = prompt("Enter a new category:");
+    if (newCategory) {
+      saveCategoryToLocalStorage(newCategory);
+
+      const newOption = document.createElement("option");
+      newOption.value = newCategory;
+      newOption.textContent = newCategory;
+      categoryDropdown.insertBefore(newOption, addCategoryOption);
+      categoryDropdown.value = newCategory; // Select the new category
+    }
+  }
 });
