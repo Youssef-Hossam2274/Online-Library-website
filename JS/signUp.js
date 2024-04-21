@@ -86,8 +86,17 @@ function addNewUser(){
         updatedJSON = JSON.stringify([newUser]);
     }
     window.localStorage.setItem("users", updatedJSON);
+
+    window.sessionStorage.setItem("user_id", usersArr.length-1);
+    window.sessionStorage.setItem("isAdmin", userType);
+
 }
 
 
 const myForm = document.querySelector(".signup-content");
 myForm.addEventListener("submit", addNewUser);
+
+let user_id = JSON.parse(window.sessionStorage.getItem("user_id"));
+console.log(user_id);
+if(user_id != null)
+    window.location.href= "../HTML/Home.html"; 

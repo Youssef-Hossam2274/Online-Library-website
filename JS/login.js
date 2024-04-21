@@ -29,20 +29,24 @@ function checkUser(){
 
     const usersArr = JSON.parse(window.localStorage.getItem("users"));
     
-    window.sessionStorage.setItem("userName", "not found");
+    window.sessionStorage.setItem("user_id", -1);
     window.sessionStorage.setItem("isAdmin", "not found");
 
     for(let i = 0; i < usersArr.length; ++i)
     {
         if(usersArr[i].userName == user_name && usersArr[i].password == user_password )
         {
-            window.sessionStorage.setItem("userName", usersArr[i].userName);
+            window.sessionStorage.setItem("user_id", i);
             window.sessionStorage.setItem("isAdmin", usersArr[i].isAdmin);
         }
     }
     
 }
 
+let user_id = JSON.parse(window.sessionStorage.getItem("user_id"));
+console.log(user_id);
+if(user_id != null)
+    window.location.href= "../HTML/Home.html"; 
 
 const myForm = document.querySelector(".login-content");
 myForm.addEventListener("submit", checkUser);
