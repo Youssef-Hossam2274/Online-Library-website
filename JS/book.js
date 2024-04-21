@@ -1,4 +1,3 @@
-// Selecting all elements
 const bookImage = document.querySelector("#book-image");
 const zoomContainer = document.querySelector(".zoom-container");
 const zoomedImage = document.querySelector("#zoomed-image");
@@ -12,9 +11,9 @@ const statusBlock = document.querySelector("#status-block");
 const borrowBtn = document.querySelector("#borrow-btn");
 const favBtn = document.querySelector("#fav-btn");
 const descriptionBox = document.querySelector(".description > p");
-const userId = parseInt(window.sessionStorage.getItem("user_id")); // NaN means that current user didn't login
-const isAdmin = window.sessionStorage.getItem("isAdmin");
-let id = -1;
+const userID = JSON.parse(window.sessionStorage.getItem("user_id")); // NaN means that current user didn't login
+const isAdmin = JSON.parse(window.sessionStorage.getItem("isAdmin"));
+let bookId = -1;
 
 class Book {
     constructor(
@@ -62,15 +61,15 @@ function showMessage(msg, success = true) {
 function removeCurrentBook() {
     // ----- Removing from all books
     let books = JSON.parse(window.localStorage.getItem("books"));
-    delete books[id];
+    delete books[bookId];
 
     // Returning back to JSON;
     window.localStorage.setItem("books", JSON.stringify(books));
 
     // ----- Remove from admin books
-    let admin = JSON.parse(window.localStorage.getItem("users"))[userId];
+    let admin = JSON.parse(window.localStorage.getItem("users"))[userID];
     for (let i = 0; i < admin.books.length; ++i) {
-        if (admin.books[i] == id) {
+        if (admin.books[i] == bookId) {
             admin.books.splice(i, 1);
         }
     }
@@ -82,15 +81,15 @@ function removeCurrentBook() {
 // Checks the type of user to display and un-display stuff
 function authorizeUser() {
     // if user or admin
-    if (userId !== NaN) {
+    if (userID !== NaN) {
         // if only an admin
         if (isAdmin) {
             // Search for the book in his list of added books
             let userObj = JSON.parse(window.localStorage.getItem("users"))[
-                userId
+                userID
             ];
-            for (let bookId of userObj.books) {
-                if (bookId == id) {
+            for (let id of userObj.books) {
+                if (id == bookId) {
                     // Adding remove and edit buttons
                     let parser = new DOMParser();
                     document
@@ -108,7 +107,7 @@ function authorizeUser() {
                     document
                         .getElementById("edit-btn")
                         .addEventListener("click", () => {
-                            window.location.href = `edit_book.html?id=${id}`;
+                            window.location.href = `edit_book.html?id=${bookId}`;
                         });
                     document
                         .getElementById("remove-btn")
@@ -120,9 +119,9 @@ function authorizeUser() {
 }
 
 // Fetching the book data using its id
-function fetchData(id) {
+function fetchData(bookId) {
     let books = JSON.parse(window.localStorage.getItem("books"));
-    let currentBook = books[id];
+    let currentBook = books[bookId];
     // Updating page details
     if (currentBook.imageURL) {
         bookImage.src = currentBook.imageURL;
@@ -156,13 +155,13 @@ function fetchId() {
 }
 
 // Checks if the id is already valid and found in books
-function checkId(id) {
-    if (id == NaN) {
+function checkId(bookId) {
+    if (bookId == NaN) {
         return false;
     } 
     else {
         let books = JSON.parse(window.localStorage.getItem("books"));
-        if (books && id < books.length && id >= 0 && books[id]) {
+        if (books && bookId < books.length && bookId >= 0 && books[bookId]) {
             return true;
         } else {
             return false;
@@ -171,21 +170,21 @@ function checkId(id) {
 }
 
 // -------------------- Main ---------------------
-id = fetchId();
+bookId = fetchId();
 
-if (checkId(id)) {
+if (checkId(bookId)) {
     // check the type of visitor
     authorizeUser();
 
     // fetching the data
-    fetchData(id);
+    fetchData(bookId);
 
     // Do other stuff
 
     // Borrow button handling
     borrowBtn.addEventListener("click", () => {
         // regular visitor
-        if (userId == NaN) {
+        if (userID == NaN) {
             showMessage("You need to be logged in to borrow this book", false);
         }
         // admin
@@ -196,16 +195,16 @@ if (checkId(id)) {
         else {
             // check book availability
             let books = JSON.parse(window.localStorage.getItem("books"));
-            if (!books[id].availability) {
+            if (!books[bookId].availability) {
                 showMessage("This book is unavailable", false);
             } else {
                 // add to his list of books
                 let users = JSON.parse(window.localStorage.getItem("users"));
-                users[user_id].books.push(id);
+                users[user_id].books.push(bookId);
                 window.localStorage.setItem("users", JSON.stringify(users));
 
                 // make unavailable
-                books[id].availability = false;
+                books[bookId].availability = false;
                 window.localStorage.setItem("books", JSON.stringify(books));
             }
         }
@@ -213,8 +212,9 @@ if (checkId(id)) {
 
     // Add to favorites
     favBtn.addEventListener("click", () => {
+        console.log('HI');
         // regular visitor
-        if (userId == NaN) {
+        if (userID == NaN) {
             showMessage("You need to be logged in to borrow this book", false);
         }
 
@@ -222,8 +222,8 @@ if (checkId(id)) {
         else {
             // fetching all users
             let users = JSON.parse(window.localStorage.getItem("users"));
-            // adding the book
-            users[user_id].books.push(id);
+            // adding the book to favorites
+            users[userId].favorites.push(bookId);
             // pushing back the users json
             window.localStorage.setItem("users", JSON.stringify(users));
 
