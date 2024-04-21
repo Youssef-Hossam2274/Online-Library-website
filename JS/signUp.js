@@ -89,59 +89,16 @@ function addNewUser(){
         updatedJSON = JSON.stringify([newUser]);
     }
     window.localStorage.setItem("users", updatedJSON);
-
-    window.sessionStorage.setItem("user_id", usersArr.length-1);
-    window.sessionStorage.setItem("isAdmin", userType);
-
+    
+    let users= JSON.parse(window.localStorage.getItem("users"));
+    if(users != null){
+        window.sessionStorage.setItem("user_id", users.length-1)
+        window.sessionStorage.setItem("isAdmin", users[users.length-1].isAdmin)
+    }
 }
-
 
 const myForm = document.querySelector(".signup-content");
 myForm.addEventListener("submit", addNewUser);
 
-let user_id = JSON.parse(window.sessionStorage.getItem("user_id"));
-console.log(user_id);
-if(user_id != null)
+if(userId != null)
     window.location.href= "../HTML/Home.html"; 
-
-//--------------Form Validation
-
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector(".signup-content");
-  const usernameInput = document.getElementById("user-input");
-  const passwordInput = document.getElementById("password-input");
-  const confirmPasswordInput = document.getElementById("confirm-input");
-  const emailInput = document.getElementById("email-input");
-
-  form.addEventListener("submit", function (event) {
-    let valid = true;
-
-    if (usernameInput.value.trim() === "") {
-      alert("Username is required.");
-      valid = false;
-    }
-
-    if (passwordInput.value.trim() === "") {
-      alert("Password is required.");
-      valid = false;
-    } else if (passwordInput.value.length < 8) {
-      alert("Password must be at least 8 characters long.");
-      valid = false;
-    }
-
-    if (confirmPasswordInput.value !== passwordInput.value) {
-      alert("Passwords do not match.");
-      valid = false;
-    }
-
-    if (!emailInput.value.includes("@")) {
-      alert("Please enter a valid email address.");
-      valid = false;
-    }
-
-    if (!valid) {
-      event.preventDefault();
-    }
-  });
-});
-

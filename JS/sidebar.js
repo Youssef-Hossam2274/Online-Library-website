@@ -15,7 +15,8 @@ function AccountDetailsClick() {
   }
 
   function SignOutClick() {
-    window.location.href = "login.html";
+    sessionStorage.clear();
+    // window.location.href = "login.html";
   }
 
 // let sideBar = 
