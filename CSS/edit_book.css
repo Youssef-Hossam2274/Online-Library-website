@@ -27,7 +27,8 @@ label {
 input[type="text"],
 input[type="number"],
 input[type="date"],
-textarea {
+textarea,
+#category-list {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -43,6 +44,11 @@ h2 {
   font-size: 40px;
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
 input[type="submit"],
 input[type="reset"] {
   background-color: #0074d9;
@@ -55,17 +61,21 @@ input[type="reset"] {
   transition: background-color 0.8s ease;
   margin: 10px;
 }
-.button-container {
-  display: flex;
-  justify-content: center;
+
+input[type="reset"] {
+  background-color: #f44336;
 }
 
-input[type="submit"]:hover,
-input[type="reset"]:hover {
+input[type="submit"]:hover {
   background-color: #005ea6;
 }
 
-input {
+input[type="reset"]:hover {
+  background-color: #cc372d;
+}
+
+input,
+select {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -75,7 +85,8 @@ textarea {
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline-color: #0074d9;
   outline-offset: 2px;
 }
