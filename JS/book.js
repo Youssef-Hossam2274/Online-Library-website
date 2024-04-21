@@ -230,6 +230,8 @@ if (checkId(bookId)) {
                     books[bookId].availability = false;
                     window.localStorage.setItem("books", JSON.stringify(books));
                 }
+
+                showMessage("The book has been borrowed successfully", "#d38902", true);
             }
         }
     });

@@ -13,19 +13,24 @@
 
 
 /*  design for each book */
+.content{
+    justify-content: space-between;
+}
 
 .sidebar{
     /* width: 400px; */
     width: 80%;
 }
 
-main {
+.main-books {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     margin-bottom: 50px;
     margin-left: 100px;
+    align-items: flex-end;
 }
+
 
 .Book {
     width: 230px;
