@@ -20,33 +20,58 @@ open_eye.onclick = close_eye.onclick = function()
 }
 
 
+function validUserName(userName)
+{
+    const usersArr = JSON.parse(window.localStorage.getItem("users"));
+    if(usersArr)
+    {
+        for(let i = 0; i < usersArr.length; ++i)
+        {
+            if(usersArr[i].userName == userName)
+                return true
+        }
+        return false;
+    }
+    return false;
+}
+
+function validPassword(_password)
+{
+    const usersArr = JSON.parse(window.localStorage.getItem("users"));
+    if(usersArr)
+    {
+        for(let i = 0; i < usersArr.length; ++i)
+        {
+            if(usersArr[i].password == _password)
+            {
+                window.sessionStorage.setItem("user_id", i);
+                window.sessionStorage.setItem("isAdmin", usersArr[i].isAdmin);
+                return true;
+            }
+        }
+        return false;
+    }
+    return false;
+}
 
 
-function checkUser(){
+function validateLogin(){
 
     let user_name = document.getElementById("user-input").value;
     let user_password = document.getElementById("password-input").value;
 
-    const usersArr = JSON.parse(window.localStorage.getItem("users"));
-    
-    window.sessionStorage.setItem("user_id", -1);
-    window.sessionStorage.setItem("isAdmin", "not found");
-
-    for(let i = 0; i < usersArr.length; ++i)
-    {
-        if(usersArr[i].userName == user_name && usersArr[i].password == user_password )
-        {
-            window.sessionStorage.setItem("user_id", i);
-            window.sessionStorage.setItem("isAdmin", usersArr[i].isAdmin);
-        }
+    if(validUserName(user_name) == false){
+        alert("User name dose not exist");
+        return;
     }
-    
+    else if (validPassword(user_password) == false){
+        alert("Password or User name is Wrong");
+        return;
+    }
 }
 
-let user_id = JSON.parse(window.sessionStorage.getItem("user_id"));
-console.log(user_id);
-if(user_id != null)
-    window.location.href= "../HTML/Home.html"; 
+if(userId != null)
+    window.location.href= "../HTML/Home.html";
 
 const myForm = document.querySelector(".login-content");
-myForm.addEventListener("submit", checkUser);
+myForm.addEventListener("submit", validateLogin);
