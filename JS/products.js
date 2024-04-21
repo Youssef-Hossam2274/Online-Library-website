@@ -87,7 +87,7 @@ function AddAllBooks() {
         <div class="Book">
             <div class="background-img">
                 <a href="../HTML/book.html" target="_blank">
-                    <img src="../img/blank.png" />
+                    <img src="${books[i].imageURL}" />
                 </a>
             </div>
             <div class="content">
