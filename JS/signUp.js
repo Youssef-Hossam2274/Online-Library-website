@@ -127,9 +127,9 @@ function addNewUser(){
         userType,
         "",
         "",
-        "",
+        "../img/profile-icon.png",
         [],
-        [],
+        [0,1],
         ""
     );
 
@@ -164,11 +164,16 @@ function addNewUser(){
     }
     window.localStorage.setItem("users", updatedJSON);
     
+    
     let users= JSON.parse(window.localStorage.getItem("users"));
     if(users != null){
         window.sessionStorage.setItem("user_id", users.length-1)
         window.sessionStorage.setItem("isAdmin", users[users.length-1].isAdmin)
     }
+
+    window.sessionStorage.setItem("isSignUp", true);
+
+
 
     
 }

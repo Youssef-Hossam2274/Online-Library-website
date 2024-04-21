@@ -68,10 +68,14 @@ function validateLogin(){
         alert("Password or User name is Wrong");
         return;
     }
+
+    window.sessionStorage.setItem("isLogin", true);
+
 }
 
 if(userId != null)
-    window.location.href= "../HTML/Home.html";
+window.location.href= "../HTML/Home.html";
 
 const myForm = document.querySelector(".login-content");
 myForm.addEventListener("submit", validateLogin);
+// showMessage("Login is succsess");
