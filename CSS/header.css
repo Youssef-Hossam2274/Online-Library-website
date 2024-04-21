@@ -51,7 +51,7 @@
     transition: 0.3s;
 }
 
-/* .nav-links ul li a::before {
+.nav-links ul li a::before {
     content: "";
     position: absolute;
     width: 100%;
@@ -68,7 +68,7 @@
 .nav-links ul li a:hover::before {
     transform-origin: left;
     transform: scaleX(1);
-} */
+}
 
 .nav-links ul li a:hover{
     color: #0063d8;

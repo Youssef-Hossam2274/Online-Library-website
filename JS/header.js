@@ -44,20 +44,15 @@ scroll_up.onclick = function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-
-
-
 let loginButton = document.querySelector(".login-btn");
 let signUpButton = document.querySelector(".signUp-btn");
 let profileIcon = document.querySelector(".profile-icon");
 
 let userId = JSON.parse(window.sessionStorage.getItem("user_id"));
 
-if(userId == null){
+if (userId == null) {
     profileIcon.style.display = "none";
-}
-else{
+} else {
     loginButton.style.display = "none";
     signUpButton.style.display = "none";
 }
-

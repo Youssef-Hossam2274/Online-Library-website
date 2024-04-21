@@ -58,6 +58,10 @@
     margin-left: 10px;
 }
 
+.search-form [type="submit"]:hover {
+    opacity: 0.7;
+}
+
 /* recent books */
 
 .recent-books {
