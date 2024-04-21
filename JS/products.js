@@ -43,17 +43,13 @@ function filterByCategory() {
     var selectedCategory = selectBox.value;
     var books = document.querySelectorAll(".Book");
 
-    console.log(selectedCategory); //////
-
     if (books) {
 
         for (var i = 0; i < books.length; i++) {
 
-            var bookCategory = books[i].category;
+            var bookCategory = books[i].getAttribute("data-category");
 
-            console.log(bookCategory); //////
-
-            if (selectedCategory === "ALL CATEGORY" || bookCategory === selectedCategory) { books[i].style.display = ""; }
+            if (selectedCategory === "all" || bookCategory === selectedCategory) { books[i].style.display = ""; }
 
             else { books[i].style.display = "none"; }
 
@@ -109,7 +105,7 @@ function AddAllBooks() {
             let currentBook = books[i];
             let book =
                 `;
-            <div class="Book">
+            <div class="Book"  data-category="${currentBook.category}">
                 <div class="background-img">
                     <a href="../HTML/book.html?id=${i}">
                         <img src="${books[i].imageURL}" />
