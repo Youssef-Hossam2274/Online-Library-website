@@ -36,6 +36,16 @@ class Book {
 }
 
 // --------------- Functions ------------------
+// Rating
+function addRating() {
+    let stars = document.querySelectorAll(".stars > span");
+    let n = Math.floor(Math.random() * 6);
+
+    for (let i = 0; i <= n; ++i) {
+        stars[i].classList.add("checked");
+    }
+}
+
 // removes the current book
 function removeCurrentBook() {
     // ----- Removing from all books
@@ -125,6 +135,8 @@ function fetchData(bookId) {
         statusBanner.style.backgroundColor = "#dd4034";
         statusBlock.style.backgroundColor = "#dd4034";
     }
+
+    addRating();
 }
 
 // Fetches the book id from the page url
