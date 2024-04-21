@@ -13,62 +13,43 @@ const descriptionBox = document.querySelector(".description > p");
 const userId = parseInt(window.sessionStorage.getItem("user_id")); // NaN means that current user didn't login
 let id = -1;
 
-
-// -------- Fetching page info based on book id
-function checkId(id) {
-    let books = JSON.parse(window.localStorage.getItem("books"));
-    if (books && id < books.length && id >= 0) {
-        return true;
-    } else {
-        return false;
+class Book {
+    constructor(
+        imageURL,
+        title,
+        author,
+        category,
+        publishDate,
+        description,
+        availability
+    ) {
+        this.title = title;
+        this.imageURL = imageURL;
+        this.author = author;
+        this.category = category;
+        this.availability = availability;
+        this.description = description;
+        this.publishDate = publishDate;
     }
 }
 
+// --------------- Functions ------------------
+// Shows an animated message
 function showMessage(msg) {
-    let msgBox = document.querySelector('.msg-box');
+    let msgBox = document.querySelector(".msg-box");
     msgBox.innerHTML = msg;
 
     // Show
-    msgBox.classList.toggle('active');
+    msgBox.classList.toggle("active");
 
     // Go
     setTimeout(() => {
-        msgBox.classList.remove('active');
+        msgBox.classList.remove("active");
     }, 3000);
 }
 
-function checkVisitor() {
-    // Checks the type of user to display and un-display stuff
-    let userId = parseInt(window.sessionStorage.getItem("user_id"));
-    if (userId !== NaN) {
-        let userObj = JSON.parse(window.localStorage.getItem("users"))[userId];
-        if (userObj.isAdmin) {
-            // Search for the book in his list of added books
-            for (let bookId of userObj.books) {
-                if (bookId == id) {
-                    // Adding remove and edit buttons
-                    let parser = new DOMParser();
-                    document.querySelector(".image-side").appendChild(
-                        parser.parseFromString(
-                            '<div class="admin-btns"><button id="edit-btn"><span class="material-symbols-rounded">edit</span>Edit</button><button id="remove-btn"><span class="material-symbols-rounded">delete</span>Remove</button></div>',
-                            'text/html'
-                        )
-                    );
-
-                    // Adding functionality
-                    document.getElementById('edit-btn').addEventListener("click", () => {
-                        window.location.href = `edit_book.html?id=${id}`;
-                    });
-                    document.getElementById('remove-btn').addEventListener("click", removeCurrentBook);
-                }
-            }
-        }
-    }
-}
-
+// removes the current book
 function removeCurrentBook() {
-    // Showing a warning message
-
     // ----- Removing from all books
     let books = JSON.parse(window.localStorage.getItem("books"));
     books.splice(id, 1);
@@ -88,12 +69,50 @@ function removeCurrentBook() {
     showMessage(`${bookTitle.innerHTML} has been deleted successfully`);
 }
 
+
+// Checks the type of user to display and un-display stuff
+function checkUser() {
+    if (userId !== NaN) {
+        let userObj = JSON.parse(window.localStorage.getItem("users"))[userId];
+        if (window.sessionStorage.isAdmin) {
+            // Search for the book in his list of added books
+            for (let bookId of userObj.books) {
+                if (bookId == id) {
+                    // Adding remove and edit buttons
+                    let parser = new DOMParser();
+                    document
+                        .querySelector(".image-side")
+                        .appendChild(
+                            parser.parseFromString(
+                                '<div class="admin-btns"><button id="edit-btn"><span class="material-symbols-rounded">edit</span>Edit</button><button id="remove-btn"><span class="material-symbols-rounded">delete</span>Remove</button></div>',
+                                "text/html"
+                            ).querySelector(".admin-btns")
+                        );
+
+                    // Adding functionality
+                    document
+                        .getElementById("edit-btn")
+                        .addEventListener("click", () => {
+                            window.location.href = `edit_book.html?id=${id}`;
+                        });
+                    document
+                        .getElementById("remove-btn")
+                        .addEventListener("click", removeCurrentBook);
+                }
+            }
+        }
+    }
+}
+
+// Fetching the book data using its id
 function fetchData(id) {
     let books = JSON.parse(window.localStorage.getItem("books"));
     let currentBook = books[id];
     // Updating page details
-    bookImage.src = currentBook.imageURL;
-    zoomedImage.src = currentBook.imageURL;
+    if (currentBook.imageURL) {
+        bookImage.src = currentBook.imageURL;
+        zoomedImage.src = currentBook.imageURL;
+    }
     bookTitle.innerHTML = currentBook.title;
     bookAuthor.innerHTML = currentBook.author;
     categoryField.innerHTML = currentBook.category;
@@ -115,13 +134,24 @@ function fetchData(id) {
     }
 }
 
-function fetchID() {
+// Fetches the book id from the page url
+function fetchId() {
     let psearch = new URLSearchParams(window.location.search);
     return parseInt(psearch.get("id"));
 }
 
+// Checks if the id is already valid and found in books
+function checkId(id) {
+    let books = JSON.parse(window.localStorage.getItem("books"));
+    if (books && id < books.length && id >= 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // Adding the zooming event to book image in-case of wide screen
-if (screen.width > 768 && checkId(id)) {
+if (screen.width > 768) {
     bookImage.addEventListener("mousemove", (e) => {
         // Showing the container
         zoomContainer.style.display = "block";
@@ -154,9 +184,11 @@ if (screen.width > 768 && checkId(id)) {
 }
 
 // -------------------- Main ---------------------
+id = fetchId();
+
 if (checkId(id)) {
     // check the type of visitor
-    checkVisitor();
+    checkUser(); 
 
     // fetching the data
     fetchData(id);
