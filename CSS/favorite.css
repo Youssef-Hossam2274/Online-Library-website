@@ -14,15 +14,17 @@
 
 /*  design for each book */
 
+.sidebar{
+    /* width: 400px; */
+    width: 80%;
+}
 
 main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top: 50px;
     margin-bottom: 50px;
-    margin-left: 150px;
-    margin-right: 100px;
+    margin-left: 100px;
 }
 
 .Book {
@@ -30,14 +32,17 @@ main {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    position: relative;
+    /* position: relative; */
     margin-bottom: 40px;
     margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 .Book button {
-    position: absolute;
-    bottom: 10px;
     padding: 8px 16px;
     font-size: 14px;
     background-color: hsl(202, 96%, 37%);
@@ -45,10 +50,6 @@ main {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    width: 120px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
 }
 
 .Book button:hover {
@@ -91,7 +92,7 @@ main {
 }
 
 .content-book span {
-    font-size: 14px;
+    font-size: 12px;
     margin-bottom: 20px;
     color: #666;
 }
