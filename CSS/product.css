@@ -13,7 +13,7 @@ body {
     background-color: #f0f8ff;
 }
 
-main{
+main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -38,7 +38,7 @@ main{
     margin-left: 30px;
 }
 
-.background-img{
+.background-img {
     background-color: #E7EFF2;
     display: flex;
     width: 100%;
@@ -48,13 +48,14 @@ main{
     justify-content: center;
     align-items: center;
 }
-.background-img img{
+
+.background-img img {
     width: 150px;
     height: 180px;
     border-radius: 10px;
 }
 
-.content{
+.content {
     margin: 0;
     padding: 20px;
     display: flex;
@@ -63,17 +64,19 @@ main{
     align-items: center;
 }
 
-.content h3{
+.content h3 {
     margin: 0;
     margin-bottom: 5px;
 }
-.content span{
+
+.content span {
     font-size: 10px;
     margin-bottom: 30px;
 }
 
 
-.Book button {
+.Book button,
+.search-container button {
     padding: 10px 20px;
     background-color: hsl(202, 96%, 37%);
     color: #fff;
@@ -83,7 +86,8 @@ main{
 }
 
 
-.Book button:hover {
+.Book button:hover,
+.search-container button:hover {
     background-color: hsl(202, 96%, 47%);
 }
 
@@ -91,20 +95,24 @@ main{
 .search-container input[type="text"] {
     margin-right: 10px;
     margin-left: 60px;
-    width: 70%;
+    width: 60%;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
     padding: 10px;
 }
 
-.search-container select {
+.search-container select,
+button {
     width: 20%;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
+    margin-right: 10px;
 }
+
+
 
 .search-container {
     display: flex;

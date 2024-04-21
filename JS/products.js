@@ -120,3 +120,19 @@ function fetchID() {
 
 fetchID();
 // set_categorty_select_list();
+
+
+
+// Link addBook button with addBook page
+document.getElementById('addBook').addEventListener('click', function () {
+    window.location.href = "../HTML/add_book.html";
+});
+
+
+// Show addBook button for Admin only
+if (window.sessionStorage.getItem("isAdmin")) {
+    document.getElementById('addBook').style.display = 'none';
+}
+else {
+    document.getElementById('addBook').style.display = "";
+}
