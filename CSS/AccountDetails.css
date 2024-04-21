@@ -47,9 +47,6 @@ label:active, .change-photo span{
 
 /* ------------- special for account details ------------- */
 
-/* .lower-section .sidebar .profile-options-list {
-    width: 350px;
-} */
 .sidebar .profile-options-list .ProfileDetails {
     border-right: #0063D8 3px solid;
 }

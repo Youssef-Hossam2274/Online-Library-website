@@ -68,51 +68,49 @@
   
           <div class="personal-info-container">
             <form class="edit-user-info">
-                
                 <div id="username-and-email-container">
-                  <p class="first-name-input">
-                    <label for="account_display_name" class="first-name-label">First name</label>
-                    <input type="text" class="user-info-input" name="account_display_name" id="account_display_name" placeholder="First name" />
-                  </p>
-                  <p class="second-name">
-                    <label for="second-name" class="second-name-label">Second name</label>
-                    <input type="text" class="user-info-input" name="account_email" id="account_email" autocomplete="email" placeholder="Second name" />
-                  </p>
+                  
+                  <div class="first-name-input-container">
+                    <label for="first-name-input" class="first-name-label">First name</label>
+                    <input type="text" name="first-name-input" id="first-name-input" placeholder="First name" />
+                  </div>
+                  
+                  <div class="second-name-input-container">
+                    <label for="second-name-input" class="second-name-label">Second name</label>
+                    <input type="text" name="second-name-input" id="second-name-input" autocomplete="email" placeholder="Second name" />
+                  </div>
+                
                 </div>
 
-                <div id="user-email">
-                  <p id="email-input"> 
-                    <label for="user-email-input" class="user-info-label" aria-hidden="true">Email</label>
-                    <input type="text" id="user-email-input" name="account_email" placeholder="example" />
-                  </p>
+                <div id="email-input-container"> 
+                  <label for="user-email-input" class="user-info-label" aria-hidden="true">Email</label>
+                  <input type="text" name="user-email-input" id="user-email-input" placeholder="example" />
                 </div>
 
-                <div id="phone-number">
-                  <p class="display-name-input">
-                    <label for="account_display_name" class="user-info-label">Phone number</label>
-                    <input type="text" id="phone-number-input" placeholder="01213456789" />
-                </p>
+                <div id="phone-number-container">
+                    <label for="phone-number-input" class="user-info-label">Phone number</label>
+                    <input type="text" name="phone-number-input" id="phone-number-input" placeholder="01213456789" />
                 </div>
 
                 <fieldset class="password-input-container">
                     <legend>Change password</legend>
                     <p class="current-password-input">
                         <label for="password_current">Current password</label>
-                        <input type="password" class="user-info-input" name="password_current" id="password_current" autocomplete="off" />                    </p>
+                        <input type="password" name="current-password-input" id="current-password-input" autocomplete="off" />                    </p>
                     <p class="new-password-input">
-                        <label for="password_1">New password</label>
-                        <input type="password" class="user-info-input" name="password_1" id="password_1" autocomplete="off" /> 
+                        <label for="new-password-1">New password</label>
+                        <input type="password" name="new-password-1" id="new-password-1" autocomplete="off" /> 
                     </p>
                     <p class="confirm-new-password-input">
-                        <label for="password_2">Confirm new password</label>
-                        <input type="password" class="user-info-input" name="password_2" id="password_2" autocomplete="off" />
+                        <label for="new-password-2">Confirm new password</label>
+                        <input type="password" name="new-password-2" id="new-password-2" autocomplete="off" />
                     </p>
                 </fieldset>
                 <div id="save-changes-btn-container">
-                    <button type="submit" class="save-changes-btn" name="save_account_details" id="save-account-details-btn">Save changes </button>
+                    <button type="submit" class="save-changes-btn" name="save-account-details-btn" id="save-account-details-btn">Save changes </button>
                 </div>
             </form>
-        </div>
+          </div>
       </div>
       <script src="../JS/AccountDetails.js"></script>
       <script src="../JS/footer.js"></script>
