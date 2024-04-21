@@ -92,9 +92,16 @@ label:active, .change-photo span{
     margin-left: 1%;
 }
 
-#first-name-input-container , #second-name-input-container,
+#first-name-input-container{
+    /* margin-left: 2%; */
+}
+
+#second-name-input-container{
+    /* margin-left: 2%; */
+    /* margin-left: ; */
+}
 #user-email-input-container, #phone-number-input-container {
-    margin-right: 2%;
+    /* margin-right: 3%; */
 }
 
 #save-changes-btn-container .save-changes-btn {

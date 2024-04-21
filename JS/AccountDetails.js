@@ -24,8 +24,9 @@ function resetImage() {
 }
 
 function saveImage(){
-    
+    window.localStorage.setItem("profile-image", myImage.src);
 }
+
 // -----------------------------------------------
 
 
@@ -56,18 +57,20 @@ function saveChanges()
     let New_password_1 = document.querySelector("#new-password-1").value;
     let New_password_2 = document.querySelector("#new-password-2").value;
     
-    if(password.trim() === "")
-    { // validate if password is not empty
-        alert("your current password is required");
-        return false;
-    }
-    if (password.trim() !== curUser.password) {
-        alert("your current password is incorrect");
-        return false;
-    }
+    // if(password.trim() === "")
+    // { // validate if password is not empty
+    //     alert("your current password is required");
+    //     return false;
+    // }
+    
     // work only if the user want to change the password
     if ((New_password_1.trim() !== "") && (New_password_1 === New_password_2)) {
-        curUser.password = New_password_1;    
+        if (password.trim() !== curUser.password) {
+            alert("your current password is incorrect");
+            return false;
+        } else{
+            curUser.password = New_password_1;    
+        }
     }
     
     let _firstName_ = document.querySelector("#first-name-input").value.trim(); 
