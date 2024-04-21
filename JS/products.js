@@ -5,6 +5,7 @@ if (sessionStorage.getItem("searchValue")) {
 }
 
 function searchBooks() {
+
     var input, filter, books, i, title, author, txtValue, authorValue;
 
     input = document.getElementById("searchInput");
@@ -22,17 +23,17 @@ function searchBooks() {
     }
 
     for (i = 0; i < books.length; i++) {
+
         title = books[i].querySelector("h3");
         author = books[i].querySelector("span");
 
         txtValue = title.innerText.toUpperCase();
         authorValue = author.innerText.toUpperCase();
 
-        if (txtValue.indexOf(filter) > -1 || authorValue.indexOf(filter) > -1) {
-            books[i].style.display = "";
-        } else {
-            books[i].style.display = "none";
-        }
+        if (txtValue.indexOf(filter) > -1 || authorValue.indexOf(filter) > -1) { books[i].style.display = ""; }
+
+        else { books[i].style.display = "none"; }
+
     }
 }
 
@@ -42,13 +43,20 @@ function filterByCategory() {
     var selectedCategory = selectBox.value;
     var books = document.querySelectorAll(".Book");
 
-    for (var i = 0; i < books.length; i++) {
-        var bookCategory = books[i].category;
+    console.log(selectedCategory); //////
 
-        if (selectedCategory === "ALL CATEGORY" || bookCategory === selectedCategory) {
-            books[i].style.display = "";
-        } else {
-            books[i].style.display = "none";
+    if (books) {
+
+        for (var i = 0; i < books.length; i++) {
+
+            var bookCategory = books[i].category;
+
+            console.log(bookCategory); //////
+
+            if (selectedCategory === "ALL CATEGORY" || bookCategory === selectedCategory) { books[i].style.display = ""; }
+
+            else { books[i].style.display = "none"; }
+
         }
     }
 }
@@ -74,8 +82,10 @@ class Book {
 }
 
 function set_categorty_select_list() {
+
     let books = JSON.parse(window.localStorage.getItem("books"));
     let select_list = document.getElementById("categorySelect");
+
     if (books) {
         for (let i = 0; i < books.length; ++i) {
             let option = document.createElement("option");
@@ -84,13 +94,17 @@ function set_categorty_select_list() {
             select_list.add(option);
         }
     }
+
 }
 
 function AddAllBooks() {
+
     let books = JSON.parse(window.localStorage.getItem("books"));
+
     if (!books) return;
 
     for (let i = 0; i < books.length; i += 1) {
+
         if (books[i]) {
             let currentBook = books[i];
             let book =
@@ -122,8 +136,10 @@ function AddAllBooks() {
 
 
 function fetchID() {
+
     let books = document.querySelectorAll(".Book");
     let buttons = document.querySelectorAll(".Book button");
+
     for (let i = 0; i < books.length; ++i) {
         buttons[i].onclick = function () {
             window.localStorage.setItem("single-book-id", i);
