@@ -35,14 +35,14 @@ function validUserName(userName)
     return false;
 }
 
-function validPassword(_password)
+function validPassword(userName,_password)
 {
     const usersArr = JSON.parse(window.localStorage.getItem("users"));
     if(usersArr)
     {
         for(let i = 0; i < usersArr.length; ++i)
         {
-            if(usersArr[i].password == _password)
+            if(usersArr[i].userName == userName && usersArr[i].password == _password)
             {
                 window.sessionStorage.setItem("user_id", i);
                 window.sessionStorage.setItem("isAdmin", usersArr[i].isAdmin);
@@ -64,7 +64,7 @@ function validateLogin(){
         alert("User name dose not exist");
         return;
     }
-    else if (validPassword(user_password) == false){
+    else if (validPassword(user_name,user_password) == false){
         alert("Password or User name is Wrong");
         return;
     }
