@@ -291,28 +291,12 @@ hr {
     line-height: 24px;
 }
 
-/* POP UP objects */
-.msg-box {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    background-color: #42bd6c;
-    padding: 20px;
-    border-radius: 6px;
-    color: white;
-    position: fixed;
-    top: 100px;
-    right: -100%;
-    z-index: 1000;
-    transition: 0.5s right;
+/* Disabled buttons */
+button:disabled {
+    opacity: 0.7;
 }
-
-.msg-box span {
-    margin-right: 15px;
-}
-
-.msg-box.active {
-    right: 20px;
+button:disabled:active {
+    transform: none;
 }
 
 /* Medium screens */
@@ -329,13 +313,6 @@ hr {
 }
 
 
-/* Disabled buttons */
-button:disabled {
-    opacity: 0.7;
-}
-button:disabled:active {
-    transform: none;
-}
 
 /* Small screens */
 @media screen and (max-width: 992px) {

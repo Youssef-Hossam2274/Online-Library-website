@@ -36,27 +36,6 @@ class Book {
 }
 
 // --------------- Functions ------------------
-// Shows an animated message
-function showMessage(msg, success = true) {
-    let msgBox = document.querySelector(".msg-box");
-
-    if (success) {
-        msgBox.innerHTML = `<span class="material-symbols-rounded"> task_alt </span> ${msg}`;
-        msgBox.style.backgroundColor = "#42bd6c";
-    } else {
-        msgBox.innerHTML = `<span class="material-symbols-rounded"> error </span> ${msg}`;
-        msgBox.style.backgroundColor = "#dd4034";
-    }
-
-    // Show
-    msgBox.classList.toggle("active");
-
-    // Go
-    setTimeout(() => {
-        msgBox.classList.remove("active");
-    }, 3000);
-}
-
 // removes the current book
 function removeCurrentBook() {
     // ----- Removing from all books
@@ -75,7 +54,7 @@ function removeCurrentBook() {
     }
 
     // Showing the message
-    showMessage(`${bookTitle.innerHTML} has been deleted successfully`);
+    showMessage(`${bookTitle.innerHTML} has been deleted successfully`, "#42BD6C", true);
 }
 
 // Checks the type of user to display and un-display stuff
@@ -185,18 +164,18 @@ if (checkId(bookId)) {
     borrowBtn.addEventListener("click", () => {
         // regular visitor
         if (userID == NaN) {
-            showMessage("You need to be logged in to borrow this book", false);
+            showMessage("You need to be logged in to borrow this book", "#f44336", false);
         }
         // admin
         else if (isAdmin) {
-            showMessage("Admins cannot borrow books", false);
+            showMessage("Admins cannot borrow books", "#f44336", false);
         }
         // user
         else {
             // check book availability
             let books = JSON.parse(window.localStorage.getItem("books"));
             if (!books[bookId].availability) {
-                showMessage("This book is unavailable", false);
+                showMessage("This book is unavailable", "#f44336", false);
             } else {
                 // add to his list of books
                 let users = JSON.parse(window.localStorage.getItem("users"));
@@ -215,7 +194,7 @@ if (checkId(bookId)) {
         console.log('HI');
         // regular visitor
         if (userID == NaN) {
-            showMessage("You need to be logged in to borrow this book", false);
+            showMessage("You need to be logged in to borrow this book", "#f44336", false);
         }
 
         // user or admin
@@ -229,6 +208,7 @@ if (checkId(bookId)) {
 
             showMessage(
                 "The book has been added to your favorites successfully",
+                "#42BD6C",
                 true
             );
         }
@@ -271,5 +251,5 @@ if (checkId(bookId)) {
 else {
     favBtn.disabled = true;
     borrowBtn.disabled = true;
-    showMessage("This book is undefined", false);
+    showMessage("This book is undefined", "#f44336", false);
 }
