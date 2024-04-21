@@ -90,7 +90,8 @@ function set_categorty_select_list() {
 
 function AddAllBooks() {
     let books = JSON.parse(window.localStorage.getItem("books"));
-
+    if (!books) return;
+    
     for (let i = 0; i < books.length; i += 1) {
             if (books[i]) {
                 let currentBook = books[i];
