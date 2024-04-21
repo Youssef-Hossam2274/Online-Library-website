@@ -122,10 +122,7 @@ fetchCategories();
 // ]
 
 
------------------
-|Form Validation|
------------------
-*/
+//----------------- Form Validation
 
 document.addEventListener("DOMContentLoaded", function () {
   const myForm = document.getElementById("book_details");
