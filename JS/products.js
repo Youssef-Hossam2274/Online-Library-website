@@ -81,9 +81,10 @@ function AddAllBooks() {
 
     if (books) {
         for (let i = 0; i < books.length; i += 1) {
-            let currentBook = books[i];
-            let book =
-                `;
+            if (books[i]) {
+                let currentBook = books[i];
+                let book =
+                    `;
         <div class="Book">
             <div class="background-img">
                 <a href="../HTML/book.html?id=${i}">
@@ -100,11 +101,12 @@ function AddAllBooks() {
         </div>
         `;
 
-            const parser = new DOMParser();
-            const parsedDocument = parser.parseFromString(book, "text/html");
+                const parser = new DOMParser();
+                const parsedDocument = parser.parseFromString(book, "text/html");
 
-            let MyMain = document.querySelector(".main-books");
-            MyMain.append(parsedDocument.querySelector(".book"));
+                let MyMain = document.querySelector(".main-books");
+                MyMain.append(parsedDocument.querySelector(".book"));
+            }
         }
     }
 }
