@@ -2,8 +2,8 @@ let userId = JSON.parse(window.sessionStorage.getItem("user_id"));
 let headImageUrl = "../img/profile-icon.png";
 
 function displayHeader(){
-    
     let header = `
+    <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
     <header class="website-header">
     <div class="logo">
     <a href="Home.html">
@@ -37,8 +37,14 @@ function displayHeader(){
     </div>
     `;
     
+
+    document.querySelector(".profile-icon img")
     document.write(header);
-    
+
+    let profilePhoto =     document.querySelector(".profile-icon img");
+    profilePhoto.style.width = "40px";
+    profilePhoto.style.height = "40px";
+    profilePhoto.style.borderRadius  = "50%";
 }
 
 

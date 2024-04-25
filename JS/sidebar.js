@@ -20,13 +20,16 @@ function AccountDetailsClick() {
   }
 
   function addSideBar(){
+    let userData = JSON.parse(window.localStorage.getItem("users"));
+    let curUser = userData[userId];
+
     let sideBar =
     `
     <div class="sidebar">
           
     <div class="profile-info">
-      <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
-      <div>Hello <span id="hello-user" style="color: black;">user</span> </div>
+      <img src= ${curUser.imageURL} alt="placeholder" id="profile-pic">
+      <div>Hello <span id="hello-user" style="color: black;">${curUser.userName}</span> </div>
     </div>
     
     <div class="change-photo">
