@@ -41,9 +41,10 @@ function addRating() {
     let stars = document.querySelectorAll(".stars > span");
     let n = Math.floor(Math.random() * 6);
 
-    for (let i = 0; i <= n; ++i) {
+    for (let i = 0; i < n; ++i) {
         stars[i].classList.add("checked");
     }
+
 }
 
 // removes the current book
