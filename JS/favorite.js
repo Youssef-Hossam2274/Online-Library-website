@@ -20,14 +20,14 @@ function AddAllBooks() {
                 `
                 <div class="Book">
                     <div class="background-img">
-                        <a href="../HTML/book.html?id=${i}">
+                        <a href="../HTML/book.html?id=${curBookID}">
                             <img src="${currentBook.imageURL}" />
                         </a>
                     </div>
                     <div class="content-book">
                         <h3>${currentBook.title}</h3> 
                         <span><strong>Author(s):</strong>${currentBook.author}</span>
-                        <a href="../HTML/book.html?id=${i}">
+                        <a href="../HTML/book.html?id=${curBookID}">
                             <button id= "ShowDetails">Show details</button> 
                         </a>
                     </div>

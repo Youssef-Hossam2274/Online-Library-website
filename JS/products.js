@@ -151,10 +151,12 @@ document.getElementById("addBook").addEventListener("click", function () {
 });
 
 // Show addBook button for Admin only
-if (window.sessionStorage.getItem("isAdmin")) {
-    document.getElementById("addBook").style.display = "";
-} else {
-    document.getElementById("addBook").style.display = "none";
+function addBookButton(){
+    let isAdmin = JSON.parse(window.sessionStorage.getItem("isAdmin"));
+    if (isAdmin == null || isAdmin == false) {
+        document.getElementById("addBook").style.display = "none";
+    }
 }
 
+addBookButton();
 set_categorty_select_list();

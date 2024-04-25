@@ -4,7 +4,6 @@
     background-repeat: no-repeat;
     background-position: 90%;
     height: 80vh;
-    background-color: #f5f5f5;
     display: flex;
     flex-direction: column;
     padding-left: 10%;
@@ -64,32 +63,37 @@
 
 /* recent books */
 
+.recent-books-header{
+
+    padding-left: 130px;
+    margin-bottom: 50px;
+    color: #03045e;
+    /* display: none; */
+}
+
 .recent-books {
-    padding-left: 3%;
+    padding-left: 130px;
+    margin-bottom: 70px;
     display: flex;
     flex-wrap: wrap;
-    background-color: #eee;
     min-height: 20vh;
+
 }
 
-.recent-books > h1 {
-    font-size: 30px;
-    color: #03045e;
-    margin-bottom: 1%;
-    /* make the header on the line alon */
-    width: 100%;
-}
 
 /* book card */
-
 
 .Book {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    display: flex;
     flex-direction: column;
     margin-bottom: 40px;
-    margin-left: 20px;
+    margin-left: 30px;
+    width: 220px;
+    justify-content: center;
+    align-items: center;
 }
 
 .background-img {
@@ -110,7 +114,8 @@
 }
 
 .Book button {
-    padding: 10px 60px;
+    padding: 10px 20px;
+    font-size: 14px;
     background-color: hsl(202, 96%, 37%);
     color: #fff;
     border: none;
@@ -131,22 +136,24 @@
     align-items: center;
 }
 
-.content h3 {
+.content h3,
+.content span {
     margin-bottom: 5px;
-    width: 200px;
+    max-width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
+    text-align: center;
+    max-height: 3em;
+    line-height: 1em;
 }
 
 .content span {
     font-size: 10px;
     margin-bottom: 30px;
-    /* color: #666; */
+    color: #666;
     width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-left: 35px;
 }

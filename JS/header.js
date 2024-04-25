@@ -17,7 +17,6 @@ function displayHeader(){
     <li><a href="Home.html">Home</a></li>
     <li><a href="all_books.html">Books</a></li>
     <li><a href="#">About</a></li>
-    <li><a href="#">Categories</a></li>
     </ul>
     </nav>
     
