@@ -1,8 +1,5 @@
 /* ------------- special for order page ------------- */
 
-/* .sidebar .profile-options-list {
-    width: 250px;
-} */
 .sidebar .profile-options-list .profileOrders {
     border-right: #0063D8 3px solid;
 }
@@ -26,6 +23,7 @@
     box-sizing: border-box;
     justify-content: space-between;
     padding-left: 50px;
+    padding-right: 100px;
 }
 
 .order-list > div + div{

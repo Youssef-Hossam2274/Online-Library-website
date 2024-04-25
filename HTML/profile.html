@@ -5,12 +5,13 @@
         <title>Profile</title>
         <link rel="stylesheet" href="../CSS/header.css" />
         <link rel="stylesheet" href="../CSS/footer.css" />
-        <link rel="stylesheet" href="../CSS/profile.css">
-        <link rel="stylesheet" href="../CSS/sidebar.css">
+        <link rel="stylesheet" href="../CSS/siderbar.css">
+        <!-- <link rel="stylesheet" href="../CSS/profile.css"> -->
+
         <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
 
         <script src="../JS/header.js"></script>
-        <script src="../JS/sidebar.js"></script>
+        <!-- <script src="../JS/sidebar.js"></script> -->
 
     </head>
     <body>
@@ -18,38 +19,9 @@
         <h1 class="page-header">My Account</h1>
 
         <div class="content" id="content">
+            <script src="../JS/sidebar.js"></script>
 
-            <div class="sidebar">
-                <div class="profile-info">
-                    <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
-                    <div>Hello <span id="hello-user-profile" style="color: black;">user</span> </div>
-                </div>
-                
-                <ul class="profile-options-list">
-                    <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
-                    <i class="fa-solid fa-address-book"></i>
-                    Account Details
-                    </a></li>
-                    <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
-                        <i class="fa-solid fa-list"></i>
-                        Your Books
-                    </a></li>
-                    <li class="ProfileFavorite"><a href="favourites.html">
-                    <i class="fa-solid fa-heart"></i>
-                    Favorite
-                    </a></li>
-                    <li class="SignOut"  style="border-bottom: none;" onclick="SignOutClick()"><a href="Login.html">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sign Out
-                    </a></li>
-                </ul>
-            </div>
-
-            <!-- <div class="personal-info-container">
-                
-            </div> -->
         </div>
-        <script src="../JS/profile.js"></script>
         <script src="../JS/footer.js"></script>
     </body>
 </html>

@@ -1,49 +1,6 @@
 .change-photo{
     display: flex;
-    justify-content: space-evenly;
-    flex-direction: row;
-    /* padding: 0;
-    margin: 0; */
-    padding-top: 10px;
-    padding-bottom: 20px;
-    align-items: center;
-    border-right: #b9b3b385 1px solid;
 }
-
-.change-photo span{
-    background-color: #fff;
-    color: #0063D8;
-    padding: 10px;
-    border-radius: 10px;
-    border-color: white;
-    box-shadow: 0 4px 6px rgba(148, 115, 115, 0.2);
-    cursor: pointer;
-}
-
-input[type = "file"]{
-    display: none;
-}
-
-.upload-photo-label{
-    background-color: #0063D8;
-    border-color: #0063D8;
-    padding: 10px;
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-}
-.change-photo i{
-    margin-right: 10px;
-}
-
-label:active, .change-photo span{
-    transform: scale(0.9);
-}
-
-.change{
-    background-color: #0063D8;
-}
-
 
 /* ------------- special for account details ------------- */
 

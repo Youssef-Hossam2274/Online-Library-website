@@ -6,8 +6,8 @@
     <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
     <link rel="stylesheet" href="../CSS/header.css" />
     <link rel="stylesheet" href="../CSS/footer.css" />
-    <link rel="stylesheet" href="../CSS/profile.css">
     <link rel="stylesheet" href="../CSS/orders.css">
+    <link rel="stylesheet" href="../CSS/siderbar.css">
     <script src="../JS/header.js"></script>
     <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
   </head>
@@ -16,32 +16,8 @@
     <h1 class="page-header"> Orders</h1>
     
     <div class="content" id="content">
-      <div class="sidebar">
-        <div class="profile-info">
-            <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
-            <div>Hello <span id="hello-user-profile" style="color: black;">user</span> </div>
 
-        </div>
-        
-        <ul class="profile-options-list">
-            <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
-            <i class="fa-solid fa-address-book"></i>
-            Account Details
-            </a></li>
-            <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
-              <i class="fa-solid fa-list"></i>
-              Your Books
-            </a></li>
-            <li class="ProfileFavorite"onclick="PaymentClick()"><a href="favourites.html">
-            <i class="fa-solid fa-heart"></i>
-            Favorite
-            </a></li>
-            <li class="SignOut"  style="border-bottom: none;" onclick="SignOutClick()"><a href="Login.html">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Sign Out
-            </a></li>
-        </ul>
-      </div>
+      <script src="../JS/sidebar.js"></script>
 
       <div class="order-list" id="order-list">
         
@@ -147,10 +123,12 @@
             <!-- <div id="order-price">$19.99</div> -->
           </div>
         </div>
+
+
       </div>
       </div>
 
-      </div>
+    </div>
 
     <script src="../JS/orders.js"></script>
     <script src="../JS/footer.js"></script>

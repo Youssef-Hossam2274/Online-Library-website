@@ -1,129 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../CSS/header.css">
-    <link rel="stylesheet" href="../CSS/profile.css">
-    <link rel="stylesheet" href="..//CSS/favorite.css">
-    <link rel="stylesheet" href="..//CSS/footer.css">
+    <link rel="stylesheet" href="../CSS/favorite.css">
+    <link rel="stylesheet" href="../CSS/siderbar.css">
+    <link rel="stylesheet" href="../CSS/footer.css">
 
-    <!-- <link rel="stylesheet" href="..//CSS/product.css"> -->
-
-    <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
+    
     <script src="../JS/header.js"></script>
+    <script src="https://kit.fontawesome.com/14f7813f17.js" crossorigin="anonymous"></script>
 
     <title>Favourites</title>
-  </head>
+</head>
   <body>
     <h1 class="page-header">My Favorite</h1>
 
     <div class="content" id="content">
 
-        <div class="sidebar">
-            <div class="profile-info">
-                <img src="../img/profile-icon.png" alt="placeholder" id="profile-pic">
-                <div>Hello <span style="color: black;">user</span> </div>
-            </div>
-            
-            <ul class="profile-options-list">
-                <li class="ProfileDetails" onclick="AccountDetailsClick()"><a href="AccountDetails.html">
-                <i class="fa-solid fa-address-book"></i>
-                Account Details
-                </a></li>
-                <li class="profileOrders"onclick="OrdersClick()"><a href="orders.html">
-                    <i class="fa-solid fa-list"></i>
-                    Your Books
-                </a></li>
-                <li class="ProfileFavorite"><a href="favourites.html">
-                <i class="fa-solid fa-heart"></i>
-                Favorite
-                </a></li>
-                <li class="SignOut"  style="border-bottom: none;" onclick="SignOutClick()"><a href="Login.html">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Sign Out
-                </a></li>
-            </ul>
-        </div>
-
+        <script src="../JS/sidebar.js"></script>
 
         <main class="main-books">
-          <div class="Book">
-            <div class="background-img">
-                <a href="../HTML/book.html?id=${i}">
-                    <img src="${currentBook.imageURL}" />
-                </a>
-            </div>
-            <div class="content-book">
-                <h3>${currentBook.title}</h3> 
-                <span><strong>Author(s):</strong>${currentBook.author}</span>
-                <a href="../HTML/book.html?id=${i}">
-                    <button id= "ShowDetails">Show details</button> 
-                </a>
-            </div>
-        </div>
-
-          <div class="Book">
-            <div class="background-img">
-                <a href="../HTML/book.html?id=${i}">
-                    <img src="${currentBook.imageURL}" />
-                </a>
-            </div>
-            <div class="content-book">
-                <h3>${currentBook.title}</h3> 
-                <span><strong>Author(s):</strong>${currentBook.author}</span>
-                <a href="../HTML/book.html?id=${i}">
-                    <button id= "ShowDetails">Show details</button> 
-                </a>
-            </div>
-        </div>
-
-        <div class="Book">
-          <div class="background-img">
-              <a href="../HTML/book.html?id=${i}">
-                  <img src="${currentBook.imageURL}" />
-              </a>
-          </div>
-          <div class="content-book">
-              <h3>${currentBook.title}</h3> 
-              <span><strong>Author(s):</strong>${currentBook.author}</span>
-              <a href="../HTML/book.html?id=${i}">
-                  <button id= "ShowDetails">Show details</button> 
-              </a>
-          </div>
-      </div>
-
-      <div class="Book">
-        <div class="background-img">
-            <a href="../HTML/book.html?id=${i}">
-                <img src="${currentBook.imageURL}" />
-            </a>
-        </div>
-        <div class="content-book">
-            <h3>${currentBook.title}</h3> 
-            <span><strong>Author(s):</strong>${currentBook.author}</span>
-            <a href="../HTML/book.html?id=${i}">
-                <button id= "ShowDetails">Show details</button> 
-            </a>
-        </div>
-    </div>
-
-    <div class="Book">
-      <div class="background-img">
-          <a href="../HTML/book.html?id=${i}">
-              <img src="${currentBook.imageURL}" />
-          </a>
-      </div>
-      <div class="content-book">
-          <h3>${currentBook.title}</h3> 
-          <span><strong>Author(s):</strong>${currentBook.author}</span>
-          <a href="../HTML/book.html?id=${i}">
-              <button id= "ShowDetails">Show details</button> 
-          </a>
-      </div>
-  </div>
         </main>
+
     </div>
+
     <script src="../JS/favorite.js"></script>
     <script src="../JS/footer.js"></script>
 

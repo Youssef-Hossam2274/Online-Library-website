@@ -9,5 +9,5 @@ function showDetails(){
     
 }
 
-showDetails();
-document.querySelector("#profile-pic").src = curUser.imageURL;
+// showDetails();
+// document.querySelector("#profile-pic").src = curUser.imageURL;
