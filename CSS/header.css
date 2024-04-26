@@ -162,27 +162,34 @@ body {
 
 /* POP UP Message */
 .msg-box {
+  position: fixed;
+  right: 0;
+  top: 80px;
+  padding: 10px;
+  width: 450px;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.message {
   display: flex;
   align-items: center;
-  width: fit-content;
+  width: 100%;
   background-color: #42bd6c;
+  margin-bottom: 10px;
   padding: 20px;
   border-radius: 6px;
   color: white;
-  position: fixed;
-  top: 100px;
-  right: 20px;
-  transform: translateX(calc(20px + 100%));
+  transform: translateX(110%);
   opacity: 0;
-  z-index: 1000;
   transition: 0.5s transform, 1s opacity;
 }
 
-.msg-box span {
+.message span {
   margin-right: 15px;
 }
 
-.msg-box.active {
+.message.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(0);
 }
