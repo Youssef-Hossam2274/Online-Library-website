@@ -211,7 +211,7 @@ if (checkId(bookId)) {
                 
                 // check if already borrowed before
                 let borrowed = false;
-                for (let id of users[userID].favorites) {
+                for (let id of users[userID].books) {
                     if (id == bookId) {
                         borrowed = true;
                         showMessage(
