@@ -4,6 +4,9 @@ let headImageUrl = "../img/profile-icon.png";
 function displayHeader(){
     let header = `
     <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <header class="website-header">
     <div class="logo">
     <a href="Home.html">

@@ -1,16 +1,6 @@
 let userData = JSON.parse(window.localStorage.getItem("users"));
 let curUser = userData[userId];
 
-function showDetails(){
-    let userData = JSON.parse(window.localStorage.getItem("users"));
-    let curUser = userData[userId];
-    
-    document.querySelector("#hello-user-profile").innerHTML = curUser.userName;
-}
-
-showDetails();
-document.querySelector("#profile-pic").src = curUser.imageURL;
-
 
 let order = `
     <div class="order">
@@ -82,9 +72,9 @@ function AddAllBooks() {
                 <div id="order-date">
                   <i class="fa-solid fa-calendar-days"></i> ${currentBook.publishDate}
                 </div>
-                // <div id="order-address">
-                //   <i class="fa-solid fa-location-dot"></i> 132 Main St
-                // </div>
+                <div id="order-address">
+                  <i class="fa-solid fa-location-dot"></i> 132 Main St
+                </div>
                 <div id="in-use-order-status">In-use</div>
               </div>
               <div class="des">
@@ -97,7 +87,7 @@ function AddAllBooks() {
             </div>
             <div class="cover-and-price">
               <div id="book-cover">
-                <img src="../img/Calculus.webp" />
+                <img src=${currentBook.imageURL} />
               </div>
             </div>
         </div>
@@ -105,9 +95,10 @@ function AddAllBooks() {
 
           const parser = new DOMParser();
           const parsedDocument = parser.parseFromString(order, "text/html");
-
+          
           let MyMain = document.querySelector(".order-list");
           MyMain.append(parsedDocument.querySelector(".order"));
+          document.querySelector("#book-cover img").style.width = "150px";
       }
   }
 }
