@@ -77,20 +77,23 @@ class Book {
     }
 }
 
-function set_categorty_select_list() {
-
+function set_category_select_list() {
     let books = JSON.parse(window.localStorage.getItem("books"));
     let select_list = document.getElementById("categorySelect");
+    let uniqueCategories = new Set();
 
     if (books) {
         for (let i = 0; i < books.length; ++i) {
-            let option = document.createElement("option");
-            option.value = books[i].category;
-            option.text = books[i].category;
-            select_list.add(option);
+            const category = books[i].category;
+            if (!uniqueCategories.has(category)) {
+                let option = document.createElement("option");
+                option.value = category;
+                option.text = category;
+                select_list.add(option);
+                uniqueCategories.add(category);
+            }
         }
     }
-
 }
 
 function AddAllBooks() {
@@ -159,4 +162,4 @@ function addBookButton(){
 }
 
 addBookButton();
-set_categorty_select_list();
+set_category_select_list();
