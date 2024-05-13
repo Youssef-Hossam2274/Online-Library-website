@@ -163,3 +163,55 @@ function addBookButton(){
 
 addBookButton();
 set_category_select_list();
+
+
+function listTest(){
+    let myRequest = new XMLHttpRequest();
+    myRequest.open("GET", "http://127.0.0.1:8000/api.books/");
+    myRequest.send();
+
+    myRequest.onreadystatechange = function(){
+        console.log(myRequest.readyState);
+        console.log(myRequest.status);
+
+        if(this.readyState == 4 && this.status == 200){
+            console.log(typeof this.response);
+            console.log(typeof this.responseText);
+            let data = JSON.parse(this.responseText);
+            console.log(data);
+
+            for(let i = 0; i < data.length; ++i){
+
+                let book =
+                `;
+                <div class="Book"  data-category="">
+                <div class="background-img">
+                    <a href="../HTML/book.html?id=${data[i]["id"]}">
+                        <img src=${data[i]["cover"]} alt="">
+                    </a>
+                </div>
+                <div class="content">
+                    <h3>${data[i]["title"]}</h3> 
+                    <span><strong>Author(s):</strong>${data[i]["author"]}</span>
+                    <a href="../HTML/book.html?id=${data[i]["id"]}">
+                    <button id= "ShowDetails">Show details</button> 
+                    </a>
+                </div>
+                </div>
+                `;
+        
+                // console.log(data[1]);
+                // console.log(book);
+                const parser = new DOMParser();
+                const parsedDocument = parser.parseFromString(book, "text/html");
+        
+                let MyMain = document.querySelector(".main-books");
+                MyMain.append(parsedDocument.querySelector(".book"));
+            }
+
+        }
+    }
+}
+
+
+listTest();
