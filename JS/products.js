@@ -120,6 +120,8 @@ document.getElementById("addBook").addEventListener("click", function () {
 // Show addBook button for Admin only
 function addBookButton() {
 
+    document.getElementById("addBook").style.display = "none";
+
     let myRequest = new XMLHttpRequest();
     myRequest.open("GET", "http://127.0.0.1:8000/api.users/");
     myRequest.send();
@@ -130,8 +132,8 @@ function addBookButton() {
 
             let data = JSON.parse(this.responseText);
 
-            if (data["isAdmin"] == false) {
-                document.getElementById("addBook").style.display = "none";
+            if (data["isAdmin"] == true) {
+                document.getElementById("addBook").style.display = "blank";
             }
         }
     }
