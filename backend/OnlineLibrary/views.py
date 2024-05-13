@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import os
+import mimetypes
+
 
 
 # @api_view(['GET', 'POST']) 
@@ -40,13 +42,3 @@ def users_list(request):
     serializer = UserSerializer(users, many = True)
     return JsonResponse(serializer.data, safe=False)
 
-def get_book_cover(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-    if not book.cover:  
-        return HttpResponse(status=404)
-
-    with open(book.cover.path, 'rb') as f:
-        cover_data = f.read()
-        
-    content_type = 'image/webp'  
-    return HttpResponse(cover_data, content_type=content_type)
