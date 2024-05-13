@@ -24,4 +24,5 @@ urlpatterns = [
     path('api.authors/',views.author_list),
     path('api.categories/',views.category_list),
     path('api.users/',views.users_list),
+    path('api.books/<int:book_id>/', views.get_book_cover, name='get_book_cover'),
 ]

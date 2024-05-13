@@ -76,7 +76,7 @@ function AddAllBooks() {
                 <div class="Book"  data-category="${data[i]["category"]["name"]}">
                 <div class="background-img">
                     <a href="../HTML/book.html?id=${data[i]["id"]}">
-                        <img src=${data[i]["cover"]} alt="">
+                       <img src="http://127.0.0.1:8000/api.books/${data[i]["id"]}" alt="">
                     </a>
                 </div>
                 <div class="content">
