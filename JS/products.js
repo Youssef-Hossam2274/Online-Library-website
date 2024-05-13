@@ -73,7 +73,7 @@ function AddAllBooks() {
 
                 let book =
                     `;
-                <div class="Book"  data-category="${data[i]["category"]}">
+                <div class="Book"  data-category="${data[i]["category"]["name"]}">
                 <div class="background-img">
                     <a href="../HTML/book.html?id=${data[i]["id"]}">
                         <img src=${data[i]["cover"]} alt="">
@@ -81,7 +81,7 @@ function AddAllBooks() {
                 </div>
                 <div class="content">
                     <h3>${data[i]["title"]}</h3> 
-                    <span><strong>Author(s):</strong>${data[i]["author"]}</span>
+                    <span><strong>Author(s):</strong>${data[i]["author"]["name"]}</span>
                     <a href="../HTML/book.html?id=${data[i]["id"]}">
                     <button id= "ShowDetails">Show details</button> 
                     </a>
@@ -97,7 +97,7 @@ function AddAllBooks() {
                 // set category select list
                 let select_list = document.getElementById("categorySelect");
                 let uniqueCategories = new Set();
-                const category = data[i]["category"];
+                const category = data[i]["category"]["name"];
 
                 if (!uniqueCategories.has(category)) {
                     let option = document.createElement("option");
