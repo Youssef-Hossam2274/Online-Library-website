@@ -15,26 +15,6 @@ const isAdmin = JSON.parse(window.sessionStorage.getItem("isAdmin"));
 let bookId = -1;
 let zoomImage = false;
 
-class Book {
-  constructor(
-    imageURL,
-    title,
-    author,
-    category,
-    publishDate,
-    description,
-    availability
-  ) {
-    this.title = title;
-    this.imageURL = imageURL;
-    this.author = author;
-    this.category = category;
-    this.availability = availability;
-    this.description = description;
-    this.publishDate = publishDate;
-  }
-}
-
 // --------------- Functions ------------------
 // Rating
 function addRating() {
