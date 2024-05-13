@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import os
+import mimetypes
+
 
 
 # @api_view(['GET', 'POST']) 
@@ -48,5 +50,9 @@ def get_book_cover(request, book_id):
     with open(book.cover.path, 'rb') as f:
         cover_data = f.read()
         
-    content_type = 'image/webp'  
+    content_type, _ = mimetypes.guess_type(book.cover.path)
+    
+    if not content_type:
+        content_type = 'application/octet-stream'
+
     return HttpResponse(cover_data, content_type=content_type)
