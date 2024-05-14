@@ -6,14 +6,14 @@ print(os.getcwd())
 
     
 class User(models.Model):
-    username = models.CharField(max_length= 255)
-    password = models.CharField(max_length=255)
+    username = models.CharField(max_length= 255,null=True)
+    password = models.CharField(max_length=255,null=True)
     firstName = models.CharField(max_length=255,null=True)
     secondName = models.CharField(max_length=255,null=True)
-    email = models.CharField(max_length=255)
+    email = models.CharField(max_length=255,null=True)
     phoneNumber = models.CharField(max_length=11,null=True)
     photo =  models.ImageField(upload_to='photos/', null=True, blank=True, default='photos\photo_default.png"')
-    isAdmin = models.BooleanField()
+    isAdmin = models.BooleanField(null=True)
     
     def __str__(self):
         return self.username

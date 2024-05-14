@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
-from .models import Book, Author, Category, User
-from .serializers import BookSerializer,AuthorSerializer, UserSerializer 
+from .models import Book, Author, Category, User, Favorite, BorrowTransaction
+from .serializers import BookSerializer,AuthorSerializer, UserSerializer , FavoriteSerializer, BorrowTransactionSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -84,3 +84,36 @@ def user_detail(request, id):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET', 'POST'])
+def favorite_list(request):
+    
+
+    if request.method == 'GET':
+        favorites = Favorite.objects.all()
+        serializer = FavoriteSerializer(favorites, many = True)
+        return JsonResponse(serializer.data, safe=False)
+
+    if request.method == 'POST':
+        serializer = FavoriteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors)
+        
+@api_view(['GET', 'POST'])
+def BorrowTransaction_list(request):
+    
+    if request.method == 'GET':
+        transactions = BorrowTransaction.objects.all()
+        serializer = BorrowTransactionSerializer(transactions, many = True)
+        return JsonResponse(serializer.data, safe=False)
+
+    if request.method == 'POST':
+        serializer = BorrowTransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors)

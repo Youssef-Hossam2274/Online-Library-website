@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Book, Author, Category, User
+from .models import Book, Author, Category, User,Favorite,BorrowTransaction
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -7,15 +7,16 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name']
 
-
 class BookSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
-    category = CategorySerializer()
+    # author = AuthorSerializer()
+    # category = CategorySerializer()
 
     class Meta:
         model = Book
@@ -50,8 +51,6 @@ class BookSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -66,3 +65,18 @@ class UserSerializer(serializers.ModelSerializer):
             
             instance.save()
             return instance
+        
+
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Favorite
+        fields = ['id', 'user', 'book']
+
+
+class BorrowTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BorrowTransaction
+        fields = ['id', 'user', 'book', 'borrow_date']
+
+

@@ -26,4 +26,6 @@ urlpatterns = [
     path('api.categories/',views.category_list),
     path('api.users/',views.users_list),
     path('api.users/<int:id>/',views.user_detail),
+    path('api.favorites/',views.favorite_list),
+    path('api.BorrowTransaction/',views.BorrowTransaction_list),
 ]
