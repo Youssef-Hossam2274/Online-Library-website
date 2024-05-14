@@ -21,8 +21,9 @@ from OnlineLibrary import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api.books/',views.book_list),
+    path('api.books/<int:id>/',views.book_detail),
     path('api.authors/',views.author_list),
     path('api.categories/',views.category_list),
     path('api.users/',views.users_list),
-    path('api.books/<int:id>/',views.book_detail),
+    path('api.users/<int:id>/',views.user_detail),
 ]

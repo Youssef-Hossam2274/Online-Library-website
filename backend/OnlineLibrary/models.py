@@ -16,7 +16,7 @@ class User(models.Model):
     isAdmin = models.BooleanField()
     
     def __str__(self):
-        return self.firstName + " " +self.secondName
+        return self.username
 
 
 

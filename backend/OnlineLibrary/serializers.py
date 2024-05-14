@@ -56,3 +56,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'password', 'firstName', 'secondName', 'email', 'phoneNumber', 'photo', 'isAdmin']
+        def update(self, instance, validated_data):
+            instance.password = validated_data.get('password', instance.password)
+            instance.firstNmae = validated_data.get('firstNmae', instance.firstNmae)
+            instance.secondName = validated_data.get('secondName', instance.secondName)
+            instance.email = validated_data.get('email', instance.email)
+            instance.phoneNumber = validated_data.get('phoneNumber', instance.phoneNumber)
+            instance.photo = validated_data.get('photo', instance.photo)
+            
+            instance.save()
+            return instance
