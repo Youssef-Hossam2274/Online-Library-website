@@ -12,12 +12,43 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ['id', 'name']
 
+
 class BookSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
     category = CategorySerializer()
+
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'cover', 'rating','category', 'publish_date', 'available', 'description']
+        fields = ['id', 'title', 'author', 'cover', 'rating', 'category', 'publish_date', 'available', 'description']
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.cover = validated_data.get('cover', instance.cover)
+        instance.rating = validated_data.get('rating', instance.rating)
+        instance.publish_date = validated_data.get('publish_date', instance.publish_date)
+        instance.available = validated_data.get('available', instance.available)
+        instance.description = validated_data.get('description', instance.description)
+        
+        # Update author
+        author_data = validated_data.pop('author', None)
+        if author_data:
+            author_serializer = AuthorSerializer(instance.author, data=author_data)
+            if author_serializer.is_valid():
+                author_serializer.save()
+            else:
+                raise serializers.ValidationError(author_serializer.errors)
+        
+        # Update category
+        category_data = validated_data.pop('category', None)
+        if category_data:
+            category_serializer = CategorySerializer(instance.category, data=category_data)
+            if category_serializer.is_valid():
+                category_serializer.save()
+            else:
+                raise serializers.ValidationError(category_serializer.errors)
+        
+        instance.save()
+        return instance
 
 
 
