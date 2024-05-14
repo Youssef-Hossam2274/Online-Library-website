@@ -1,5 +1,4 @@
-let userData = JSON.parse(window.localStorage.getItem("users"));
-    let curUser = userData[userId];
+
 
 function showDetails(){
     let userData = JSON.parse(window.localStorage.getItem("users"));

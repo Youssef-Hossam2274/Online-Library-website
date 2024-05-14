@@ -1,7 +1,14 @@
-let userId = JSON.parse(window.sessionStorage.getItem("user_id"));
+let userId = JSON.parse(window.localStorage.getItem("user_id"));
 let headImageUrl = "../img/profile-icon.png";
 
 function displayHeader() {
+  // let request = new XMLHttpRequest();
+  // request.open("GET",`http://127.0.0.1:8000/api.users/${userId}/`);
+  // request.send();
+  // request.onload = () =>{
+  //   let data = JSON.parse(request.responseText);
+  //   headImageUrl = data["photo"];
+  // }
   let header = `
     <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
     <link
@@ -24,7 +31,7 @@ function displayHeader() {
     </nav>
     
     <div class="profile">
-    <a class="profile-icon" href="../HTML/profile.html"><img src=${headImageUrl} alt="profile"></a>
+    <a class="profile-icon" href="../HTML/profile.html"><img src= "../backend/${headImageUrl}" alt="profile"></a>
     <button class="login-btn" onclick="location.href='../HTML/Login.html'">Log In</button>
     <button class="signUp-btn" onclick="location.href='../HTML/SignUp.html'">Sign Up</button>
     </div>
@@ -40,11 +47,11 @@ function displayHeader() {
 
   document.querySelector(".profile-icon img");
   document.write(header);
-
   let profilePhoto = document.querySelector(".profile-icon img");
   profilePhoto.style.width = "40px";
   profilePhoto.style.height = "40px";
   profilePhoto.style.borderRadius = "50%";
+
 }
 
 function scrollToTop() {
@@ -57,6 +64,17 @@ function scrollToTop() {
   scroll_up.onclick = function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+}
+
+function headerProfileImage() {
+  let request = new XMLHttpRequest();
+  request.open("GET",`http://127.0.0.1:8000/api.users/${userId}/`);
+  request.send();
+  request.onload = () =>{
+    let data = JSON.parse(request.responseText);
+    headImageUrl = "";
+    headImageUrl = data["photo"];
+  }
 }
 
 function displayLoginSignup() {
@@ -72,12 +90,7 @@ function displayLoginSignup() {
   }
 }
 
-function headerProfileImage() {
-  let userData = JSON.parse(window.localStorage.getItem("users"));
-  if (userId == null) return;
-  let curUser = userData[userId];
-  headImageUrl = curUser.imageURL;
-}
+
 
 // Shows an animated message
 function showMessage(msg, color = "#42bd6c", success = true) {
@@ -111,8 +124,6 @@ function showMessage(msg, color = "#42bd6c", success = true) {
 }
 
 //     ---> calling functions <--
-
-headerProfileImage();
 displayHeader();
 scrollToTop();
 displayLoginSignup();

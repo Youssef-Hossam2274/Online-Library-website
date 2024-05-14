@@ -12,7 +12,7 @@ class User(models.Model):
     secondName = models.CharField(max_length=255,null=True)
     email = models.CharField(max_length=255)
     phoneNumber = models.CharField(max_length=11,null=True)
-    photo =  models.ImageField(upload_to='photos/', null=True, blank=True)
+    photo =  models.ImageField(upload_to='photos/', null=True, blank=True, default='photos\photo_default.png"')
     isAdmin = models.BooleanField()
     
     def __str__(self):
@@ -38,7 +38,7 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=255,null=True)
     author = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE, null=True)
-    cover = models.ImageField(upload_to='covers/', null=True, blank=True)
+    cover = models.ImageField(upload_to='covers/', null=True, blank=True, default='covers/cover_default.png')
     rating = models.IntegerField(null=True)
     category = models.ForeignKey(Category, related_name='books', on_delete=models.CASCADE, default= 1)
     publish_date = models.DateField(null=True)

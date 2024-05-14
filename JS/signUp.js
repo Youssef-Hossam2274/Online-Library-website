@@ -1,6 +1,8 @@
 let open_eye = document.getElementById("open-eye");
 let close_eye = document.getElementById("close-eye");
 let password = document.getElementById("password-input");
+let user = document.getElementById("user");
+let admin = document.getElementById("admin");
 
 open_eye.onclick = close_eye.onclick = function()
 {
@@ -19,8 +21,6 @@ open_eye.onclick = close_eye.onclick = function()
     }
 }
 
-let user = document.getElementById("user");
-let admin = document.getElementById("admin");
 
 user.onclick = function(){
     user.classList.add("type-active");
@@ -32,32 +32,6 @@ admin.onclick = function(){
     user.classList.remove("type-active");
 }
 
-
-class User {
-    constructor(
-        userName,
-        password,
-        email,
-        isAdmin,               
-        firstName,
-        lastName,
-        imageURL,
-        books,
-        favorites,
-        phoneNumber
-    ) {
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-        this.isAdmin = isAdmin;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.imageURL = imageURL;
-        this.books = books;
-        this.favorites = favorites;
-        this.phoneNumber = phoneNumber;
-    }
-}
 
 function ValidUserName(userName){
     if(userName.trim() === "")
@@ -108,7 +82,6 @@ function ValidEmail(email)
     }
 }
 
-
 function addNewUser(){
     let userType = false;
     if (admin.className === "admin type-active")
@@ -120,18 +93,6 @@ function addNewUser(){
     let userEmail = document.getElementById("email-input").value;
 
 
-    let newUser = new User(
-        userName,
-        userPassword,
-        userEmail,
-        userType,
-        "",
-        "",
-        "../img/profile-icon.png",
-        [],
-        [],
-        ""
-    );
 
     if(ValidUserName(userName) == false)
         return;
@@ -151,31 +112,34 @@ function addNewUser(){
     else if(ValidEmail(userEmail) == false)
         return;
 
+    // addToAPI(userName, userPassword, userEmail, userType);
+    addToAPI(userName, userPassword, userEmail, userType);
+    for(let i = 0; i < 2000; ++i)
+        console.log("aaaaaa");
     
-    let usersJSON = window.localStorage.getItem("users");
-    let updatedJSON, usersArr;
+}
 
-    if (usersJSON) {
-        usersArr = JSON.parse(usersJSON);
-        usersArr.push(newUser);
-        updatedJSON = JSON.stringify(usersArr);
-    } else {
-        updatedJSON = JSON.stringify([newUser]);
+function addToAPI(userName, userPassword, userEmail, userType){
+    let request = new XMLHttpRequest();
+    request.open("POST", "http://127.0.0.1:8000/api.users/");
+    request.responseType = "json";
+    request.setRequestHeader("Content-type", "application/json");
+    let requestBody = `{
+        "username": "${userName}",
+        "password": "${userPassword}",
+        "email": "${userEmail}",
+        "isAdmin": ${userType}
+    }`;
+    request.send(requestBody);
+    request.onload = function(){
+        let response = request.response;
+        for(let i = 0; i < 1000; ++i)
+            console.log(i);
+        
+        window.localStorage.setItem("user_id", response["id"]);
+        window.localStorage.setItem("isAdmin", response["isAdmin"]);
+        window.localStorage.setItem("isSignUp", true);
     }
-    window.localStorage.setItem("users", updatedJSON);
-    
-    
-    let users= JSON.parse(window.localStorage.getItem("users"));
-    if(users != null){
-        window.sessionStorage.setItem("user_id", users.length-1)
-        window.sessionStorage.setItem("isAdmin", users[users.length-1].isAdmin)
-    }
-
-    window.sessionStorage.setItem("isSignUp", true);
-
-
-
-    
 }
 
 const myForm = document.querySelector(".signup-content");

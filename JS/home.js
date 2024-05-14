@@ -1,19 +1,18 @@
 function succsessRegistiration()
 {
-    let isLogin = JSON.parse(window.sessionStorage.getItem("isLogin"));
-    let isSignUp = JSON.parse(window.sessionStorage.getItem("isSignUp"));
+    let isLogin = JSON.parse(window.localStorage.getItem("isLogin"));
+    let isSignUp = JSON.parse(window.localStorage.getItem("isSignUp"));
     
     if(isLogin)
     {
         showMessage("Login in is succsess");
-        sessionStorage.removeItem("isLogin");
+        localStorage.removeItem("isLogin");
     }
     
     if(isSignUp)
     {
         showMessage("Registration Successfully");
-        sessionStorage.removeItem("isSignUp");
-    
+        localStorage.removeItem("isSignUp");
     }
 
 }
