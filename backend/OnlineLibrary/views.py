@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from .models import Book, Author, Category, User, Favorite, BorrowTransaction
-from .serializers import BookSerializer,AuthorSerializer, UserSerializer , FavoriteSerializer, BorrowTransactionSerializer
+from .serializers import BookSerializer,AuthorSerializer, UserSerializer , FavoriteSerializer, BorrowTransactionSerializer, CategorySerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -20,6 +20,8 @@ def book_list(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors)
 
 @api_view(['GET', 'PUT', 'DELETE']) 
 def book_detail(request, id):
@@ -42,14 +44,44 @@ def book_detail(request, id):
         book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@api_view(['GET', 'POST']) 
 def author_list(request):
-    authors = Author.objects.all()
-    serializer = AuthorSerializer(authors, many = True)
+    if request.method == 'GET':
+        authors = Author.objects.all()
+        serializer = AuthorSerializer(authors, many = True)
+        return JsonResponse(serializer.data, safe=False)
+
+    if request.method == 'POST':
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors)
+
+def author_detail(request, id):
+    book = Author.objects.get(pk = id)
+    serializer = AuthorSerializer(book)
     return JsonResponse(serializer.data, safe=False)
 
+@api_view(['GET', 'POST']) 
 def category_list(request):
-    categories = Category.objects.all()
-    serializer = AuthorSerializer(categories, many = True)
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        serializer = AuthorSerializer(categories, many = True)
+        return JsonResponse(serializer.data, safe=False)
+
+    if request.method == 'POST':
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors)
+
+def category_detail(request, id):
+    category = Category.objects.get(pk = id)
+    serializer = CategorySerializer(category)
     return JsonResponse(serializer.data, safe=False)
 
 @api_view(['POST', 'GET']) 
