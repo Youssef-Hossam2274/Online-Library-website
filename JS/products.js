@@ -93,10 +93,12 @@ function AddAllBooks() {
 
                 let MyMain = document.querySelector(".main-books");
                 MyMain.append(parsedDocument.querySelector(".book"));
+            }
+            // set category select list
+            let select_list = document.getElementById("categorySelect");
+            let uniqueCategories = new Set();
 
-                // set category select list
-                let select_list = document.getElementById("categorySelect");
-                let uniqueCategories = new Set();
+            for (let i = 0; i < data.length; i++) {
                 const category = data[i]["category"]["name"];
 
                 if (!uniqueCategories.has(category)) {
@@ -107,6 +109,7 @@ function AddAllBooks() {
                     uniqueCategories.add(category);
                 }
             }
+
         }
     }
 }
