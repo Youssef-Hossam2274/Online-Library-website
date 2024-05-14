@@ -10,275 +10,269 @@ const statusBlock = document.querySelector("#status-block");
 const borrowBtn = document.querySelector("#borrow-btn");
 const favBtn = document.querySelector("#fav-btn");
 const descriptionBox = document.querySelector(".description > p");
-const userID = JSON.parse(window.sessionStorage.getItem("user_id")); // NaN means that current user didn't login
-const isAdmin = JSON.parse(window.sessionStorage.getItem("isAdmin"));
-let bookId = -1;
+let user;
 let zoomImage = false;
+let book = null;
 
-// --------------- Functions ------------------
+// --------------- Data Fetchers ------------------
+// Fetches the user data from local storage
+function fetchUser() {
+  let userID = (user = window.sessionStorage.getItem("user_id"));
+  if (userID) {
+    userID = JSON.parse(userID);
+
+    // fetching the user object
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", `http://127.0.0.1:8000/api.users/${id}/`);
+    xhr.onload = function () {
+      if (this.status === 200) {
+        user = JSON.parse(this.responseText);
+      }
+    };
+
+    xhr.send();
+  } else {
+    user = null;
+  }
+}
+
+// Fetches the book id from the page url
+function fetchId() {
+  let params = new URLSearchParams(window.location.search);
+  return params.get("id");
+}
+
+// Fetching the book data using its id
+function fetchData(id) {
+  let request = new XMLHttpRequest();
+  request.open("GET", `http://127.0.0.1:8000/api.books/${id}/`);
+  request.send();
+
+  request.onload = function () {
+    if (this.status === 200) {
+      book = JSON.parse(this.responseText);
+      if (book.cover) {
+        bookImage.src = book.cover;
+        zoomBox.style.backgroundImage = `url(${book.cover})`;
+        zoomImage = true;
+      }
+      bookTitle.innerHTML = book.title;
+      categoryField.innerHTML = book.category.name;
+      dateField.innerHTML = book.publish_date;
+      descriptionBox.innerHTML = book.description;
+      // Availability
+      if (book.available) {
+        statusBanner.innerHTML = "available";
+        statusBlock.innerHTML =
+          '<span class="material-symbols-rounded" id="status-icon">mood</span>available';
+        statusBanner.style.backgroundColor = "#56cb5b";
+        statusBlock.style.backgroundColor = "#56cb5b";
+      } else {
+        statusBanner.innerHTML = "unavailable";
+        statusBlock.innerHTML =
+          '<span class="material-symbols-rounded" id="status-icon">sentiment_dissatisfied</span>unavailable';
+        statusBanner.style.backgroundColor = "#dd4034";
+        statusBlock.style.backgroundColor = "#dd4034";
+      }
+      addRating(book.rating);
+
+      // author request
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", `http://127.0.0.1:8000/api.authors/${book.author}/`);
+      xhr.onload = function () {
+        if (this.status === 200) {
+          bookAuthor.innerHTML = JSON.parse(this.responseText).name;
+        }
+      };
+      xhr.send();
+    } 
+    else {
+      showMessage("This book is undefined", "#f44336", false);
+    }
+  };
+}
+
+// ------------------ Other -------------------
+// removes the current book
+function removeCurrentBook() {
+  // ----- Removing from all books
+  let request = new XMLHttpRequest();
+  request.open("DELETE", `http://127.0.0.1:8000/api.books/${id}`);
+  request.send();
+  request.onload = function () {
+    if (this.status === 204) {
+      // Showing the message
+      showMessage(
+        `${bookTitle.innerHTML} has been deleted successfully`,
+        "#42BD6C",
+        true
+      );
+    }
+  };
+}
+
+// TODO: check current stat of borrowing or adding to favorites or availability
+function checkState() {
+  
+}
+
+// Adding admin buttons
+function addAdminButtons() {
+  if (user && book.publisher == user.id) {
+    // Adding remove and edit buttons
+    let parser = new DOMParser();
+    document
+      .querySelector(".image-side").appendChild(parser.parseFromString(
+            `<div class="admin-btns">
+                <button id="edit-btn">
+                  <span class="material-symbols-rounded">edit</span>Edit
+                </button>
+                <button id="remove-btn">
+                  <span class="material-symbols-rounded">delete</span>Remove
+                </button>
+              </div>`,
+            "text/html"
+          ).querySelector(".admin-btns")
+      );
+
+    // Adding functionality
+    document.getElementById("edit-btn").addEventListener("click", () => {
+      window.location.href = `edit_book.html?id=${book.id}`;
+    });
+    document.getElementById("remove-btn").addEventListener("click", removeCurrentBook);
+  }
+}
+
 // Rating
-function addRating() {
+function addRating(n = 0) {
   let stars = document.querySelectorAll(".stars > span");
-  let n = Math.floor(Math.random() * 6);
 
   for (let i = 0; i < n; ++i) {
     stars[i].classList.add("checked");
   }
 }
 
-// removes the current book
-function removeCurrentBook() {
-  // ----- Removing from all books
-  let books = JSON.parse(window.localStorage.getItem("books"));
-  delete books[bookId];
-
-  // Returning back to JSON;
-  window.localStorage.setItem("books", JSON.stringify(books));
-
-  // ----- Remove from admin books
-  let users = JSON.parse(window.localStorage.users);
-  for (let i = 0; i < users[userID].books.length; ++i) {
-    if (users[userID].books[i] == bookId) {
-      users[userID].books.splice(i, 1);
-    }
-  }
-  // pushing back
-  window.localStorage.users = JSON.stringify(users);
-
-  // Disabling buttons
-  borrowBtn.disabled = true;
-  favBtn.disabled = true;
-
-  // Showing the message
-  showMessage(
-    `${bookTitle.innerHTML} has been deleted successfully`,
-    "#42BD6C",
-    true
-  );
-
-  // Directing to Books page
-  setTimeout(() => (window.location.href = "all_books.html"), 4000);
-}
-
-// Checks the type of user to display and un-display stuff
-function authorizeUser() {
-  // if user or admin
-  if (Number.isInteger(userID)) {
-    // if only an admin
-    if (isAdmin) {
-      // Search for the book in his list of added books
-      let userObj = JSON.parse(window.localStorage.getItem("users"))[userID];
-      for (let id of userObj.books) {
-        if (id == bookId) {
-          // Adding remove and edit buttons
-          let parser = new DOMParser();
-          document
-            .querySelector(".image-side")
-            .appendChild(
-              parser
-                .parseFromString(
-                  '<div class="admin-btns"><button id="edit-btn"><span class="material-symbols-rounded">edit</span>Edit</button><button id="remove-btn"><span class="material-symbols-rounded">delete</span>Remove</button></div>',
-                  "text/html"
-                )
-                .querySelector(".admin-btns")
-            );
-
-          // Adding functionality
-          document.getElementById("edit-btn").addEventListener("click", () => {
-            window.location.href = `edit_book.html?id=${bookId}`;
-          });
-          document
-            .getElementById("remove-btn")
-            .addEventListener("click", removeCurrentBook);
-        }
-      }
-    }
-  }
-}
-
-// Fetching the book data using its id
-function fetchData(bookId) {
-  let books = JSON.parse(window.localStorage.getItem("books"));
-  let currentBook = books[bookId];
-  // Updating page details
-  if (currentBook.imageURL) {
-    bookImage.src = currentBook.imageURL;
-    zoomBox.style.backgroundImage = `url(${currentBook.imageURL})`;
-    zoomImage = true;
-  }
-  bookTitle.innerHTML = currentBook.title;
-  bookAuthor.innerHTML = currentBook.author;
-  categoryField.innerHTML = currentBook.category;
-  dateField.innerHTML = currentBook.publishDate;
-  descriptionBox.innerHTML = currentBook.description;
-
-  if (currentBook.availability) {
-    statusBanner.innerHTML = "available";
-    statusBlock.innerHTML =
-      '<span class="material-symbols-rounded" id="status-icon">mood</span>available';
-    statusBanner.style.backgroundColor = "#56cb5b";
-    statusBlock.style.backgroundColor = "#56cb5b";
-  } else {
-    statusBanner.innerHTML = "unavailable";
-    statusBlock.innerHTML =
-      '<span class="material-symbols-rounded" id="status-icon">sentiment_dissatisfied</span>unavailable';
-    statusBanner.style.backgroundColor = "#dd4034";
-    statusBlock.style.backgroundColor = "#dd4034";
-  }
-
-  addRating();
-}
-
-// Fetches the book id from the page url
-function fetchId() {
-  let psearch = new URLSearchParams(window.location.search);
-  return parseInt(psearch.get("id"));
-}
-
-// Checks if the id is already valid and found in books
-function checkId(bookId) {
-  if (bookId == NaN) {
-    return false;
-  } else {
-    let books = JSON.parse(window.localStorage.getItem("books"));
-    if (books && bookId < books.length && bookId >= 0 && books[bookId]) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-}
-
 // -------------------- Main ---------------------
-bookId = fetchId();
+let bookId = fetchId();
 
-if (checkId(bookId)) {
-  // check the type of visitor
-  authorizeUser();
+if (bookId) {
 
-  // fetching the data
   fetchData(bookId);
+  addAdminButtons();
+  checkState();
+}
 
-  // Do other stuff
+// ------------------ event handlers --------------
+// Borrow button handling
+borrowBtn.addEventListener("click", () => {
+  // regular visitor
+  if (!user) {
+    showMessage(
+      "You need to be logged in to borrow this book",
+      "#f44336",
+      false
+    );
+  }
+  // admin
+  else if (user.isAdmin) {
+    showMessage("Admins cannot borrow books", "#f44336", false);
+  }
+  // user
+  else {
+    let xhr = XMLHttpRequest();
+    xhr.open("POST", "http://127.0.0.1:8000/api.BorrowTransaction/");
+    xhr.responseType = "json";
+    xhr.setRequestHeader("Content-type", "application/json");
+    let requestBody = `{
+        "user": ${user.id},
+        "book": ${book.id},
+        "borrow_date": ${new Date().toJSON()}
+      }`;
 
-  // Borrow button handling
-  borrowBtn.addEventListener("click", () => {
-    // regular visitor
-    if (!Number.isInteger(userID)) {
-      showMessage(
-        "You need to be logged in to borrow this book",
-        "#f44336",
-        false
-      );
-    }
-    // admin
-    else if (isAdmin) {
-      showMessage("Admins cannot borrow books", "#f44336", false);
-    }
-    // user
-    else {
-      // check book availability
-      let books = JSON.parse(window.localStorage.getItem("books"));
-      if (!books[bookId].availability) {
-        showMessage("This book is unavailable", "#f44336", false);
-      } else {
-        let users = JSON.parse(window.localStorage.getItem("users"));
+    xhr.onload = function () {
+      // update book status
+      if (this.status < 300 && this.status >= 200) {
+        let xhr2 = XMLHttpRequest();
+        xhr2.open("POST", `http://127.0.0.1:8000/api.books/${book.id}`);
+        xhr2.responseType = "json";
+        xhr2.setRequestHeader("Content-type", "application/json");
+        // make unavailable
+        book.available = false;
 
-        // check if already borrowed before
-        let borrowed = false;
-        for (let id of users[userID].books) {
-          if (id == bookId) {
-            borrowed = true;
-            showMessage(
-              "This book has been already borrowed to your favorites",
-              "#d38902",
-              true
-            );
-          }
-        }
-
-        if (!borrowed) {
-          // add to his list of books
-          users[userID].books.push(bookId);
-          window.localStorage.setItem("users", JSON.stringify(users));
-
-          // make unavailable
-          books[bookId].availability = false;
-          window.localStorage.setItem("books", JSON.stringify(books));
-        }
-
-        showMessage("The book has been borrowed successfully", "#42BD6C", true);
-      }
-    }
-  });
-
-  // Add to favorites
-  favBtn.addEventListener("click", () => {
-    // regular visitor
-    if (!Number.isInteger(userID)) {
-      showMessage(
-        "You need to be logged in to add to favorites",
-        "#f44336",
-        false
-      );
-    }
-
-    // user or admin
-    else {
-      // fetching all users
-      let users = JSON.parse(window.localStorage.getItem("users"));
-      // check if already added before
-      let added = false;
-      for (let id of users[userID].favorites) {
-        if (id == bookId) {
-          added = true;
+        xhr.onload = function () {
           showMessage(
-            "This book has been already added to your favorites",
-            "#d38902",
+            "The book has been added to your borrows successfully",
+            "#42BD6C",
             true
           );
-        }
+        };
+        xhr2.send(JSON.stringify(book));
+      } else {
+        showMessage("This book has been already borrowed", "#d38902", false);
       }
+    };
+    xhr.send(requestBody);
+  }
+});
 
-      if (!added) {
-        // adding the book to favorites
-        users[userID].favorites.push(bookId);
-        // pushing back the users json
-        window.localStorage.setItem("users", JSON.stringify(users));
+// Add to favorites
+favBtn.addEventListener("click", () => {
+  // regular visitor
+  if (!user) {
+    showMessage(
+      "You need to be logged in to add to favorites",
+      "#f44336",
+      false
+    );
+  } else {
+    let xhr = XMLHttpRequest();
+    xhr.open("POST", "http://127.0.0.1:8000/api.favorites/");
+    xhr.responseType = "json";
+    xhr.setRequestHeader("Content-type", "application/json");
+    let requestBody = `{
+        "user": ${user.id},
+        "book": ${book.id},
+     }`;
 
+    xhr.onload = function () {
+      if (this.status < 300 && this.status >= 200) {
         showMessage(
           "The book has been added to your favorites successfully",
           "#42BD6C",
           true
         );
+      } else {
+        showMessage(
+          "This book is already added to your favorites",
+          "#d38902",
+          false
+        );
       }
-    }
+    };
+
+    xhr.send(requestBody);
+  }
+});
+
+// Adding the zooming event to book image in-case of wide screen
+if (screen.width > 768 && zoomImage) {
+  bookImage.addEventListener("mousemove", (e) => {
+    // Showing the container
+    zoomBox.style.display = "block";
+
+    // Extracting the current width and height
+    let width = parseFloat(window.getComputedStyle(bookImage).width);
+    let height = parseFloat(window.getComputedStyle(bookImage).height);
+
+    // Extracting the current mouse position portion
+    let x = e.offsetX / width;
+    let y = e.offsetY / height;
+
+    // Moving to the current part
+    zoomBox.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
   });
 
-  // Adding the zooming event to book image in-case of wide screen
-  if (screen.width > 768 && zoomImage) {
-    bookImage.addEventListener("mousemove", (e) => {
-      // Showing the container
-      zoomBox.style.display = "block";
-
-      // Extracting the current width and height
-      let width = parseFloat(window.getComputedStyle(bookImage).width);
-      let height = parseFloat(window.getComputedStyle(bookImage).height);
-
-      // Extracting the current mouse position portion
-      let x = e.offsetX / width;
-      let y = e.offsetY / height;
-
-      // Moving to the current part
-      zoomBox.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
-    });
-
-    bookImage.addEventListener("mouseleave", (e) => {
-      zoomBox.style.display = "none";
-    });
-  }
-} else {
-  favBtn.disabled = true;
-  borrowBtn.disabled = true;
-  showMessage("This book is undefined", "#f44336", false);
+  bookImage.addEventListener("mouseleave", (e) => {
+    zoomBox.style.display = "none";
+  });
 }
