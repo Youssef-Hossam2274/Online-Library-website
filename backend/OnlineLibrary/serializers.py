@@ -15,12 +15,9 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 class BookSerializer(serializers.ModelSerializer):
-    # author = AuthorSerializer()
-    # category = CategorySerializer()
-
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'cover', 'rating', 'category', 'publish_date', 'available', 'description']
+        fields = ['id', 'title', 'author', 'cover', 'rating', 'category', 'publish_date', 'available', 'description', 'publisher']
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)

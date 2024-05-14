@@ -44,6 +44,7 @@ class Book(models.Model):
     publish_date = models.DateField(null=True)
     available = models.BooleanField(default=True)
     description = models.TextField(null=False)
+    publisher = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
