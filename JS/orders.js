@@ -1,7 +1,3 @@
-let userData = JSON.parse(window.localStorage.getItem("users"));
-let curUser = userData[userId];
-
-
 let order = `
     <div class="order">
             <div class="order-id">#12545</div>
@@ -103,4 +99,4 @@ function AddAllBooks() {
   }
 }
 
-AddAllBooks();
+// AddAllBooks();
