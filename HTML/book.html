@@ -29,8 +29,7 @@
             <img src="../img/book-cover-placeholder.png" id="book-image" />
             <div id="status-banner"></div>
           </div>
-          <div class="zoom-box">
-          </div>
+          <div class="zoom-box"></div>
         </div>
         <div class="book-info-side">
           <div class="book-title">
@@ -67,10 +66,22 @@
             </span>
           </div>
           <div class="buttons">
-            <button type="submit" class="borrow-btn button" id="borrow-btn">
+            <button
+              type="submit"
+              class="borrow-btn button"
+              id="borrow-btn"
+              data-state="0"
+            >
+              <span class="material-symbols-rounded">bookmark_add</span>
               Borrow
             </button>
-            <button type="submit" class="fav-btn button" id="fav-btn">
+            <button
+              type="submit"
+              class="fav-btn button"
+              id="fav-btn"
+              data-state="0"
+            >
+              <span class="material-symbols-rounded">heart_plus</span>
               Add to favorites
             </button>
           </div>
