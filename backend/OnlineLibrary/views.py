@@ -133,7 +133,21 @@ def favorite_list(request):
             return JsonResponse(serializer.data, status = status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors)
+
+@api_view(['GET', 'DELETE']) 
+def favorite_detail(request, id):
+
+    favorite = Favorite.objects.get(pk = id)
+
+    if request.method == 'GET':
+        serializer = FavoriteSerializer(favorite)
+        return JsonResponse(serializer.data, safe=False)
         
+
+    if request.method == 'DELETE':
+        favorite.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 @api_view(['GET', 'POST'])
 def BorrowTransaction_list(request):
     
@@ -149,3 +163,17 @@ def BorrowTransaction_list(request):
             return JsonResponse(serializer.data, status = status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors)
+        
+@api_view(['GET', 'DELETE']) 
+def borrow_transaction_detail(request, id):
+
+    borrowID = BorrowTransaction.objects.get(pk = id)
+
+    if request.method == 'GET':
+        serializer = BorrowTransactionSerializer(borrowID)
+        return JsonResponse(serializer.data, safe=False)
+        
+
+    if request.method == 'DELETE':
+        borrowID.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
