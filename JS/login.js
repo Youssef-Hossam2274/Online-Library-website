@@ -24,36 +24,56 @@ open_eye.onclick = close_eye.onclick = function()
 
 function validUserName(userName)
 {
-    const usersArr = JSON.parse(window.localStorage.getItem("users"));
-    if(usersArr)
-    {
-        for(let i = 0; i < usersArr.length; ++i)
-        {
-            if(usersArr[i].userName == userName)
-                return true
-        }
+    if(userName.trim() === ""){
+        showMessage("User name is required", "red", false);
         return false;
     }
-    return false;
+
+    let request = new XMLHttpRequest();
+    request.open("GET",`http://127.0.0.1:8000/api.users/`);
+    request.send();
+    request.onload = () =>{
+        let data = JSON.parse(request.responseText);
+        let found = false;
+        for(const user of data){
+            if(user["username"] == userName)
+                found = true;
+        }
+
+        if(found == false){
+            showMessage("User name is not found", "red", false);
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function validPassword(userName,_password)
 {
-    const usersArr = JSON.parse(window.localStorage.getItem("users"));
-    if(usersArr)
-    {
-        for(let i = 0; i < usersArr.length; ++i)
-        {
-            if(usersArr[i].userName == userName && usersArr[i].password == _password)
-            {
-                window.sessionStorage.setItem("user_id", i);
-                window.sessionStorage.setItem("isAdmin", usersArr[i].isAdmin);
-                return true;
-            }
-        }
+    if(_password.trim() === ""){
+        showMessage("Password is required", "red", false);
         return false;
     }
-    return false;
+
+    let request = new XMLHttpRequest();
+    request.open("GET",`http://127.0.0.1:8000/api.users/`);
+    request.send();
+    request.onload = () =>{
+        let data = JSON.parse(request.responseText);
+        let found = false;
+        for(const user of data){
+            if(user["username"] == userName && user["password"] == _password)
+                found = true;
+        }
+
+        if(found == false){
+            showMessage("User name or password is Wrong", "red", false);
+            return false;
+        }
+    }
+
+    return true;
 }
 
 
@@ -89,10 +109,20 @@ function validateLogin(){
 
 }
 
-// myForm.addEventListener("submit", validateLogin);
 login_button.onclick = () =>{
     let user_name = document.getElementById("user-input").value;
     let user_password = document.getElementById("password-input").value;
+    let validation = true;
+    
+    if(validUserName(user_name) == false)
+        validation = false;
+    if(validPassword(user_name, user_password) == false)
+        validation = false;
+
+    console.log(validation);
+
+    if(validation == false)
+        return;
 
     let request = new XMLHttpRequest();
     request.open("GET",`http://127.0.0.1:8000/api.users/`);
@@ -112,8 +142,6 @@ login_button.onclick = () =>{
 }
 
 
-console.log(userId);
+// console.log(userId);
 if(userId != null)
-window.location.href= "../HTML/Home.html";
-
-// showMessage("Login is succsess");
+    window.location.href= "../HTML/Home.html";
