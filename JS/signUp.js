@@ -3,6 +3,10 @@ let close_eye = document.getElementById("close-eye");
 let password = document.getElementById("password-input");
 let user = document.getElementById("user");
 let admin = document.getElementById("admin");
+let signupButton = document.querySelector(".sinup-button");
+const myForm = document.querySelector(".signup-content");
+
+
 
 open_eye.onclick = close_eye.onclick = function()
 {
@@ -34,52 +38,54 @@ admin.onclick = function(){
 
 
 function ValidUserName(userName){
-    if(userName.trim() === "")
-    {
-        alert("User name is required");
+
+    if(userName.trim() === ""){
+        showMessage("User name is required", "red", false);
         return false;
     }
 
-    const usersArr = JSON.parse(window.localStorage.getItem("users"));
-    if(usersArr)
-    {
-        for(let i = 0; i < usersArr.length; ++i)
-        {
-            if (userName == usersArr[i].userName)
-            {
-                alert("User name already exist");
-                return false;
-            }
-        }
-    }
+    // let request = new XMLHttpRequest();
+    // request.open("GET",`http://127.0.0.1:8000/api.users/`);
+    // request.send();
+    // request.onload = () =>{
+    //     let data = JSON.parse(request.responseText);
+    //     let found = false;
+    //     for(const user of data){
+    //         if(user["username"] == userName)
+    //             found = true;
+    //     }
+        
+    //     if(found == true){
+    //         showMessage("User name is already exist !!!", "red", false);
+    //         return false;
+    //     }
+    //     else
+    //         return true;
+    // }
     return true;
 }
+
 
 function ValidPassword(password){
     if(password.trim() === "")
     {
-        alert("Password is required");
+        showMessage("Password is required", "red", false);
         return false;
     }
+    return true;
 }
 
 function ValidEmail(email)
 {
-    // var pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-    // if(email.match(pattern) == false){
-    //     alert("email is not valid")
-    //     return false;
-    // }
-    if(email.trim() == "")
-    {
-        alert("Email is requird");
+    if(email.trim() == ""){
+        showMessage("Email is required", "red", false);
         return false;
     }
-    else if (email.includes("@") == false)
-    {
-        alert("Email is invalid");
-        return;
+    else if (email.includes("@") == false){
+        showMessage("Email is invalid", "red", false);
+        return false;
     }
+    return true;
 }
 
 function addNewUser(){
@@ -142,8 +148,44 @@ function addToAPI(userName, userPassword, userEmail, userType){
     }
 }
 
-const myForm = document.querySelector(".signup-content");
-myForm.addEventListener("submit", addNewUser);
+signupButton.onclick = () =>{
+    let userType = false, validation = true;
+    if (admin.className === "admin type-active")
+        userType = true;
+
+    let userName = document.getElementById("user-input").value;
+    let userPassword = document.getElementById("password-input").value;
+    let confirmPassword = document.getElementById("confirm-input").value;
+    let userEmail = document.getElementById("email-input").value;
+
+    console.log(ValidUserName(userName));
+
+    if(ValidUserName(userName) == false){
+        validation = false;
+    }
+    if(ValidPassword(userPassword) == false)
+        validation = false;
+    
+    if(confirmPassword.trim() === ""){
+        showMessage("Confirm password is required", "red", false);
+        validation = false;
+    }    
+    if (confirmPassword != userPassword){
+        showMessage("Password or confirm password is wrong", "red", false);
+        validation = false;
+    }
+    if(ValidEmail(userEmail) == false)
+        validation = false;
+
+
+    console.log(validation);
+    if(validation == false)
+        return;
+
+    addToAPI(userName, userPassword, userEmail, userType);
+}
+
+
 
 if(userId != null)
     window.location.href= "../HTML/Home.html"; 

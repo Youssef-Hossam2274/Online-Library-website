@@ -1,5 +1,7 @@
 from django.db import models
 import os
+from django.core.management.base import BaseCommand
+from django.db import connection
 
 print(os.getcwd())
 
@@ -44,7 +46,7 @@ class Book(models.Model):
     publish_date = models.DateField(null=True)
     available = models.BooleanField(default=True)
     description = models.TextField(null=False)
-    publisher = models.ForeignKey(User, on_delete=models.CASCADE)
+    publisher = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.title
@@ -53,9 +55,10 @@ class BorrowTransaction(models.Model):
     user = models.ForeignKey(User, related_name='borrows', on_delete=models.CASCADE)
     book = models.ForeignKey(Book, related_name='borrows', on_delete=models.CASCADE)
     borrow_date = models.DateField(auto_now_add=True)
-
     def __str__(self):
         return f'{self.book.title} - {self.user.username}'
+    class Meta:
+        unique_together = ('user', 'book')
     
 
 class Favorite(models.Model):
@@ -64,3 +67,5 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f'{self.book.title} - {self.user.username}'
+    class Meta:
+        unique_together = ('user', 'book')
