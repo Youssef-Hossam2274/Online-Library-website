@@ -170,6 +170,9 @@ function addBook() {
 
       bookRequest.onload = function () {
         if (bookRequest.status >= 200 && bookRequest.status < 300) {
+                    for (let i = 0; i < 2000; i++) {
+            console.log(i);
+          }
           window.location.href = "all_books.html";
         } else {
           console.error("Error:", bookRequest.status, bookRequest.statusText);
