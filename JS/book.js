@@ -11,20 +11,20 @@ const borrowBtn = document.querySelector("#borrow-btn");
 const favBtn = document.querySelector("#fav-btn");
 const descriptionBox = document.querySelector(".description > p");
 let user = null;
-let zoomImage = false;
 let book = null;
+let zoomImage = false;
 
 // ----------------- Utilities -------------------
 // ---------------- Request functions -----------
 function loadedRequest(method, url, body) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
+    xhr.open(method, url, true);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.responseType = "json";
 
     xhr.onload = function () {
-      if (xhr.status >= 200 && xhr < 300) {
+      if (xhr.status >= 200 && xhr.status < 300) {
         resolve(this.responseText);
       } else {
         reject(Error(`Request failed with status code: ${this.status}`));
@@ -39,7 +39,7 @@ function loadedRequest(method, url, body) {
 function emptyRequest(method, url) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
+    xhr.open(method, url, true);
 
     xhr.onload = function () {
       if (this.status === 200) resolve(this.responseText);
@@ -123,8 +123,9 @@ function toggleBorrowedButton() {
     loadedRequest("POST", `http://127.0.0.1:8000/api.BorrowTransaction/`, {
       "user": user.id,
       "book": book.id,
-    }).then(() => {
-      checkBorrowed();
+    }).then((response) => {
+      // update dataset
+      borrowBtn.dataset.state = JSON.parse(response).id;
       showMessage("Borrowed successfully", "#42BD6C", true);
     });
   }
@@ -133,7 +134,7 @@ function toggleBorrowedButton() {
 // Make it toggle its state from favorite to not favorite
 function toggleFavoritesButton() {
   if (+favBtn.dataset.state > 0) {
-    emptyRequest("DELETE", `http://127.0.0.1:8000/api.favorites/${borrowBtn.dataset.state}/`)
+    emptyRequest("DELETE", `http://127.0.0.1:8000/api.favorites/${favBtn.dataset.state}/`)
       .then(() => {
         favBtn.dataset.state = 0;
         favBtn.innerHTML =
@@ -145,8 +146,9 @@ function toggleFavoritesButton() {
     loadedRequest("POST", `http://127.0.0.1:8000/api.favorites/`, {
       "user": user.id,
       "book": book.id,
-    }).then(() => {
-      checkFavorites();
+    }).then((response) => {
+      // update dataset
+      favBtn.dataset.state = JSON.parse(response).id;
       showMessage("Added to favorites", "#42BD6C", true);
     });
   }
@@ -294,7 +296,7 @@ function main() {
             });
 
             // Add to favorites
-            favBtn.addEventListener("click", () => {
+            favBtn.addEventListener("click", (e) => {
               // regular visitor
               if (!user) {
                 showMessage(
@@ -308,10 +310,10 @@ function main() {
               }
             });
           })
-          .catch(() => {
-            showMessage("This book id is undefined", "#f44336", false);
-          })
       });
+  }
+  else {
+    showMessage("This book id is undefined", "#f44336", false);
   }
 }
 
