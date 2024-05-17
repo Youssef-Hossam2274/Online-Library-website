@@ -51,13 +51,13 @@ function addCategory(newCategory) {
 // Getting the categories
 var xhr = new XMLHttpRequest();
 
-xhr.open("GET", "http://127.0.0.1:8000/api.categories", true);
+xhr.open("GET", "http://127.0.0.1:8000/api.categories/", true);
 
 xhr.send();
 
 xhr.onload = function () {
   const categoryDropdown = document.getElementById("category-list");
-  const categories = JSON.parse(xhr.response); // parse the response string into an object
+  const categories = JSON.parse(xhr.response);
 
   categories.forEach((category) => {
     const option = document.createElement("option");
@@ -81,24 +81,27 @@ xhr.onload = function () {
   });
 };
 myForm.addEventListener("submit", function (event) {
-  // myForm.preventDefault(); 
   event.preventDefault();
-  addBook();
+  findAuthorIdByName(document.getElementById("author_name").value)
+    .then(addBook)
+    .then((bookId) => addBorrowTransaction(bookId))
+    .then(() => {
+      window.location.href = "all_books.html";
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 });
-
 
 function findAuthorIdByName(authorName) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     const apiUrl = "http://127.0.0.1:8000/api.authors/";
 
-    // Configure the request
-    xhr.open("GET", apiUrl, true);
+    xhr.open("GET", apiUrl, true); // Make sure the request is asynchronous
 
-    // Set up event handlers
     xhr.onload = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        // Check if the request is done and the status is OK
         try {
           const authors = JSON.parse(xhr.responseText);
           const existingAuthor = authors.find(
@@ -106,19 +109,17 @@ function findAuthorIdByName(authorName) {
           );
 
           if (existingAuthor) {
-
+            // Author already exists, return their ID
             resolve(existingAuthor.id);
           } else {
-            // Create a new author
             const newAuthorXhr = new XMLHttpRequest();
-            newAuthorXhr.open("POST", apiUrl, true); 
+            newAuthorXhr.open("POST", apiUrl, true);
             newAuthorXhr.setRequestHeader("Content-Type", "application/json");
             newAuthorXhr.onload = function () {
               if (
                 newAuthorXhr.readyState === 4 &&
                 newAuthorXhr.status === 201
               ) {
-
                 const newAuthorData = JSON.parse(newAuthorXhr.responseText);
                 resolve(newAuthorData.id);
               } else {
@@ -145,18 +146,42 @@ function findAuthorIdByName(authorName) {
     xhr.send();
   });
 }
+// Borrow Transaction adding
+function addBorrowTransaction(bookID) {
+  const UID = window.localStorage.getItem("user_id");
+  const requestBody = {
+    user: UID,
+    book: bookID,
+  };
 
-// adding a new book
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://127.0.0.1:8000/api.BorrowTransaction/");
+  xhr.setRequestHeader("Content-Type", "application/json");
 
-function addBook() {
-  let bookRequest = new XMLHttpRequest();
-  bookRequest.open("POST", "http://127.0.0.1:8000/api.books/");
-  bookRequest.responseType = "json";
-  bookRequest.setRequestHeader("Content-type", "application/json");
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      resolve(JSON.parse(xhr.responseText));
+    } else {
+      reject(`Error: ${xhr.status}`);
+    }
+  };
 
-  findAuthorIdByName(document.getElementById("author_name").value)
-    .then((authorId) => {
-      let bookRequestBody = `{
+  // Set up the onerror event
+  xhr.onerror = function () {
+    reject("Network error");
+  };
+
+  xhr.send(JSON.stringify(requestBody));
+}
+
+function addBook(authorId) {
+  return new Promise((resolve, reject) => {
+    let bookRequest = new XMLHttpRequest();
+    bookRequest.open("POST", "http://127.0.0.1:8000/api.books/");
+    bookRequest.responseType = "json";
+    bookRequest.setRequestHeader("Content-type", "application/json");
+
+    let bookRequestBody = `{
       "title": "${document.getElementById("book_title").value}",
       "author": ${authorId},
       "cover": null,
@@ -166,26 +191,69 @@ function addBook() {
       "available": true,
       "description": "${document.getElementById("description").value}",
       "publisher": ${window.localStorage.getItem("user_id")}
-      }`;
+    }`;
 
-      bookRequest.onload = function () {
-        if (bookRequest.status >= 200 && bookRequest.status < 300) {
-                    for (let i = 0; i < 2000; i++) {
-            console.log(i);
-          }
-          window.location.href = "all_books.html";
-        } else {
-          console.error("Error:", bookRequest.status, bookRequest.statusText);
-        }
-      };
+    bookRequest.onload = function () {
+      if (bookRequest.status >= 200 && bookRequest.status < 300) {
+        const bookData = bookRequest.response;
+        resolve(bookData.id);
+      } else {
+        reject(`Error: ${bookRequest.status}`);
+      }
+    };
 
-      bookRequest.onerror = function () {
-        console.error("Network Error");
-      };
+    bookRequest.onerror = function () {
+      reject("Network Error");
+    };
 
-      bookRequest.send(bookRequestBody);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+    bookRequest.send(bookRequestBody);
+  });
 }
+
+// --------------------------------
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   const myForm = document.getElementById("book_details");
+
+//   myForm.addEventListener("submit", function (event) {
+//     event.preventDefault();
+
+//     const bookTitle = document.getElementById("book_title").value.trim();
+//     const authorName = document.getElementById("author_name").value.trim();
+//     const publishDate = document.getElementById("publish_date").value;
+
+//     if (!bookTitle) {
+//       showMessage("Book Title is required", "red", false);
+//       return;
+//     }
+
+//     if (!authorName) {
+//       showMessage("Author Name is required", "red", false);
+//       return;
+//     }
+
+//     if (!publishDate) {
+//       showMessage("Publish Date is required", "red", false);
+//       return;
+//     }
+//     myForm.preventDefault;
+//     myForm.submit();
+//     window.location.href = "all_books.html";
+//   });
+// });
+
+// myForm.addEventListener("submit", function (event) {
+//   event.preventDefault(); // Prevent the form from submitting which refreshes the page
+
+//   // Get the form data
+//   let title = document.getElementById("book_title").value;
+//   let author = document.getElementById("author_name").value;
+//   let description = document.getElementById("description").value;
+//   let publish_date = document.getElementById("publish_date").value;
+//   let category = document.getElementById("category-list").value;
+
+//   // Validate the form data
+//   if (!title || !author || !description || !publish_date || !category) {
+//     alert("Please fill out all fields.");
+//     return;
+//   }
