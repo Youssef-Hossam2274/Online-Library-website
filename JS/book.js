@@ -24,8 +24,9 @@ function loadedRequest(method, url, body) {
     xhr.responseType = "json";
 
     xhr.onload = function () {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(this.responseText);
+      if (this.status >= 200 && this.status < 300) {
+        console.log(this.response);
+        resolve(this.response);
       } else {
         reject(Error(`Request failed with status code: ${this.status}`));
       }
@@ -42,9 +43,9 @@ function emptyRequest(method, url) {
     xhr.open(method, url, true);
 
     xhr.onload = function () {
-      if (this.status === 200) resolve(this.responseText);
+      if (xhr.status >= 200 && xhr.status < 300) resolve(this.responseText);
       else {
-        reject(Error(`Request failed with status code: ${this.status}`));
+        reject(Error(`Request failed with status code: ${xhr.status}`));
       }
     };
     xhr.send();
@@ -96,7 +97,7 @@ function checkBorrowed() {
         borrowBtn.dataset.state = json[i].id;
 
         borrowBtn.innerHTML =
-          '<span class="material-symbols-rounded">bookmark_added</span>Borrowed';
+          '<span class="material-symbols-rounded">bookmark_added</span>Return';
         borrowBtn.querySelector("span").classList.add("checked");
         return;
       }
@@ -114,6 +115,7 @@ function toggleBorrowedButton() {
     emptyRequest("DELETE", `http://127.0.0.1:8000/api.BorrowTransaction/${borrowBtn.dataset.state}/`)
       .then(() => {
         borrowBtn.dataset.state = 0;
+        showMessage("Returned successfully", "#42BD6C", true);
         borrowBtn.innerHTML =
           '<span class="material-symbols-rounded">bookmark_add</span>Borrow';
         borrowBtn.querySelector("span").classList.remove("checked");
@@ -125,8 +127,11 @@ function toggleBorrowedButton() {
       "book": book.id,
     }).then((response) => {
       // update dataset
-      borrowBtn.dataset.state = JSON.parse(response).id;
+      borrowBtn.dataset.state = response.id;
       showMessage("Borrowed successfully", "#42BD6C", true);
+      borrowBtn.innerHTML =
+      '<span class="material-symbols-rounded">bookmark_added</span>Return';
+      borrowBtn.querySelector("span").classList.add("checked");
     });
   }
 }
@@ -137,6 +142,7 @@ function toggleFavoritesButton() {
     emptyRequest("DELETE", `http://127.0.0.1:8000/api.favorites/${favBtn.dataset.state}/`)
       .then(() => {
         favBtn.dataset.state = 0;
+        showMessage("Removed from favorites", "#42BD6C", true);
         favBtn.innerHTML =
           '<span class="material-symbols-rounded">heart_plus</span>Borrow';
         favBtn.querySelector("span").classList.remove("checked");
@@ -148,8 +154,11 @@ function toggleFavoritesButton() {
       "book": book.id,
     }).then((response) => {
       // update dataset
-      favBtn.dataset.state = JSON.parse(response).id;
+      favBtn.dataset.state = response.id;
       showMessage("Added to favorites", "#42BD6C", true);
+      favBtn.innerHTML =
+        '<span class="material-symbols-rounded">heart_check</span>Borrowed';
+      favBtn.querySelector("span").classList.add("checked");
     });
   }
 }
