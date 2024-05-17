@@ -139,9 +139,6 @@ function addToAPI(userName, userPassword, userEmail, userType){
     request.send(requestBody);
     request.onload = function(){
         let response = request.response;
-        for(let i = 0; i < 1000; ++i)
-            console.log(i);
-        
         window.localStorage.setItem("user_id", response["id"]);
         window.localStorage.setItem("isAdmin", response["isAdmin"]);
         window.localStorage.setItem("isSignUp", true);
@@ -178,7 +175,6 @@ signupButton.onclick = () =>{
         validation = false;
 
 
-    console.log(validation);
     if(validation == false)
         return;
 
