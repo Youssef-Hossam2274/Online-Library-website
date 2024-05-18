@@ -57,23 +57,77 @@ function filterByCategory() {
     }
 }
 
+function fech_authors(callback) {
+    let myRequest = new XMLHttpRequest();
+    myRequest.open("GET", "http://127.0.0.1:8000/api.authors/");
+    myRequest.send();
+    myRequest.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                callback(JSON.parse(this.responseText));
+            } else {
+                callback(null, new Error("Failed to fetch authors"));
+            }
+        }
+    };
+}
+
+function fech_categories(callback) {
+    let myRequest = new XMLHttpRequest();
+    myRequest.open("GET", "http://127.0.0.1:8000/api.categories/");
+    myRequest.send();
+    myRequest.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                callback(JSON.parse(this.responseText));
+            } else {
+                callback(null, new Error("Failed to fetch categories"));
+            }
+        }
+    };
+}
+
+
+function get_by_id(arr, id) {
+    for (let i = 0; i < arr.length; ++i) {
+        if (arr[i]["id"] == id) {
+            return arr[i]["name"]
+        }
+    }
+}
+
+
+
 function AddAllBooks() {
 
-    let myRequest = new XMLHttpRequest();
-    myRequest.open("GET", "http://127.0.0.1:8000/api.books/");
-    myRequest.send();
+    fech_categories(function (categories, error) {
+        if (error) {
+            console.error(error);
+            return;
+        }
 
-    myRequest.onreadystatechange = function () {
 
-        if (this.readyState == 4 && this.status == 200) {
+        fech_authors(function (authors, error) {
+            if (error) {
+                console.error(error);
+                return;
+            }
 
-            let data = JSON.parse(this.responseText);
 
-            for (let i = 0; i < data.length; ++i) {
+            let myRequest = new XMLHttpRequest();
+            myRequest.open("GET", "http://127.0.0.1:8000/api.books/");
+            myRequest.send();
+            myRequest.onreadystatechange = function () {
 
-                let book =
-                    `;
-                <div class="Book"  data-category="${data[i]["category"]["name"]}">
+                if (this.readyState == 4 && this.status == 200) {
+
+                    let data = JSON.parse(this.responseText);
+
+                    for (let i = 0; i < data.length; ++i) {
+
+                        let book =
+                            `;
+                <div class="Book"  data-category="${get_by_id(categories, data[i]["category"])}">
                 <div class="background-img">
                     <a href="../HTML/book.html?id=${data[i]["id"]}">
                        <img src="../backend${data[i]["cover"]}" alt="">
@@ -81,38 +135,41 @@ function AddAllBooks() {
                 </div>
                 <div class="content">
                     <h3>${data[i]["title"]}</h3> 
-                    <span><strong>Author(s):</strong>${data[i]["author"]["name"]}</span>
+                    <span><strong>Author(s):</strong>${get_by_id(authors, data[i]["author"])}</span>
                     <a href="../HTML/book.html?id=${data[i]["id"]}">
                     <button id= "ShowDetails">Show details</button> 
                     </a>
                 </div>
                 </div>
                 `;
-                const parser = new DOMParser();
-                const parsedDocument = parser.parseFromString(book, "text/html");
+                        const parser = new DOMParser();
+                        const parsedDocument = parser.parseFromString(book, "text/html");
 
-                let MyMain = document.querySelector(".main-books");
-                MyMain.append(parsedDocument.querySelector(".book"));
-            }
-            // set category select list
-            let select_list = document.getElementById("categorySelect");
-            let uniqueCategories = new Set();
+                        let MyMain = document.querySelector(".main-books");
+                        MyMain.append(parsedDocument.querySelector(".book"));
+                    }
+                    // set category select list
+                    let select_list = document.getElementById("categorySelect");
+                    let uniqueCategories = new Set();
 
-            for (let i = 0; i < data.length; i++) {
-                const category = data[i]["category"]["name"];
+                    for (let i = 0; i < data.length; i++) {
+                        const category = get_by_id(categories, data[i]["category"]);
 
-                if (!uniqueCategories.has(category)) {
-                    let option = document.createElement("option");
-                    option.value = category;
-                    option.text = category;
-                    select_list.add(option);
-                    uniqueCategories.add(category);
+                        if (!uniqueCategories.has(category)) {
+                            let option = document.createElement("option");
+                            option.value = category;
+                            option.text = category;
+                            select_list.add(option);
+                            uniqueCategories.add(category);
+                        }
+                    }
                 }
-            }
 
-        }
-    }
+            };
+        });
+    });
 }
+
 
 
 // Link addBook button with addBook page
