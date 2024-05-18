@@ -1,219 +1,193 @@
-class Book {
-  constructor(
-    imageURL,
-    title,
-    author,
-    category,
-    publishDate,
-    availability,
-    description
-  ) {
-    this.imageURL = imageURL;
-    this.title = title;
-    this.author = author;
-    this.category = category;
-    this.publishDate = publishDate;
-    this.availability = availability;
-    this.description = description;
-  }
+const editForm = document.getElementById("book_details");
+
+// Function to get the book ID from the URL parameters
+function fetchId() {
+  let params = new URLSearchParams(window.location.search);
+  return params.get("id");
 }
 
-const myImage = document.getElementById("cover-pic");
-const uploadInput = document.getElementById("upload-img");
-const myForm = document.getElementById("book_details");
-const categoryList = document.getElementById("category-list");
-
-// Retrieve data from local storage
-const books = JSON.parse(window.localStorage.getItem("books"));
-let id = JSON.parse(window.localStorage.getItem("single-book-id"));
-let currentBook = books[id];
-
-// Populate input fields with retrieved data
-document.getElementById("book_title").value = currentBook?.title || "";
-document.getElementById("description").value = currentBook?.description || "";
-document.getElementById("author_name").value = currentBook?.author || "";
-document.getElementById("publish_date").value = currentBook?.publishDate || "";
-document.getElementById("cover-pic").src = currentBook?.imageURL || "";
-// Functions
-function addBookToCategory(bookIndex, categoryName) {
-  // getting categories json
-  const categoryJSON = window.localStorage.getItem("categories");
-  const categoryArr = JSON.parse(categoryJSON);
-
-  // finding the category with name
-  for (let category of categoryArr) {
-    if (category.name == categoryName) {
-      category.books.push(bookIndex);
-    }
-  }
-}
-
-function addBook() {
-  // Creating the book object
-  const newBook = new Book(
-    myImage.src,
-    document.getElementById("book_title").value,
-    document.getElementById("author_name").value,
-    categoryList.value,
-    document.getElementById("publish_date").value,
-    true,
-    document.getElementById("description").value
-  );
-
-  // Retrieve existing books from local storage
-  let booksJSON = window.localStorage.getItem("books");
-  let booksArr = booksJSON ? JSON.parse(booksJSON) : [];
-
-  // Replace the current book data (if it exists)
-  if (id >= 0 && id < booksArr.length) {
-    booksArr[id] = newBook;
-  } else {
-    // Handle the case where the book doesn't exist (e.g., invalid ID)
-    console.error("Invalid book ID:", id);
-    return;
-  }
-
-  // Update local storage with the modified book array
-  window.localStorage.setItem("books", JSON.stringify(booksArr));
-
-  // Adding the book to its category (if a category is selected)
-  if (!categoryList.disabled) {
-    addBookToCategory(id, categoryList.value);
-  }
-  // window.open("all_books.html");
-}
-
-function fetchCategories() {
-  let categories;
-
-  // getting local storage
-  categories = JSON.parse(window.localStorage.getItem("categories"));
-
-  // Getting category names
-  if (categories) {
-    let categoryNames = categories.map((category) => category.name);
-
-    for (let name of categoryNames) {
-      let option = new Option(name, name);
-      categoryList.appendChild(option);
-    }
-  } else {
-    categoryList.disabled = true;
-  }
-}
-
-function reset() {
-  myImage.src = "../img/book-cover-placeholder.png";
-  // fetchCategories();
-}
-
-// Events
-uploadInput.addEventListener("change", (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      myImage.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-});
-myForm.addEventListener("submit", addBook);
-myForm.addEventListener("reset", reset);
-
-// Calling functions
-// fetchCategories();
-
-//----------------- Form Validation
-
-document.addEventListener("DOMContentLoaded", function () {
-  const myForm = document.getElementById("book_details");
-
-  myForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const bookTitle = document.getElementById("book_title").value.trim();
-    const authorName = document.getElementById("author_name").value.trim();
-    const publishDate = document.getElementById("publish_date").value;
-
-    if (!bookTitle) {
-      alert("Please enter a book title.");
-      return;
-    }
-
-    if (!authorName) {
-      alert("Please enter an author name.");
-      return;
-    }
-
-    if (!publishDate) {
-      alert("Please select a publish date.");
-      return;
-    }
-    myForm.preventDefault;
-    myForm.submit();
-    window.location.href = "all_books.html";
-  });
-});
-
-///category
-
-function getCategoriesFromLocalStorage() {
-  const storedBooks = JSON.parse(localStorage.getItem("books"));
-  const uniqueCategories = new Set();
-
-  // Extract unique categories from stored books
-  if (storedBooks) {
-    storedBooks.forEach((book) => {
-      if (book.category) {
-        uniqueCategories.add(book.category);
-      }
+// Function to populate the form with the book data
+function populateForm(book) {
+  document.getElementById("book_title").value = book.title;
+  fetchAuthorName(book.author)
+    .then((authorName) => {
+      document.getElementById("author_name").value = authorName;
+    })
+    .catch((error) => {
+      console.error("Error fetching author name:", error);
     });
-  } else {
-    return;
-  }
-
-  return Array.from(uniqueCategories);
+  document.getElementById("publish_date").value = book.publish_date;
+  document.getElementById("category-list").value = book.category.id;
+  document.getElementById("description").value = book.description;
+  fetchCategories(book.category);
 }
-
-function saveCategoryToLocalStorage(newCategory) {
-  const existingCategories = JSON.parse(localStorage.getItem("")) || [];
-
-  if (!existingCategories.includes(newCategory)) {
-    existingCategories.push(newCategory);
-
-    localStorage.setItem("BooksCategories", JSON.stringify(existingCategories));
+async function fetchAuthorName(authorId) {
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:8000/api.authors/${authorId}`
+    );
+    const data = await response.json();
+    return data.name; // Assuming the author name is returned in the response
+  } catch (error) {
+    throw new Error("Failed to fetch author name");
   }
 }
-const existingCategories = getCategoriesFromLocalStorage();
+function fetchCategories(selectedCategoryId) {
+  const categoryDropdown = document.getElementById("category-list");
+  categoryDropdown.innerHTML = ""; // Clear existing options
 
-// Populate the dropdown with existing categories
-const categoryDropdown = document.getElementById("category-list");
-if (existingCategories) {
-  existingCategories.forEach((category) => {
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
-    categoryDropdown.appendChild(option);
+  fetch("http://127.0.0.1:8000/api.categories/")
+    .then((response) => response.json())
+    .then((categories) => {
+      categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.name;
+        if (category.id === selectedCategoryId) {
+          option.selected = true; // Select the book's category
+        }
+        categoryDropdown.appendChild(option);
+      });
+
+      const addCategoryOption = document.createElement("option");
+      addCategoryOption.value = "add-new";
+      addCategoryOption.textContent = "Add New Category";
+      categoryDropdown.insertBefore(
+        addCategoryOption,
+        categoryDropdown.firstChild
+      );
+    });
+}
+// Fetch the book data when the page loads
+window.onload = function () {
+  const bookId = fetchId();
+  fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
+    .then((response) => response.json())
+    .then((data) => populateForm(data));
+};
+function findAuthorIdByName(authorName) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const apiUrl = "http://127.0.0.1:8000/api.authors/";
+
+    xhr.open("GET", apiUrl, true); 
+
+    xhr.onload = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        try {
+          const authors = JSON.parse(xhr.responseText);
+          const existingAuthor = authors.find(
+            (author) => author.name === authorName
+          );
+
+          if (existingAuthor) {
+            // Author already exists, return their ID
+            resolve(existingAuthor.id);
+          } else {
+            const newAuthorXhr = new XMLHttpRequest();
+            newAuthorXhr.open("POST", apiUrl, true);
+            newAuthorXhr.setRequestHeader("Content-Type", "application/json");
+            newAuthorXhr.onload = function () {
+              if (
+                newAuthorXhr.readyState === 4 &&
+                newAuthorXhr.status === 201
+              ) {
+                const newAuthorData = JSON.parse(newAuthorXhr.responseText);
+                resolve(newAuthorData.id);
+              } else {
+                reject(newAuthorXhr.statusText);
+              }
+            };
+            newAuthorXhr.onerror = function () {
+              reject(newAuthorXhr.statusText);
+            };
+            newAuthorXhr.send(JSON.stringify({ name: authorName }));
+          }
+        } catch (error) {
+          reject(error);
+        }
+      } else {
+        reject(xhr.statusText);
+      }
+    };
+
+    xhr.onerror = function () {
+      reject(xhr.statusText);
+    };
+
+    xhr.send();
   });
 }
+editForm.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-const addCategoryOption = document.createElement("option");
-addCategoryOption.value = "add-new";
-addCategoryOption.textContent = "Add New Category";
-categoryDropdown.appendChild(addCategoryOption);
+  const bookId = fetchId();
+  const title = document.getElementById("book_title").value.trim();
+  const authorName = document.getElementById("author_name").value.trim();
+  const publishDate = document.getElementById("publish_date").value;
+  const categoryId = document.getElementById("category-list").value;
+  const description = document.getElementById("description").value.trim();
 
-categoryDropdown.addEventListener("change", (event) => {
-  if (event.target.value === "add-new") {
-    const newCategory = prompt("Enter a new category:");
-    if (newCategory) {
-      saveCategoryToLocalStorage(newCategory);
 
-      const newOption = document.createElement("option");
-      newOption.value = newCategory;
-      newOption.textContent = newCategory;
-      categoryDropdown.insertBefore(newOption, addCategoryOption);
-      categoryDropdown.value = newCategory; // Select the new category
-    }
-  }
+  findAuthorIdByName(authorName)
+    .then((authorId) => {
+      return updateBook(
+        bookId,
+        title,
+        authorId,
+        publishDate,
+        categoryId,
+        description
+      );
+    })
+    .then(() => {
+      showMessage("Book Updated Successfully");
+      window.location.href = "all_books.html";
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 });
+
+// Function to update the book
+function updateBook(
+  bookId,
+  title,
+  authorId,
+  publishDate,
+  categoryId,
+  description
+) {
+  return new Promise((resolve, reject) => {
+    let bookRequest = new XMLHttpRequest();
+    bookRequest.open("PUT", `http://127.0.0.1:8000/api.books/${bookId}/`);
+    bookRequest.responseType = "json";
+    bookRequest.setRequestHeader("Content-type", "application/json");
+
+    let bookRequestBody = `{
+      "title": "${title}",
+      "author": ${authorId},
+      "cover": null,
+      "rating": 5,
+      "category": ${categoryId},
+      "publish_date": "${publishDate}",
+      "available": true,
+      "description": "${description}",
+      "publisher": ${window.localStorage.getItem("user_id")}
+    }`;
+
+    bookRequest.onload = function () {
+      if (bookRequest.status >= 200 && bookRequest.status < 300) {
+        resolve(bookRequest.response);
+      } else {
+        reject(`Error: ${bookRequest.status}`);
+      }
+    };
+
+    bookRequest.onerror = function () {
+      reject("Network Error");
+    };
+
+    bookRequest.send(bookRequestBody);
+  });
+}
