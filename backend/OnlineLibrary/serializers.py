@@ -26,24 +26,9 @@ class BookSerializer(serializers.ModelSerializer):
         instance.publish_date = validated_data.get('publish_date', instance.publish_date)
         instance.available = validated_data.get('available', instance.available)
         instance.description = validated_data.get('description', instance.description)
+        # instance.publisher = validated_data.get('publisher', instance.publisher)
         
-        # Update author
-        author_data = validated_data.pop('author', None)
-        if author_data:
-            author_serializer = AuthorSerializer(instance.author, data=author_data)
-            if author_serializer.is_valid():
-                author_serializer.save()
-            else:
-                raise serializers.ValidationError(author_serializer.errors)
-        
-        # Update category
-        category_data = validated_data.pop('category', None)
-        if category_data:
-            category_serializer = CategorySerializer(instance.category, data=category_data)
-            if category_serializer.is_valid():
-                category_serializer.save()
-            else:
-                raise serializers.ValidationError(category_serializer.errors)
+
         
         instance.save()
         return instance
