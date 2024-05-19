@@ -5,7 +5,6 @@ let remove_photo = document.getElementById("remove-photo-label");
 
 remove_photo.onclick = function(){
     myImage.src = "../img/profile-icon.png";
-    saveImage(myImage.src);
 }
 
 uploadInput.addEventListener("change", (event) => {
@@ -26,85 +25,103 @@ function resetImage() {
     saveImage(myImage.src);
 }
 
-function saveImage(_image_url_){
-    let userData = JSON.parse(window.localStorage.getItem("users"));
-    let curUser = userData[userId];
-    curUser.imageURL = _image_url_;
-
-    userData[userId] = curUser;
-    userData = JSON.stringify(userData);
-    window.localStorage.setItem("users", userData);
-}
-
 // -----------------------------------------------
 
 
-function showDetails(){
-    let userData = JSON.parse(window.localStorage.getItem("users"));
-    let curUser = userData[userId];
-    
-    document.querySelector("#hello-user").innerHTML = curUser.userName;
-    document.querySelector("#user-email-input").value = curUser.email;
-    
-    if (curUser.firstName){
-        document.querySelector("#first-name-input").value = curUser.firstName;
-    } 
-    if (curUser.lastName) {
-        document.querySelector("#second-name-input").value = curUser.lastName;
-    }
-    if (curUser.phoneNumber) {
-        document.querySelector("#phone-number-input").value = curUser.phoneNumber;
-    }
+let savedUserData = null;
 
-    if (curUser.imageURL) {
-        document.querySelector("#profile-pic").src = curUser.imageURL;
-    }
-}
+document.addEventListener("DOMContentLoaded", function () {
+  const curUser = window.localStorage.getItem("user_id");
+  const apiEndpoint = `http://127.0.0.1:8000/api.users/${curUser}/`; // Replace with the actual endpoint
 
+  // Function to fetch user data and populate the form fields using XMLHttpRequest
+  function populateUserData() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", apiEndpoint, true);
+    xhr.responseType = "json";
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const data = xhr.response;
+        savedUserData = data;
+        document.getElementById("first-name-input").value =
+          data.firstName || "";
+        document.getElementById("second-name-input").value =
+          data.secondName || "";
+        document.getElementById("user-email-input").value = data.email;
+        document.getElementById("phone-number-input").value =
+          data.phoneNumber || "";
+      }
+    };
+    xhr.send();
+  }
 
-function saveChanges()
-{
-    let userData = JSON.parse(window.localStorage.getItem("users"));
-    let curUser = userData[userId];
+  // Call the function to populate user data
+  populateUserData();
 
-    let password = document.querySelector("#current-password-input").value;
-    let New_password_1 = document.querySelector("#new-password-1").value;
-    let New_password_2 = document.querySelector("#new-password-2").value;
-    
-    
-    // work only if the user want to change the password
-    if ((New_password_1.trim() !== "") && (New_password_1 === New_password_2)) {
-        if (password.trim() !== curUser.password) {
-            alert("your current password is incorrect");
-            return false;
-        } else{
-            curUser.password = New_password_1;    
+  document
+    .querySelector(".edit-user-info")
+    .addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      const currentPassword = document.getElementById("current-password-input");
+      const newPassword1 = document.getElementById("new-password-1").value;
+      const newPassword2 = document.getElementById("new-password-2").value;
+      const email = document.getElementById("user-email-input").value;
+      const fName = document.getElementById("first-name-input").value;
+      const sName = document.getElementById("second-name-input").value;
+      if (!email) {
+        showMessage("Email is Required", "red", false);
+        return;
+      }
+      if (!fName) {
+        showMessage("First Name is Required", "red", false);
+        return;
+      }
+      if (!sName) {
+        showMessage("Second Name is Required", "red", false);
+        return;
+      }
+      if (!newPassword1 && currentPassword.value) {
+        showMessage("New Password Cant be empty", "red", false);
+        return;
+      }
+      if (currentPassword.value !== savedUserData.password) {
+        showMessage("Typed Current Password is Wrong", "red", false);
+        return;
+      }
+
+      if (newPassword1 !== newPassword2) {
+        showMessage(
+          "New Password Typed and the Confirmation Does Not Match",
+          "red",
+          false
+        );
+        return;
+      }
+
+      // If validation passes, prepare the data and send a PUT request
+      const updatedData = {
+        firstName: document.getElementById("first-name-input").value,
+        secondName: document.getElementById("second-name-input").value,
+        email: document.getElementById("user-email-input").value,
+        phoneNumber: document.getElementById("phone-number-input").value,
+        password: newPassword1,
+      };
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", apiEndpoint, true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            showMessage("User Data Edited Successfully");
+          } else {
+            showMessage("Error changing user data", "red", false);
+          }
         }
-    }
-    
-    let _firstName_ = document.querySelector("#first-name-input").value.trim(); 
-    let _lastName_ = document.querySelector("#second-name-input").value.trim();
-    let _phoneNumber_ = document.querySelector("#phone-number-input").value.trim();
-    curUser.firstName = _firstName_;
-    curUser.lastName = _lastName_;
-    curUser.phoneNumber = _phoneNumber_;
+      };
+      xhr.send(JSON.stringify(updatedData));
+    });
+});
 
-
-    if ((curUser.firstName && _firstName_.trim() !== "") || (!curUser.firstName && _firstName_.trim() !== "")) {
-        curUser.firstName = _firstName_;
-    } 
-    if ((curUser.lastName && _lastName_.trim() !== "") || (!curUser.lastName && _lastName_.trim() !== "")) {
-        curUser.lastName = _lastName_;
-    }
-    if ((curUser.phoneNumber && _phoneNumber_.trim() !== "") || (!curUser.phoneNumber && _phoneNumber_.trim() !== "")) {
-        curUser.phoneNumber = _phoneNumber_;
-    }
-    
-    userData[userId] = curUser;
-    userData = JSON.stringify(userData);
-    window.localStorage.setItem("users", userData);
-}
-
-showDetails();
-let myForm = document.querySelector(".edit-user-info");
-myForm.addEventListener("submit", saveChanges);
