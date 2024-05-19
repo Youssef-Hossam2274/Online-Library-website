@@ -119,6 +119,10 @@ function toggleBorrowedButton() {
         borrowBtn.innerHTML =
           '<span class="material-symbols-rounded">bookmark_add</span>Borrow';
         borrowBtn.querySelector("span").classList.remove("checked");
+      }).then(() => {
+        // update availability
+        book.available = true;
+        loadedRequest("PUT", `http://127.0.0.1:8000/api.books/${book.id}/`, book);
       });
   }
   else {
@@ -132,6 +136,10 @@ function toggleBorrowedButton() {
       borrowBtn.innerHTML =
       '<span class="material-symbols-rounded">bookmark_added</span>Return';
       borrowBtn.querySelector("span").classList.add("checked");
+    }).then(() => {
+      // update availability
+      book.available = false;
+      loadedRequest("PUT", `http://127.0.0.1:8000/api.books/${book.id}/`, book);
     });
   }
 }
@@ -144,7 +152,7 @@ function toggleFavoritesButton() {
         favBtn.dataset.state = 0;
         showMessage("Removed from favorites", "#42BD6C", true);
         favBtn.innerHTML =
-          '<span class="material-symbols-rounded">heart_plus</span>Borrow';
+          '<span class="material-symbols-rounded">heart_plus</span>Add to favorites';
         favBtn.querySelector("span").classList.remove("checked");
       });
   }
@@ -157,7 +165,7 @@ function toggleFavoritesButton() {
       favBtn.dataset.state = response.id;
       showMessage("Added to favorites", "#42BD6C", true);
       favBtn.innerHTML =
-        '<span class="material-symbols-rounded">heart_check</span>Borrowed';
+        '<span class="material-symbols-rounded">heart_check</span>Added to favorites';
       favBtn.querySelector("span").classList.add("checked");
     });
   }
