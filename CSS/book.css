@@ -4,6 +4,12 @@
   box-sizing: border-box;
   /* font-family: sans-serif; */
 }
+
+button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 ul {
   list-style: none;
 }
@@ -29,7 +35,7 @@ hr {
 
 .overview {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
   margin-bottom: 40px;
 }
@@ -83,49 +89,9 @@ hr {
   text-transform: uppercase;
 }
 
-.admin-btns {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.admin-btns button {
-  color: white;
-  padding: 10px;
-  width: 40%;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.3);
-  transition: 0.3s opacity;
-  position: relative;
-}
-.admin-btns button span {
-  position: absolute;
-  font-size: 20px;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#edit-btn {
-  background-color: #2196f3;
-}
-#remove-btn {
-  background-color: #f44336;
-}
-
-.admin-btns button:hover {
-  opacity: 0.7;
-}
-
-.admin-btns button:active {
-  transform: translateY(1px);
-}
-
 /* ****************** Right side ***************** */
 .book-info-side {
-  width: 60%;
+  width: 50%;
 }
 
 .book-title {
@@ -234,55 +200,138 @@ hr {
   top: 6px;
 }
 
+/* TODO: */
+/* Buttons */
 .buttons {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 5fr 4fr;
-  column-gap: 10px;
-  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
+.dynamic-buttons {
+  width: 300px;
+  display: none;
+}
+
+/* For admins */
 .button {
-  padding: 10px;
-  border-radius: 5px;
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
   cursor: pointer;
-  transition: 0.3s opacity;
+  transition: all 0.3s ease;
   position: relative;
-}
-
-.button > span {
-  font-variation-settings: 'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 20;
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: inherit;
-}
-
-.button > span.checked {
-  font-variation-settings: 'FILL' 1,'wght' 300,'GRAD' 0,'opsz' 20;
-}
-
-.borrow-btn {
-  font-size: 1rem;
-  background-color: #1f1f1f;
+  display: inline-block;
+  outline: none;
+  overflow: hidden;
+  border-radius: 20px;
   border: none;
-  color: white;
 }
 
-.fav-btn {
-  font-size: 1rem;
-  background-color: transparent;
-  color: #f44336;
-  border: 1px solid #f44336;
+.button:hover {
+  padding-right: 24px;
+  padding-left: 8px;
 }
 
-.button:hover:not(.button:disabled) {
+.button:hover .icon {
+  opacity: 1;
+  right: 15px;
+}
+
+.button .icon {
+  position: absolute;
+  top: 0;
+  right: -20px;
+  font-size: 20px;
+  line-height: 40px;
+  transition: 0.4s;
+  opacity: 0;
+}
+
+.button:active {
   opacity: 0.7;
 }
 
-.button:active:not(.button:disabled) {
-  transform: translateY(1px);
+/* Admin buttons */
+.admin-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px;
+}
+
+.edit-button {
+  background-color: #03a9f4;
+  width: 175px;
+}
+
+.delete-button {
+  background-color: #ef233c;
+  width: 175px;
+}
+
+/* Borrow button */
+.borrow-button {
+  background-color: #212529;
+  width: 400px;
+}
+
+.borrow-button.borrowed {
+  background-color: #E1DEDE;
+  color: #7f878d;
+  border: 2px solid #7f878d;
+}
+
+.borrow-button.borrowed .icon {
+  color: #7f878d;
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* heart button */
+.favorite-button {
+  transform: scale(0.75);
+}
+
+.favorite-button .heart-icon {
+  background: url("../img/heart.png");
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  pointer-events: none;
+}
+
+.favorite-button .heart-icon.liked {
+  animation: like-anim 0.7s steps(28) forwards;
+}
+
+@keyframes like-anim {
+  to {
+    background-position: right;
+  }
+}
+
+.favorite-button .heart-bg {
+  background-color: white;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px 0px #0000002b;
+  transition: 0.3s;
+}
+
+.favorite-button .heart-bg:hover {
+  transform: scale(1.1);
 }
 
 /* *********** Description ********* */
@@ -309,6 +358,7 @@ hr {
   .page-body {
     width: 900px;
   }
+
   #status-banner {
     font-size: 0.8rem;
     padding: 5px;
@@ -329,6 +379,7 @@ hr {
   .page-body {
     width: 550px;
   }
+
   .overview {
     height: 1350px;
   }
@@ -339,6 +390,7 @@ hr {
   .page-body {
     width: 300px;
   }
+
   .overview {
     height: 1000px;
   }
@@ -351,12 +403,15 @@ hr {
     justify-content: center;
     align-items: space-between;
   }
+
   .image-side {
     width: 100%;
   }
+
   .book-info-side {
     width: 100%;
   }
+
   .description {
     width: 100%;
   }

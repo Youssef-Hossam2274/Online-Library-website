@@ -7,16 +7,48 @@ const dateField = document.querySelector("#date-field");
 const statusBanner = document.querySelector("#status-banner");
 const statusIco = document.querySelector("#status-icon");
 const statusBlock = document.querySelector("#status-block");
-const borrowBtn = document.querySelector("#borrow-btn");
-const favBtn = document.querySelector("#fav-btn");
+const favBtn = document.querySelector("#favorite-button");
+const borrowBtn = document.querySelector("#borrow-button");
+const adminButtons = document.querySelector(".admin-buttons");
 const descriptionBox = document.querySelector(".description > p");
+let zoomImage = false;
 let user = null;
 let book = null;
-let zoomImage = false;
 
-// ----------------- Utilities -------------------
+// ----------------- Utilities ------------------
+// Gets root url
+const getBaseUrl = () => {
+  // return `${window.location.protocol}//${window.location.host}`;
+  return "http://127.0.0.1:8000";
+};
+
+// Fetches the book id from the page url
+const fetchId = () => {
+  let params = new URLSearchParams(window.location.search);
+  return params.get("id");
+}
+
+// Rating
+const addRating = (n = 0) => {
+  let stars = document.querySelectorAll(".stars > span");
+
+  for (let i = 0; i < n; ++i) {
+    stars[i].classList.add("checked");
+  }
+}
+
+const today = () => {
+  const date = new Date();
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed, so add 1
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 // ---------------- Request functions -----------
-function loadedRequest(method, url, body) {
+const loadedRequest = (method, url, body) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
@@ -37,7 +69,7 @@ function loadedRequest(method, url, body) {
 }
 
 // Made for empty requests such as delete and get
-function emptyRequest(method, url) {
+const emptyRequest = (method, url) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
@@ -52,145 +84,110 @@ function emptyRequest(method, url) {
   });
 }
 
-function updateAvailability() {
-  if (book.available) {
+function setAvailability(isAvailable) {
+  if (isAvailable) {
     statusBanner.innerHTML = "available";
     statusBlock.innerHTML =
       '<span class="material-symbols-rounded" id="status-icon">mood</span>available';
     statusBanner.style.backgroundColor = "#56cb5b";
     statusBlock.style.backgroundColor = "#56cb5b";
-  } else {
+  }
+  else {
     statusBanner.innerHTML = "unavailable";
     statusBlock.innerHTML =
       '<span class="material-symbols-rounded" id="status-icon">sentiment_dissatisfied</span>unavailable';
     statusBanner.style.backgroundColor = "#dd4034";
     statusBlock.style.backgroundColor = "#dd4034";
   }
+
 }
 
 // check if the current book is in favorites
 function checkFavorites() {
-  emptyRequest("GET", "http://127.0.0.1:8000/api.favorites/").then((favorites) => {
+  emptyRequest("GET", `${getBaseUrl()}/api.favorites/`).then((favorites) => {
     const json = JSON.parse(favorites);
     for (let i = 0; i < json.length; ++i) {
       if (json[i].user == user.id && json[i].book == book.id) {
         favBtn.dataset.state = json[i].id;
-        favBtn.innerHTML =
-          '<span class="material-symbols-rounded">heart_check</span>Added to favorites';
-        favBtn.querySelector("span").classList.add("checked");
+        favBtn.querySelector(".heart-icon").classList.add("liked");
         return;
       }
       favBtn.dataset.state = 0;
-      favBtn.innerHTML =
-        '<span class="material-symbols-rounded">heart_plus</span>Add to favorites';
-      favBtn.querySelector("span").classList.remove("checked");
+      favBtn.querySelector(".heart-icon").classList.remove("liked");
     }
   });
 }
 
 // checks if the current book is borrowed
 function checkBorrowed() {
-  emptyRequest("GET", "http://127.0.0.1:8000/api.BorrowTransaction/").then((borrows) => {
+  emptyRequest("GET", `${getBaseUrl()}/api.BorrowTransaction/`).then((borrows) => {
     const json = JSON.parse(borrows);
     for (let i = 0; i < json.length; ++i) {
       if (json[i].user == user.id && json[i].book == book.id) {
         borrowBtn.dataset.state = json[i].id;
-
-        borrowBtn.innerHTML =
-          '<span class="material-symbols-rounded">bookmark_added</span>Return';
-        borrowBtn.querySelector("span").classList.add("checked");
+        borrowBtn.classList.add("borrowed");
+        borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrowed';
         return;
       }
     }
     borrowBtn.dataset.state = 0;
-    borrowBtn.innerHTML =
-      '<span class="material-symbols-rounded">bookmark_add</span>Borrow';
-    borrowBtn.querySelector("span").classList.remove("checked");
+    borrowBtn.classList.remove("checked");
+    borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrow';
   });
 }
 
 // make it toggle its state from borrowed to not borrowed
-function toggleBorrowedButton() {
+function toggleBorrowing() {
+  borrowBtn.classList.toggle("borrowed");
   if (+borrowBtn.dataset.state > 0) {
-    emptyRequest("DELETE", `http://127.0.0.1:8000/api.BorrowTransaction/${borrowBtn.dataset.state}/`)
+    showMessage("Returned successfully", "#42BD6C", true);
+    borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrow';
+    emptyRequest("DELETE", `${getBaseUrl()}/api.BorrowTransaction/${borrowBtn.dataset.state}/`)
       .then(() => {
         borrowBtn.dataset.state = 0;
-        showMessage("Returned successfully", "#42BD6C", true);
-        borrowBtn.innerHTML =
-          '<span class="material-symbols-rounded">bookmark_add</span>Borrow';
-        borrowBtn.querySelector("span").classList.remove("checked");
-      }).then(() => {
         // update availability
         book.available = true;
-        loadedRequest("PUT", `http://127.0.0.1:8000/api.books/${book.id}/`, book);
+        loadedRequest("PUT", `${getBaseUrl()}/api.books/${book.id}/`, book);
       });
   }
   else {
-    loadedRequest("POST", `http://127.0.0.1:8000/api.BorrowTransaction/`, {
+    showMessage("Borrowed successfully", "#42BD6C", true);
+    borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrowed';
+    loadedRequest("POST", `${getBaseUrl()}/api.BorrowTransaction/`, {
       "user": user.id,
       "book": book.id,
     }).then((response) => {
       // update dataset
       borrowBtn.dataset.state = response.id;
-      showMessage("Borrowed successfully", "#42BD6C", true);
-      borrowBtn.innerHTML =
-      '<span class="material-symbols-rounded">bookmark_added</span>Return';
-      borrowBtn.querySelector("span").classList.add("checked");
-    }).then(() => {
-      // update availability
       book.available = false;
-      loadedRequest("PUT", `http://127.0.0.1:8000/api.books/${book.id}/`, book);
+      loadedRequest("PUT", `${getBaseUrl()}/api.books/${book.id}/`, book);
     });
   }
 }
 
 // Make it toggle its state from favorite to not favorite
 function toggleFavoritesButton() {
+  favBtn.querySelector(".heart-icon").classList.toggle("liked");
   if (+favBtn.dataset.state > 0) {
-    emptyRequest("DELETE", `http://127.0.0.1:8000/api.favorites/${favBtn.dataset.state}/`)
+    emptyRequest("DELETE", `${getBaseUrl()}/api.favorites/${favBtn.dataset.state}/`)
       .then(() => {
         favBtn.dataset.state = 0;
-        showMessage("Removed from favorites", "#42BD6C", true);
-        favBtn.innerHTML =
-          '<span class="material-symbols-rounded">heart_plus</span>Add to favorites';
-        favBtn.querySelector("span").classList.remove("checked");
       });
   }
   else {
-    loadedRequest("POST", `http://127.0.0.1:8000/api.favorites/`, {
+    loadedRequest("POST", `${getBaseUrl()}/api.favorites/`, {
       "user": user.id,
       "book": book.id,
     }).then((response) => {
-      // update dataset
       favBtn.dataset.state = response.id;
-      showMessage("Added to favorites", "#42BD6C", true);
-      favBtn.innerHTML =
-        '<span class="material-symbols-rounded">heart_check</span>Added to favorites';
-      favBtn.querySelector("span").classList.add("checked");
     });
   }
 }
 
-function today() {
-  const date = new Date();
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed, so add 1
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
-// Fetches the book id from the page url
-function fetchId() {
-  let params = new URLSearchParams(window.location.search);
-  return params.get("id");
-}
-
 // Fetching the book data using its id
-function updatePageInfo(id) {
+function updatePage(id) {
   return new Promise((resolve, reject) => {
-    emptyRequest("GET", `http://127.0.0.1:8000/api.books/${id}/`).then((json) => {
+    emptyRequest("GET", `${getBaseUrl()}/api.books/${id}/`).then((json) => {
       book = JSON.parse(json);
 
       if (book.cover) {
@@ -203,18 +200,10 @@ function updatePageInfo(id) {
       dateField.innerHTML = book.publish_date;
       descriptionBox.innerHTML = book.description;
       addRating(book.rating);
-      updateAvailability();
-
-      if (user) {
-        // Borrowed
-        checkBorrowed();
-
-        // favorites
-        checkFavorites();
-      }
+      setAvailability(book.available);
 
       // Author
-      emptyRequest("GET", `http://127.0.0.1:8000/api.authors/${book.author}/`)
+      emptyRequest("GET", `${getBaseUrl()}/api.authors/${book.author}/`)
         .then((author) => {
           bookAuthor.innerHTML = JSON.parse(author).name;
         })
@@ -223,7 +212,7 @@ function updatePageInfo(id) {
         });
 
       // Category
-      emptyRequest("GET", `http://127.0.0.1:8000/api.categories/${book.category}/`)
+      emptyRequest("GET", `${getBaseUrl()}/api.categories/${book.category}/`)
         .then((category) => {
           categoryField.innerHTML = JSON.parse(category).name;
         })
@@ -235,106 +224,89 @@ function updatePageInfo(id) {
     }).catch(() => reject(book));
   });
 }
-// ------------------ Other -------------------
-// removes the current book
-function removeCurrentBook() {
-  // ----- Removing from all books
-  emptyRequest("DELETE", `http://127.0.0.1:8000/api.books/${book.id}/`)
-    .then(() => showMessage(`${bookTitle.innerHTML} has been deleted successfully`, "#42BD6C", true))
-    .catch(() => showMessage(`${bookTitle.innerHTML} is not found in the library books`, "#f44336", true));
-}
 
 // Adding admin buttons
-function addAdminButtons() {
-  if (user && book.publisher == user.id) {
-    // Adding remove and edit buttons
-    let parser = new DOMParser();
-    document.querySelector(".image-side").appendChild(
-      parser.parseFromString(
-        `<div class="admin-btns">
-                <button id="edit-btn">
-                  <span class="material-symbols-rounded">edit</span>Edit
-                </button>
-                <button id="remove-btn">
-                  <span class="material-symbols-rounded">delete</span>Remove
-                </button>
-              </div>`,
-        "text/html"
-      ).querySelector(".admin-btns")
-    );
-
-    // Adding functionality
-    document.getElementById("edit-btn").addEventListener("click", () => {
-      window.location.href = `edit_book.html?id=${book.id}`;
-    });
-    document.getElementById("remove-btn").addEventListener("click", removeCurrentBook);
+function handleButtons() {
+  // unauthenticated user
+  if (!user) {
+    adminButtons.remove();
+    borrowBtn.disabled = true;
+    favBtn.style.pointerEvents = 'none';
   }
+  else if (user.isAdmin) {
+    borrowBtn.remove();
+    if (user.id != book.publisher) {
+      adminButtons.remove();
+    }
+  }
+  else {
+    adminButtons.remove();
+  }
+  document.querySelector(".dynamic-buttons").style.display = 'block';
 }
 
-// Rating
-function addRating(n = 0) {
-  let stars = document.querySelectorAll(".stars > span");
-
-  for (let i = 0; i < n; ++i) {
-    stars[i].classList.add("checked");
-  }
+// ------------------ Admin related -------------------
+// removes the current book
+const removeBook = (bookId) => {
+  // ----- Removing from all books
+  openModal("Remove a book", `Are you sure to remove '${book.title}'?`, {
+    warning: "By proceeding with this, you will remove all tis book details permanently",
+    actionButton: () => {
+      emptyRequest("DELETE", `${getBaseUrl()}/api.books/${bookId}/`)
+        // TODO: Forward to all books page
+        .then(() => showMessage(`${bookTitle.innerHTML} has been deleted successfully`, "#42BD6C", true))
+        .catch(() => showMessage(`${bookTitle.innerHTML} is not found in the library books`, "#f44336", true));
+    }
+  })
 }
 
 // -------------------- Main ---------------------
 function main() {
+  // Assumed that django will only display valid urls with valid ids
   let bookId = fetchId();
 
-  if (bookId) {
-    emptyRequest("GET", `http://127.0.0.1:8000/api.users/${localStorage.user_id}/`)
-      .then((json) => {
-        user = JSON.parse(json);
-        updatePageInfo(bookId)
-          .then(() => {
-            addAdminButtons();
-            // ------------------ event handlers --------------
-            // Borrow button handling
-            borrowBtn.addEventListener("click", () => {
-              // regular visitor
-              if (!user) {
-                showMessage(
-                  "You need to be logged in to borrow this book",
-                  "#f44336",
-                  false
-                );
-              }
-              // admin
-              else if (user.isAdmin) {
-                showMessage("Admins cannot borrow books", "#f44336", false);
-              }
-              // user
-              else {
-                toggleBorrowedButton();
-              }
-            });
+  updatePage(bookId);
 
-            // Add to favorites
-            favBtn.addEventListener("click", (e) => {
-              // regular visitor
-              if (!user) {
-                showMessage(
-                  "You need to be logged in to add to favorites",
-                  "#f44336",
-                  false
-                );
-              }
-              else {
-                toggleFavoritesButton();
-              }
-            });
-          })
-      });
-  }
-  else {
-    showMessage("This book id is undefined", "#f44336", false);
-  }
+  emptyRequest("GET", `${getBaseUrl()}/api.users/${localStorage.user_id}/`)
+    .then((json) => {
+      user = JSON.parse(json);
+      checkBorrowed();
+      checkFavorites();
+    })
+    .catch(() => console.error("User is not defined"))
+    .finally(() => handleButtons())
 }
 
+
 main();
+
+// Button events handlers
+borrowBtn.addEventListener("click", () => toggleBorrowing())
+
+// Add to favorites
+favBtn.addEventListener("click", (e) => {
+  // regular visitor
+  if (!user) {
+    showMessage(
+      "You need to be logged in to add to favorites",
+      "#f44336",
+      false
+    );
+  }
+  else {
+    toggleFavoritesButton();
+  }
+});
+
+// Handles edit button
+adminButtons.querySelector(".edit-button").addEventListener("click", (e) => {
+  window.location = `/edit_book.html?id=${book.id}`;
+});
+
+// Handles remove button 
+adminButtons.querySelector(".delete-button").addEventListener("click", (e) => {
+  removeBook(book.id);
+});
 
 // Adding the zooming event to book image in-case of wide screen
 if (screen.width > 768 && zoomImage) {
