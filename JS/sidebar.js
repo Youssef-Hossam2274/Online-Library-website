@@ -28,7 +28,7 @@ function AccountDetailsClick() {
       `
       <div class = "sidebar-content">
         <div class="profile-info">
-          <img src="../backend${data["photo"]}"  alt="placeholder" id="profile-pic">
+          <img src="../backend/photos/${data["photo"]}"  alt="placeholder" id="profile-pic">
           <div>Hello <span id="hello-user" style="color: black;">${data["username"]}</span> </div>
         </div>
         

@@ -192,8 +192,8 @@ function updatePage(id) {
 
       if (book.cover) {
         // FIXME: solve the image problem
-        // bookImage.src = book.cover;
-        // zoomBox.style.backgroundImage = `url(${book.cover})`;
+        bookImage.src = `../backend/covers/${book.cover}`;
+        // zoomBox.style.backgroundImage = `url(../backend/covers/${book.cover})`;
         zoomImage = true;
       }
       bookTitle.innerHTML = book.title;

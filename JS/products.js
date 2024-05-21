@@ -130,7 +130,7 @@ function AddAllBooks() {
                 <div class="Book"  data-category="${get_by_id(categories, data[i]["category"])}">
                 <div class="background-img">
                     <a href="../HTML/book.html?id=${data[i]["id"]}">
-                       <img src="../backend${data[i]["cover"]}" alt="">
+                        <img src="../backend/covers/${data[i]["cover"]}" alt="">
                     </a>
                 </div>
                 <div class="content">
@@ -179,24 +179,9 @@ document.getElementById("addBook").addEventListener("click", function () {
 
 // Show addBook button for Admin only
 function addBookButton() {
-
-    document.getElementById("addBook").style.display = "none";
-
-    let myRequest = new XMLHttpRequest();
-    myRequest.open("GET", "http://127.0.0.1:8000/api.users/");
-    myRequest.send();
-
-    myRequest.onreadystatechange = function () {
-
-        if (this.readyState == 4 && this.status == 200) {
-
-            let data = JSON.parse(this.responseText);
-
-            if (data["isAdmin"] == true) {
-                document.getElementById("addBook").style.display = "blank";
-            }
-        }
-    }
+    let isAdmin = JSON.parse(window.localStorage.getItem("isAdmin"));
+    if(isAdmin == null || isAdmin == false)
+        document.getElementById("addBook").style.display = "none";
 }
 
 addBookButton();
