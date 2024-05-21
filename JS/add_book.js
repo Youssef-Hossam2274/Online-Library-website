@@ -82,10 +82,40 @@ xhr.onload = function () {
 };
 myForm.addEventListener("submit", function (event) {
   event.preventDefault();
+  const Title = document.getElementById("book_title").value.trim();
+  const Name = document.getElementById("author_name").value.trim();
+  const Date = document.getElementById("publish_date").value;
+  var selectElement = document.getElementById("category-list").value;
+  const desc = document.getElementById("description").value.trim();
+
+  if (!Title) {
+    showMessage("Book Title is required", "red", false);
+    return;
+  }
+  if (!desc) {
+    showMessage("Description is required", "red", false);
+    return;
+  }
+
+  if (!Name) {
+    showMessage("Author Name is required", "red", false);
+    return;
+  }
+
+  if (!Date) {
+    showMessage("Publish Date is required", "red", false);
+    return;
+  }
+  if (!selectElement) {
+    showMessage("Category is required", "red", false);
+    return;
+  }
+
   findAuthorIdByName(document.getElementById("author_name").value)
     .then(addBook)
     .then((bookId) => addBorrowTransaction(bookId))
     .then(() => {
+      showMessage("Book Added Succesfully");
       window.location.href = "all_books.html";
     })
     .catch((error) => {
@@ -185,7 +215,7 @@ function addBook(authorId) {
       "title": "${document.getElementById("book_title").value}",
       "author": ${authorId},
       "cover": null,
-      "rating": 5,
+      "rating": ${Math.floor(Math.random() * 5) + 1},
       "category": ${categoryList.value},
       "publish_date": "${document.getElementById("publish_date").value}",
       "available": true,
