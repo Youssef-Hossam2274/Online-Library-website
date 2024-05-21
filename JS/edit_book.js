@@ -1,4 +1,3 @@
-// Assuming you have a form with id "edit-book-form" and input fields with ids "book-id", "book_title", "author_name", "publish_date", "category-list", and "description"
 const editForm = document.getElementById("book_details");
 const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
@@ -43,14 +42,14 @@ async function fetchAuthorName(authorId) {
       `http://127.0.0.1:8000/api.authors/${authorId}`
     );
     const data = await response.json();
-    return data.name; // Assuming the author name is returned in the response
+    return data.name;
   } catch (error) {
     throw new Error("Failed to fetch author name");
   }
 }
 function fetchCategories(selectedCategoryId) {
   const categoryDropdown = document.getElementById("category-list");
-  categoryDropdown.innerHTML = ""; // Clear existing options
+  categoryDropdown.innerHTML = ""; 
 
   fetch("http://127.0.0.1:8000/api.categories/")
     .then((response) => response.json())
@@ -60,7 +59,7 @@ function fetchCategories(selectedCategoryId) {
         option.value = category.id;
         option.textContent = category.name;
         if (category.id === selectedCategoryId) {
-          option.selected = true; // Select the book's category
+          option.selected = true; 
         }
         categoryDropdown.appendChild(option);
       });
@@ -74,7 +73,7 @@ function fetchCategories(selectedCategoryId) {
       );
     });
 }
-// Fetch the book data when the page loads
+
 window.onload = function () {
   const bookId = fetchId();
   fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
@@ -86,7 +85,7 @@ function findAuthorIdByName(authorName) {
     const xhr = new XMLHttpRequest();
     const apiUrl = "http://127.0.0.1:8000/api.authors/";
 
-    xhr.open("GET", apiUrl, true); // Make sure the request is asynchronous
+    xhr.open("GET", apiUrl, true); 
 
     xhr.onload = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
@@ -97,7 +96,7 @@ function findAuthorIdByName(authorName) {
           );
 
           if (existingAuthor) {
-            // Author already exists, return their ID
+
             resolve(existingAuthor.id);
           } else {
             const newAuthorXhr = new XMLHttpRequest();
@@ -172,7 +171,7 @@ editForm.addEventListener("submit", function (event) {
     showMessage("Category is required", "red", false);
     return;
   }
-  // Use the same functions as before to handle creating a new author if necessary and updating the book
+
 
   findAuthorIdByName(authorName)
     .then((authorId) => {
@@ -194,7 +193,7 @@ editForm.addEventListener("submit", function (event) {
     });
 });
 
-// Function to update the book
+// update the book
 function updateBook(
   bookId,
   title,
@@ -210,7 +209,7 @@ function updateBook(
     bookRequest.setRequestHeader("Content-type", "application/json");
     let newImg = get_name();
     if (!newImg) newImg = curBookCover;
-    if (uploadInput.value);
+    if (uploadInput.value.length == 0) newImg = "cover_default.png";
     let bookRequestBody = `{
       "title": "${title}",
       "author": ${authorId},
@@ -247,3 +246,10 @@ uploadInput.addEventListener("change", (event) => {
     reader.readAsDataURL(file);
   }
 });
+
+function reset() {
+  myImage.src = "../img/book-cover-placeholder.png";
+  uploadInput.value = "";
+}
+
+editForm.addEventListener("reset", reset);
