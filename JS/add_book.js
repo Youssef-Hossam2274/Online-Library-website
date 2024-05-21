@@ -2,6 +2,14 @@ const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
 const myForm = document.getElementById("book_details");
 const categoryList = document.getElementById("category-list");
+function get_name() {
+  let imagename = uploadInput.value;
+  let img = null;
+  for (let i = 0; i < imagename.length; ++i) {
+    if (imagename[i] == "\\") img = imagename.substring(i + 1);
+  }
+  return img;
+}
 
 function reset() {
   myImage.src = "../img/book-cover-placeholder.png";
@@ -14,7 +22,6 @@ uploadInput.addEventListener("change", (event) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       myImage.src = e.target.result;
-      window.alert(myImage.src);
     };
     reader.readAsDataURL(file);
   }
@@ -210,11 +217,14 @@ function addBook(authorId) {
     bookRequest.open("POST", "http://127.0.0.1:8000/api.books/");
     bookRequest.responseType = "json";
     bookRequest.setRequestHeader("Content-type", "application/json");
-
+    let image = get_name();
+    if (!image) {
+      image = "cover_default.png";
+    }
     let bookRequestBody = `{
       "title": "${document.getElementById("book_title").value}",
       "author": ${authorId},
-      "cover": null,
+      "cover": "${image}",
       "rating": ${Math.floor(Math.random() * 5) + 1},
       "category": ${categoryList.value},
       "publish_date": "${document.getElementById("publish_date").value}",
@@ -239,51 +249,3 @@ function addBook(authorId) {
     bookRequest.send(bookRequestBody);
   });
 }
-
-// --------------------------------
-
-// document.addEventListener("DOMContentLoaded", function () {
-//   const myForm = document.getElementById("book_details");
-
-//   myForm.addEventListener("submit", function (event) {
-//     event.preventDefault();
-
-//     const bookTitle = document.getElementById("book_title").value.trim();
-//     const authorName = document.getElementById("author_name").value.trim();
-//     const publishDate = document.getElementById("publish_date").value;
-
-//     if (!bookTitle) {
-//       showMessage("Book Title is required", "red", false);
-//       return;
-//     }
-
-//     if (!authorName) {
-//       showMessage("Author Name is required", "red", false);
-//       return;
-//     }
-
-//     if (!publishDate) {
-//       showMessage("Publish Date is required", "red", false);
-//       return;
-//     }
-//     myForm.preventDefault;
-//     myForm.submit();
-//     window.location.href = "all_books.html";
-//   });
-// });
-
-// myForm.addEventListener("submit", function (event) {
-//   event.preventDefault(); // Prevent the form from submitting which refreshes the page
-
-//   // Get the form data
-//   let title = document.getElementById("book_title").value;
-//   let author = document.getElementById("author_name").value;
-//   let description = document.getElementById("description").value;
-//   let publish_date = document.getElementById("publish_date").value;
-//   let category = document.getElementById("category-list").value;
-
-//   // Validate the form data
-//   if (!title || !author || !description || !publish_date || !category) {
-//     alert("Please fill out all fields.");
-//     return;
-//   }
