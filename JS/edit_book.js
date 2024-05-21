@@ -1,9 +1,20 @@
+// Assuming you have a form with id "edit-book-form" and input fields with ids "book-id", "book_title", "author_name", "publish_date", "category-list", and "description"
 const editForm = document.getElementById("book_details");
-
+const myImage = document.getElementById("cover-pic");
+const uploadInput = document.getElementById("upload-img");
+var curBookCover;
 // Function to get the book ID from the URL parameters
 function fetchId() {
   let params = new URLSearchParams(window.location.search);
   return params.get("id");
+}
+function get_name() {
+  let imagename = uploadInput.value;
+  let img = curBookCover;
+  for (let i = 0; i < imagename.length; ++i) {
+    if (imagename[i] == "\\") img = imagename.substring(i + 1);
+  }
+  return img;
 }
 
 // Function to populate the form with the book data
@@ -19,6 +30,11 @@ function populateForm(book) {
   document.getElementById("publish_date").value = book.publish_date;
   document.getElementById("category-list").value = book.category.id;
   document.getElementById("description").value = book.description;
+
+  if (book.cover == "cover_default.png")
+    myImage.src = `../backend/covers/book-cover-placeholder.png`;
+  else myImage.src = `../backend/covers/${book.cover}`;
+  curBookCover = book.cover;
   fetchCategories(book.category);
 }
 async function fetchAuthorName(authorId) {
@@ -27,7 +43,7 @@ async function fetchAuthorName(authorId) {
       `http://127.0.0.1:8000/api.authors/${authorId}`
     );
     const data = await response.json();
-    return data.name; 
+    return data.name; // Assuming the author name is returned in the response
   } catch (error) {
     throw new Error("Failed to fetch author name");
   }
@@ -70,7 +86,7 @@ function findAuthorIdByName(authorName) {
     const xhr = new XMLHttpRequest();
     const apiUrl = "http://127.0.0.1:8000/api.authors/";
 
-    xhr.open("GET", apiUrl, true); 
+    xhr.open("GET", apiUrl, true); // Make sure the request is asynchronous
 
     xhr.onload = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
@@ -157,6 +173,7 @@ editForm.addEventListener("submit", function (event) {
     return;
   }
   // Use the same functions as before to handle creating a new author if necessary and updating the book
+
   findAuthorIdByName(authorName)
     .then((authorId) => {
       return updateBook(
@@ -191,14 +208,17 @@ function updateBook(
     bookRequest.open("PUT", `http://127.0.0.1:8000/api.books/${bookId}/`);
     bookRequest.responseType = "json";
     bookRequest.setRequestHeader("Content-type", "application/json");
-
+    let newImg = get_name();
+    if (!newImg) newImg = curBookCover;
+    if (uploadInput.value);
     let bookRequestBody = `{
       "title": "${title}",
       "author": ${authorId},
       "category": ${categoryId},
       "publish_date": "${publishDate}",
       "available": true,
-      "description": "${description}",}
+      "description": "${description}",
+      "cover" : "${newImg}"
     }`;
 
     bookRequest.onload = function () {
@@ -216,3 +236,14 @@ function updateBook(
     bookRequest.send(bookRequestBody);
   });
 }
+
+uploadInput.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      myImage.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
