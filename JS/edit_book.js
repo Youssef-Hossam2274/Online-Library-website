@@ -2,6 +2,7 @@ const editForm = document.getElementById("book_details");
 const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
 var curBookCover;
+let was_reset = false;
 // Function to get the book ID from the URL parameters
 function fetchId() {
   let params = new URLSearchParams(window.location.search);
@@ -16,7 +17,7 @@ function get_name() {
   return img;
 }
 
-// Function to populate the form with the book data
+//populate the form with the book data
 function populateForm(book) {
   document.getElementById("book_title").value = book.title;
   fetchAuthorName(book.author)
@@ -42,14 +43,14 @@ async function fetchAuthorName(authorId) {
       `http://127.0.0.1:8000/api.authors/${authorId}`
     );
     const data = await response.json();
-    return data.name;
+    return data.name; 
   } catch (error) {
     throw new Error("Failed to fetch author name");
   }
 }
 function fetchCategories(selectedCategoryId) {
   const categoryDropdown = document.getElementById("category-list");
-  categoryDropdown.innerHTML = ""; 
+  categoryDropdown.innerHTML = ""; // Clear existing options
 
   fetch("http://127.0.0.1:8000/api.categories/")
     .then((response) => response.json())
@@ -59,7 +60,7 @@ function fetchCategories(selectedCategoryId) {
         option.value = category.id;
         option.textContent = category.name;
         if (category.id === selectedCategoryId) {
-          option.selected = true; 
+          option.selected = true; // Select the book's category
         }
         categoryDropdown.appendChild(option);
       });
@@ -73,7 +74,6 @@ function fetchCategories(selectedCategoryId) {
       );
     });
 }
-
 window.onload = function () {
   const bookId = fetchId();
   fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
@@ -133,7 +133,6 @@ function findAuthorIdByName(authorName) {
     xhr.send();
   });
 }
-// Handle the form submission
 editForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -172,7 +171,6 @@ editForm.addEventListener("submit", function (event) {
     return;
   }
 
-
   findAuthorIdByName(authorName)
     .then((authorId) => {
       return updateBook(
@@ -208,8 +206,12 @@ function updateBook(
     bookRequest.responseType = "json";
     bookRequest.setRequestHeader("Content-type", "application/json");
     let newImg = get_name();
+    // const testImg = document.getElementById("cover-pic");
+    // console.log(uploadInput.value.length);
+    // console.log(testImg.src);
     if (!newImg) newImg = curBookCover;
-    if (uploadInput.value.length == 0) newImg = "cover_default.png";
+    if (uploadInput.value.length == 0 && was_reset)
+      newImg = "cover_default.png";
     let bookRequestBody = `{
       "title": "${title}",
       "author": ${authorId},
@@ -250,6 +252,7 @@ uploadInput.addEventListener("change", (event) => {
 function reset() {
   myImage.src = "../img/book-cover-placeholder.png";
   uploadInput.value = "";
+  was_reset = true;
 }
 
 editForm.addEventListener("reset", reset);
