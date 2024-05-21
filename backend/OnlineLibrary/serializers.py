@@ -28,7 +28,29 @@ class BookSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         # instance.publisher = validated_data.get('publisher', instance.publisher)
         
+        author_id = validated_data.get('author')
+        if author_id:
+            try:
+                author = Author.objects.get(id=author_id)
+                instance.author = author
+            except Author.DoesNotExist:
+                raise serializers.ValidationError({'author': 'Author not found'})
 
+        category_id = validated_data.get('category')
+        if category_id:
+            try:
+                category = Category.objects.get(id=category_id)
+                instance.category = category
+            except Category.DoesNotExist:
+                raise serializers.ValidationError({'category': 'Category not found'})
+        
+        publisher_id = validated_data.get('publisher')
+        if publisher_id:
+            try:
+                publisher = User.objects.get(id=publisher_id)
+                instance.publisher = publisher
+            except User.DoesNotExist:
+                raise serializers.ValidationError({'publisher': 'User not found'})
         
         instance.save()
         return instance

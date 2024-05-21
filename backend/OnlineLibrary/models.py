@@ -3,9 +3,6 @@ import os
 from django.core.management.base import BaseCommand
 from django.db import connection
 
-print(os.getcwd())
-
-
     
 class User(models.Model):
     username = models.CharField(max_length= 255,null=True)
