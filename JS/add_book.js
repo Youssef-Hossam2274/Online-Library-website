@@ -13,6 +13,7 @@ function get_name() {
 
 function reset() {
   myImage.src = "../img/book-cover-placeholder.png";
+  uploadInput.value = "";
 }
 
 // Changing the Book Cover
@@ -135,7 +136,7 @@ function findAuthorIdByName(authorName) {
     const xhr = new XMLHttpRequest();
     const apiUrl = "http://127.0.0.1:8000/api.authors/";
 
-    xhr.open("GET", apiUrl, true); // Make sure the request is asynchronous
+    xhr.open("GET", apiUrl, true);
 
     xhr.onload = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
