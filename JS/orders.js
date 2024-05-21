@@ -42,7 +42,7 @@ function AddAllBooks() {
                       </div>
                       <div class="cover-and-price">
                         <div id="book-cover">
-                          <img src="../backend${bookData["cover"]}" />
+                          <img src="../backend/covers/${bookData["cover"]}" />
                         </div>
                       </div>
                   </div>
