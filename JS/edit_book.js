@@ -27,7 +27,7 @@ async function fetchAuthorName(authorId) {
       `http://127.0.0.1:8000/api.authors/${authorId}`
     );
     const data = await response.json();
-    return data.name; // Assuming the author name is returned in the response
+    return data.name; 
   } catch (error) {
     throw new Error("Failed to fetch author name");
   }
@@ -118,6 +118,7 @@ function findAuthorIdByName(authorName) {
     xhr.send();
   });
 }
+// Handle the form submission
 editForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -127,8 +128,35 @@ editForm.addEventListener("submit", function (event) {
   const publishDate = document.getElementById("publish_date").value;
   const categoryId = document.getElementById("category-list").value;
   const description = document.getElementById("description").value.trim();
+  const Title = document.getElementById("book_title").value.trim();
+  const Name = document.getElementById("author_name").value.trim();
+  const Date = document.getElementById("publish_date").value;
+  var selectElement = document.getElementById("category-list").value;
+  const desc = document.getElementById("description").value.trim();
 
+  if (!Title) {
+    showMessage("Book Title is required", "red", false);
+    return;
+  }
+  if (!desc) {
+    showMessage("Description is required", "red", false);
+    return;
+  }
 
+  if (!Name) {
+    showMessage("Author Name is required", "red", false);
+    return;
+  }
+
+  if (!Date) {
+    showMessage("Publish Date is required", "red", false);
+    return;
+  }
+  if (!selectElement) {
+    showMessage("Category is required", "red", false);
+    return;
+  }
+  // Use the same functions as before to handle creating a new author if necessary and updating the book
   findAuthorIdByName(authorName)
     .then((authorId) => {
       return updateBook(
@@ -167,13 +195,10 @@ function updateBook(
     let bookRequestBody = `{
       "title": "${title}",
       "author": ${authorId},
-      "cover": null,
-      "rating": 5,
       "category": ${categoryId},
       "publish_date": "${publishDate}",
       "available": true,
-      "description": "${description}",
-      "publisher": ${window.localStorage.getItem("user_id")}
+      "description": "${description}",}
     }`;
 
     bookRequest.onload = function () {
