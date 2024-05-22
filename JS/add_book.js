@@ -233,7 +233,8 @@ function addBook(authorId) {
       "description": "${document.getElementById("description").value}",
       "publisher": ${window.localStorage.getItem("user_id")}
     }`;
-
+    
+    bookRequest.send(bookRequestBody);
     bookRequest.onload = function () {
       if (bookRequest.status >= 200 && bookRequest.status < 300) {
         const bookData = bookRequest.response;
@@ -247,6 +248,5 @@ function addBook(authorId) {
       reject("Network Error");
     };
 
-    bookRequest.send(bookRequestBody);
   });
 }

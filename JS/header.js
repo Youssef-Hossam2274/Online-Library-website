@@ -1,4 +1,6 @@
 let userId = JSON.parse(window.localStorage.getItem("user_id"));
+
+
 function displayHeader(userImage) {
   if(userImage == null)
       userImage = `photo_default.png`;

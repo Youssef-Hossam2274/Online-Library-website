@@ -19,38 +19,49 @@ function succsessRegistiration()
 
 /* dispaly the most recent 5 books */
 
+function addBook(id, title, cover, author){
+    
+    let book =
+    `
+        <div class="Book"  data-category="">
+        <div class="background-img">
+        <a href="../HTML/book.html?id=${id}">
+        <img src="../backend/covers/${cover}" alt="">
+        </a>
+        </div>
+        <div class="content">
+        <h3>${title}</h3> 
+        <span><strong>Author(s):</strong>${author}</span>
+        <a href="../HTML/book.html?id=${id}">
+        <button id= "ShowDetails">Show details</button> 
+        </a>
+        </div>
+        </div>
+    `;
+    const parser = new DOMParser();
+    const parsedDocument = parser.parseFromString(book, "text/html");
+    let recentBooks = document.getElementsByClassName("recent-books")[0];
+    recentBooks.append(parsedDocument.querySelector(".book"));
+}
+
 function dispalyRecentBooks()
 {
-
-    let books = JSON.parse(localStorage.getItem("books"));
-    let recentBooks = document.getElementsByClassName("recent-books")[0];
-    
-    if (books) {
-        for (let i = books.length - 1; i >= books.length - 5; i--) {
-            let currentBook = books[i];
-            let book = `;
-            <div class="Book">
-                <div class="background-img">
-                    <a href="../HTML/book.html?id=${i}">
-                        <img src="${books[i].imageURL}" />
-                    </a>
-                </div>
-                <div class="content">
-                    <h3>${currentBook.title}</h3> 
-                    <span><strong>Author(s):</strong>${currentBook.author}</span>
-                    <a href="../HTML/book.html?id=${i}">
-                        <button id= "ShowDetails">Show details</button> 
-                    </a>
-                </div>
-            </div>
-            `;
-    
-            const parser = new DOMParser();
-            const parsedDocument = parser.parseFromString(book, "text/html");
-    
-            recentBooks.append(parsedDocument.querySelector(".book"));
+    fetch(`http://127.0.0.1:8000/api.books/`).then((res) =>{
+        let myData = res.json();
+        return myData;
+    }).then((books) => {
+        console.log(books);
+        for(let i = books.length - 1; i >= books.length - 5 && i >= 0; i--){
+            fetch(`http://127.0.0.1:8000/api.authors/${books[i].author}/`).then((res) => {
+                let author = res.json();
+                return author;
+            }).then((author) => {
+                addBook(books[i].id, books[i].title, books[i].cover, author.name);
+            })
         }
-    }
+    })
+
+
 }
 
 
