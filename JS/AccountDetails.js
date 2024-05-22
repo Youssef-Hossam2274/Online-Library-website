@@ -86,12 +86,15 @@ document.addEventListener("DOMContentLoaded", function () {
         showMessage("New Password Cant be empty", "red", false);
         return;
       }
-      if (currentPassword.value !== savedUserData.password) {
+      if (
+        currentPassword.value.length &&
+        currentPassword.value !== savedUserData.password
+      ) {
         showMessage("Typed Current Password is Wrong", "red", false);
         return;
       }
 
-      if (newPassword1 !== newPassword2) {
+      if (currentPassword.value.length && newPassword1 !== newPassword2) {
         showMessage(
           "New Password Typed and the Confirmation Does Not Match",
           "red",
@@ -99,19 +102,28 @@ document.addEventListener("DOMContentLoaded", function () {
         );
         return;
       }
-
+      var updatedData;
+      if (newPassword1 || currentPassword.value) {
+        updatedData = {
+          firstName: document.getElementById("first-name-input").value,
+          secondName: document.getElementById("second-name-input").value,
+          email: document.getElementById("user-email-input").value,
+          phoneNumber: document.getElementById("phone-number-input").value,
+          password: newPassword1,
+        };
+      } else {
+        updatedData = {
+          firstName: document.getElementById("first-name-input").value,
+          secondName: document.getElementById("second-name-input").value,
+          email: document.getElementById("user-email-input").value,
+          phoneNumber: document.getElementById("phone-number-input").value,
+        };
+      }
       // If validation passes, prepare the data and send a PUT request
-      const updatedData = {
-        firstName: document.getElementById("first-name-input").value,
-        secondName: document.getElementById("second-name-input").value,
-        email: document.getElementById("user-email-input").value,
-        phoneNumber: document.getElementById("phone-number-input").value,
-        password: newPassword1,
-      };
 
       const xhr = new XMLHttpRequest();
       xhr.open("PUT", apiEndpoint, true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.setRequestHeader("Content-Type", "application/json");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
@@ -124,4 +136,5 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.send(JSON.stringify(updatedData));
     });
 });
+
 

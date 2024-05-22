@@ -4,6 +4,10 @@
     <title>Add Book</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../CSS/add_book.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <meta name="description" content="Add a book to books list" />
     <link rel="stylesheet" href="../CSS/header.css" />
     <link rel="stylesheet" href="../CSS/footer.css" />
@@ -39,16 +43,39 @@
       <input type="text" name="" id="author_name" />
       <label for="publish_date">Publish Date</label>
       <input type="date" name="" id="publish_date" />
+      <!-- <label for="">Rating</label>
+      <span class="star-rating">
+        <label for="rate-1" style="--i: 1"
+          ><i class="fa-solid fa-star"></i
+        ></label>
+        <input type="radio" name="rating" id="rate-1" value="1" />
+        <label for="rate-2" style="--i: 2"
+          ><i class="fa-solid fa-star"></i
+        ></label>
+        <input type="radio" name="rating" id="rate-2" value="2" checked />
+        <label for="rate-3" style="--i: 3"
+          ><i class="fa-solid fa-star"></i
+        ></label>
+        <input type="radio" name="rating" id="rate-3" value="3" />
+        <label for="rate-4" style="--i: 4"
+          ><i class="fa-solid fa-star"></i
+        ></label>
+        <input type="radio" name="rating" id="rate-4" value="4" />
+        <label for="rate-5" style="--i: 5"
+          ><i class="fa-solid fa-star"></i
+        ></label>
+        <input type="radio" name="rating" id="rate-5" value="5" />
+      </span> -->
       <label for="category">Book Category</label>
       <select name="category" id="category-list">
         <option value="" disabled selected hidden>Select book category</option>
       </select>
-      <!-- <input type="number" name="" id="price" required> -->
       <div class="button-container">
         <input type="submit" name="" id="" value="Add" />
         <input type="reset" name="" id="" value="Reset" />
       </div>
     </form>
+        <script src="../JS/header.js"></script>
     <script src="../JS/add_book.js"></script>
     <script src="../JS/footer.js"></script>
   </body>

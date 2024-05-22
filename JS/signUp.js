@@ -25,7 +25,6 @@ open_eye.onclick = close_eye.onclick = function()
     }
 }
 
-
 user.onclick = function(){
     user.classList.add("type-active");
     admin.classList.remove("type-active");
@@ -36,33 +35,28 @@ admin.onclick = function(){
     user.classList.remove("type-active");
 }
 
-
-function ValidUserName(userName){
-
-    if(userName.trim() === ""){
+function ValidUserName(userName) {
+    if (userName.trim() === "") {
         showMessage("User name is required", "red", false);
-        return false;
+        return Promise.resolve(false);
     }
 
-    // let request = new XMLHttpRequest();
-    // request.open("GET",`http://127.0.0.1:8000/api.users/`);
-    // request.send();
-    // request.onload = () =>{
-    //     let data = JSON.parse(request.responseText);
-    //     let found = false;
-    //     for(const user of data){
-    //         if(user["username"] == userName)
-    //             found = true;
-    //     }
-        
-    //     if(found == true){
-    //         showMessage("User name is already exist !!!", "red", false);
-    //         return false;
-    //     }
-    //     else
-    //         return true;
-    // }
-    return true;
+    return new Promise((resolve) => {
+        let request = new XMLHttpRequest();
+        request.open("GET", `http://127.0.0.1:8000/api.users/`);
+        request.send();
+        request.onload = () => {
+            let data = JSON.parse(request.responseText);
+            let found = data.some(user => user["username"] === userName);
+
+            if (found) {
+                showMessage("User name is already exist !!!", "red", false);
+                resolve(false);
+            } else {
+                resolve(true);
+            }
+        };
+    });
 }
 
 
@@ -88,7 +82,31 @@ function ValidEmail(email)
     return true;
 }
 
-function addNewUser(){
+
+function addToAPI(userName, userPassword, userEmail, userType){
+    return new Promise(() => {
+
+        let request = new XMLHttpRequest();
+        request.open("POST", "http://127.0.0.1:8000/api.users/");
+        request.responseType = "json";
+        request.setRequestHeader("Content-type", "application/json");
+        let requestBody = `{
+            "username": "${userName}",
+            "password": "${userPassword}",
+            "email": "${userEmail}",
+            "isAdmin": ${userType}
+        }`;
+        request.send(requestBody);
+        request.onload = function(){
+            let response = request.response;
+            window.localStorage.setItem("user_id", response["id"]);
+            window.localStorage.setItem("isAdmin", response["isAdmin"]);
+            window.localStorage.setItem("isSignUp", true);
+        }
+    })
+}
+
+signupButton.onclick = async () =>{
     let userType = false;
     if (admin.className === "admin type-active")
         userType = true;
@@ -99,84 +117,23 @@ function addNewUser(){
     let userEmail = document.getElementById("email-input").value;
 
 
-
-    if(ValidUserName(userName) == false)
+    if(!(await ValidUserName(userName))){
         return;
-    else if(ValidPassword(userPassword) == false)
-        return;
-    else if(confirmPassword.trim() === "")
-    {
-        alert("Confirm password is required");
-        return;
-    }    
-    else if (confirmPassword != userPassword)
-    {
-        alert("Password or confirm password is wrong");
-        return;
-    }
-
-    else if(ValidEmail(userEmail) == false)
-        return;
-
-    // addToAPI(userName, userPassword, userEmail, userType);
-    addToAPI(userName, userPassword, userEmail, userType);
-    for(let i = 0; i < 2000; ++i)
-        console.log("aaaaaa");
-    
-}
-
-function addToAPI(userName, userPassword, userEmail, userType){
-    let request = new XMLHttpRequest();
-    request.open("POST", "http://127.0.0.1:8000/api.users/");
-    request.responseType = "json";
-    request.setRequestHeader("Content-type", "application/json");
-    let requestBody = `{
-        "username": "${userName}",
-        "password": "${userPassword}",
-        "email": "${userEmail}",
-        "isAdmin": ${userType}
-    }`;
-    request.send(requestBody);
-    request.onload = function(){
-        let response = request.response;
-        window.localStorage.setItem("user_id", response["id"]);
-        window.localStorage.setItem("isAdmin", response["isAdmin"]);
-        window.localStorage.setItem("isSignUp", true);
-    }
-}
-
-signupButton.onclick = () =>{
-    let userType = false, validation = true;
-    if (admin.className === "admin type-active")
-        userType = true;
-
-    let userName = document.getElementById("user-input").value;
-    let userPassword = document.getElementById("password-input").value;
-    let confirmPassword = document.getElementById("confirm-input").value;
-    let userEmail = document.getElementById("email-input").value;
-
-    console.log(ValidUserName(userName));
-
-    if(ValidUserName(userName) == false){
-        validation = false;
     }
     if(ValidPassword(userPassword) == false)
-        validation = false;
+        return;
     
     if(confirmPassword.trim() === ""){
         showMessage("Confirm password is required", "red", false);
-        validation = false;
+        return;
     }    
     if (confirmPassword != userPassword){
         showMessage("Password or confirm password is wrong", "red", false);
-        validation = false;
+        return;
     }
     if(ValidEmail(userEmail) == false)
-        validation = false;
-
-
-    if(validation == false)
         return;
+
 
     addToAPI(userName, userPassword, userEmail, userType);
 }
