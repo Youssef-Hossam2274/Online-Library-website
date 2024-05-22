@@ -64,10 +64,34 @@ function addSideBar(username, photo){
 }
 
 
+async function updateUser(userId, userData) {
+  const url = `http://127.0.0.1:8000/api.users/${userId}/`;
+
+  try {
+      const response = await fetch(url, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+          },
+          body: JSON.stringify(userData)
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error('Error:', error);
+      throw error;
+  }
+}
+
 async function main(){
   const resolve = await fetch(`http://127.0.0.1:8000/api.users/${userId}/`);
   let myData = resolve.json();
-  console.log("sidebar");
   const userData = await myData;
   addSideBar(userData.username, userData.photo);
 
@@ -75,21 +99,40 @@ async function main(){
   const uploadInput = document.getElementById("upload-photo");
   let remove_photo = document.querySelector(".remove-photo-label");
   
+  let isEditPhoto = false;
+  let newPhoto;
   remove_photo.onclick = ()=>{
-    myImage.src = "../img/profile-icon.png";
+    newPhoto = "photo_default.png";
+    isEditPhoto = true;
+    const editData = {
+      photo: newPhoto
+    };
+    updateUser(userId, editData);
+
   }
 
   uploadInput.addEventListener("change", (event) => {
+    console.log(1);
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
             myImage.src = e.target.result;
             myImage.style.borderRadius  = 35 + "px";
-            saveImage(myImage.src);
+            // saveImage(myImage.src);
         };
-        reader.readAsDataURL(file);
+
     }
+    for(let i = 0; i < uploadInput.value.length; ++i){
+      if(uploadInput.value[i] == '\\'){
+        newPhoto = (uploadInput.value.substring(i+1));
+      }
+    }
+
+    const editData = {
+      photo: newPhoto
+    };
+    updateUser(userId, editData);
   });
 
   function resetImage() {
@@ -100,12 +143,3 @@ async function main(){
 }
 
 main();
-
-// async function test(){
-//   await main();
-//   // console.log("test");
-//     // const myImage = document.getElementById("profile-pic");
-//     // console.log(myImage);
-// }
-
-// // test();

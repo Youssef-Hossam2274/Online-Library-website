@@ -39,8 +39,8 @@
   background-color: #f0f9ff;
   cursor: pointer;
 
-  min-width: 1300px;
-  max-width: 1300px;
+  min-width: 130px;
+  max-width: 900px;
   min-height: 200px;
   max-height: 200px;
 }
