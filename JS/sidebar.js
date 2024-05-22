@@ -112,7 +112,6 @@ async function main(){
   }
 
   uploadInput.addEventListener("change", (event) => {
-    console.log(1);
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
