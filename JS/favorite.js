@@ -27,7 +27,7 @@ function AddAllBooks() {
                     <div class="Book">
                         <div class="background-img">
                             <a href="../HTML/book.html?id=${bookID}">
-                                <img src="../backend${bookData["cover"]}" />
+                                <img src="../backend/covers/${bookData["cover"]}" />
                             </a>
                         </div>
                         <div class="content-book">

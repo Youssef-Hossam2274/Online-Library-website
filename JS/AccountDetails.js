@@ -1,29 +1,34 @@
 // user logged profile image change 
-const myImage = document.getElementById("profile-pic");
-const uploadInput = document.getElementById("upload-photo");
-let remove_photo = document.getElementById("remove-photo-label");
+// const myImage = document.getElementById("profile-pic");
+// const uploadInput = document.getElementById("upload-photo");
+// let remove_photo = document.querySelector(".remove-photo-label");
 
-remove_photo.onclick = function(){
-    myImage.src = "../img/profile-icon.png";
-}
+// console.log(myImage);
 
-uploadInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            myImage.src = e.target.result;
-            myImage.style.borderRadius  = 35 + "px";
-            saveImage(myImage.src);
-        };
-        reader.readAsDataURL(file);
-    }
-});
+// console.log("Account details");
 
-function resetImage() {
-    myImage.src = "../img/profile-icon.png";
-    saveImage(myImage.src);
-}
+
+// remove_photo.onclick = ()=>{
+//     myImage.src = "../img/profile-icon.png";
+// }
+
+// uploadInput.addEventListener("change", (event) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//         const reader = new FileReader();
+//         reader.onload = (e) => {
+//             myImage.src = e.target.result;
+//             myImage.style.borderRadius  = 35 + "px";
+//             saveImage(myImage.src);
+//         };
+//         reader.readAsDataURL(file);
+//     }
+// });
+
+// function resetImage() {
+//     myImage.src = "../img/profile-icon.png";
+//     saveImage(myImage.src);
+// }
 
 // -----------------------------------------------
 
@@ -136,5 +141,3 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.send(JSON.stringify(updatedData));
     });
 });
-
-

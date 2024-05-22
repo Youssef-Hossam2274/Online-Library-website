@@ -1,14 +1,7 @@
 let userId = JSON.parse(window.localStorage.getItem("user_id"));
-let headImageUrl = "../img/profile-icon.png";
-
-function displayHeader() {
-  // let request = new XMLHttpRequest();
-  // request.open("GET",`http://127.0.0.1:8000/api.users/${userId}/`);
-  // request.send();
-  // request.onload = () =>{
-  //   let data = JSON.parse(request.responseText);
-  //   headImageUrl = data["photo"];
-  // }
+function displayHeader(userImage) {
+  if(userImage == null)
+      userImage = `photo_default.png`;
   let header = `
     <link rel="shortcut icon" type="x-icon" href="../img/ICON.png">
     <link
@@ -31,9 +24,9 @@ function displayHeader() {
     </nav>
     
     <div class="profile">
-    <a class="profile-icon" href="../HTML/profile.html"><img src= "../backend/${headImageUrl}" alt="profile"></a>
-    <button class="login-btn" onclick="location.href='../HTML/Login.html'">Log In</button>
-    <button class="signUp-btn" onclick="location.href='../HTML/SignUp.html'">Sign Up</button>
+      <a class="profile-icon" href="../HTML/profile.html"> <i class="fa-regular fa-user"></i> </a>
+      <button class="login-btn" onclick="location.href='../HTML/Login.html'">Log In</button>
+      <button class="signUp-btn" onclick="location.href='../HTML/SignUp.html'">Sign Up</button>
     </div>
     </header>
     
@@ -59,24 +52,20 @@ function displayHeader() {
     </div>
     
     <div class="scroll-up" id="scroll-up">
-    <img src="../img/arrow-up.svg" alt="">
+      <img src="../img/arrow-up.svg" alt="">
     </div>
     `;
 
-  document.querySelector(".profile-icon img");
   document.write(header);
-  let profilePhoto = document.querySelector(".profile-icon img");
-  profilePhoto.style.width = "40px";
-  profilePhoto.style.height = "40px";
-  profilePhoto.style.borderRadius = "50%";
-
 }
 
 function scrollToTop() {
   let scroll_up = document.getElementById("scroll-up");
   window.onscroll = function () {
-    if (this.scrollY >= 600) scroll_up.classList.add("show");
-    else scroll_up.classList.remove("show");
+    if (this.scrollY >= 600) 
+      scroll_up.classList.add("show");
+    else 
+      scroll_up.classList.remove("show");
   };
 
   scroll_up.onclick = function () {
@@ -211,6 +200,8 @@ const openModal = (title, bodyText, options) => {
   }, 10);
 
 }
+
+
 
 //     ---> calling functions <--
 displayHeader();

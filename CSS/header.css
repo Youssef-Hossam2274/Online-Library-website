@@ -115,6 +115,11 @@ body {
 
 /* profile-icon */
 
+.profile i{
+  padding-right: 150px;
+  color: white;
+}
+
 .profile-icon img {
   width: 40px;
   cursor: pointer;
