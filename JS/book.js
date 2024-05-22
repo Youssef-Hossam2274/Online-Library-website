@@ -63,7 +63,6 @@ const loadedRequest = (method, url, body) => {
         reject(Error(`Request failed with status code: ${this.status}`));
       }
     };
-
     xhr.send(JSON.stringify(body));
   });
 }
@@ -221,7 +220,10 @@ function updatePage(id) {
         });
 
       resolve(book);
-    }).catch(() => reject(book));
+    }).catch(() => {
+      console.error("Book is undefined");
+      reject(book);
+    });
   });
 }
 
@@ -265,16 +267,17 @@ function main() {
   // Assumed that django will only display valid urls with valid ids
   let bookId = fetchId();
 
-  updatePage(bookId);
-
-  emptyRequest("GET", `${getBaseUrl()}/api.users/${localStorage.user_id}/`)
-    .then((json) => {
-      user = JSON.parse(json);
-      checkBorrowed();
-      checkFavorites();
+  updatePage(bookId)
+    .then(() => {
+      emptyRequest("GET", `${getBaseUrl()}/api.users/${localStorage.user_id}/`)
+        .then((json) => {
+          user = JSON.parse(json);
+          checkBorrowed();
+          checkFavorites();
+        })
+        .catch((error) => console.error(error, "User is not defined"))
+        .finally(() => handleButtons());
     })
-    .catch(() => console.error("User is not defined"))
-    .finally(() => handleButtons())
 }
 
 
@@ -300,7 +303,8 @@ favBtn.addEventListener("click", (e) => {
 
 // Handles edit button
 adminButtons.querySelector(".edit-button").addEventListener("click", (e) => {
-  window.location = `/edit_book.html?id=${book.id}`;
+  console.log("hi");
+  window.location = `http://127.0.0.1:5500/HTML/edit_book.html?id=${book.id}`;
 });
 
 // Handles remove button 
