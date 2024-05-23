@@ -1,8 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --title-color: #16162E;
+  --font-family: "Montserrat", sans-serif;
+  --muted-color: #6c757d;
+  --available-bg-color: #38c53e;
+  --unavailable-bg-color: #df0f00;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: sans-serif; */
 }
 
 button:disabled {
@@ -29,8 +38,7 @@ body {
 hr {
   border: none;
   height: 1px;
-  background-color: rgba(128, 128, 128, 0.445);
-  margin: 10px auto;
+  background-color: #DBDBE8;
 }
 
 .overview {
@@ -67,7 +75,6 @@ hr {
   height: 85vh;
   box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.3);
   border: 2px solid white;
-  background-image: url("../img/book-cover-placeholder.png");
   background-repeat: no-repeat;
   background-size: 300%, 300%;
   background-position: 0% 0%;
@@ -76,17 +83,20 @@ hr {
 }
 
 #status-banner {
+  background-color: var(--available-bg-color);
+  font-family: var(--font-family);
+  font-weight: 500;
+  text-transform: uppercase;
+
   position: absolute;
   top: 26px;
   right: -31px;
   width: 145px;
   padding: 6px;
   text-align: center;
-  background-color: #9e9e9e;
   transform: rotate(45deg);
   user-select: none;
   color: white;
-  text-transform: uppercase;
 }
 
 /* ****************** Right side ***************** */
@@ -95,109 +105,111 @@ hr {
 }
 
 .book-title {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .book-title h1 {
   font-size: 2.5rem;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
+  font-weight: 600;
+  color: var(--title-color) !important;
 }
 
 .book-title p {
+  font-family: var(--font-family);
+  color: var(--title-color);
+  font-weight: 500;
+  font-size: 1.1rem;
   text-decoration: none;
-  color: #2196f3;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1rem;
-  transition: 0.3s;
+  margin-top: 10px;
 }
 
 .book-title p::before {
-  content: "by";
+  content: "By";
   font-size: 0.9rem;
   margin: auto 10px;
-  color: black;
 }
 
 .book-title p::after {
   content: "(author)";
   margin-left: 10px;
-  color: #33333370;
+  color: var(--muted-color);
+  font-weight: 200;
 }
 
-/* Rating section */
-.rating {
-  display: flex;
-  align-items: center;
-  font-family: Arial, Helvetica, sans-serif;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  margin-left: 10px;
-}
-
-.stars {
-  margin-right: 15px;
-}
-
-.checked {
-  color: orange;
-}
-
-.reviews-count {
-  color: #9e9e9e;
-}
 
 /* Book categories & publish date */
 .book-info {
-  margin: 20px auto;
+  margin: 30px auto;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.book-info div {
-  margin-bottom: 30px;
+/* each line styling */
+.info-line {
+  display: flex;
+  margin-bottom: 20px;
 }
 
-.sub-title {
-  display: inline-block;
-  color: rgba(0, 0, 0, 0.63);
-  font-size: 0.9rem;
-  font-weight: bold;
-  font-family: Arial, Helvetica, sans-serif;
+.info-title {
+  color: var(--title-color);
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 0.95rem;
   text-transform: capitalize;
-  width: 100px;
+  width: 150px;
 }
 
-.category-line {
-  margin: 10px auto 30px;
+.info-field {
+  font-family: var(--font-family);
+  color: var(--title-color);
+  font-weight: 400;
 }
 
-#date-field,
-#category-field {
+/* Rating section colors */
+.fa {
+  color: #9e9e9e;
+}
+
+.checked {
+  color: #EE8C45;
   display: inline-block;
-  color: #2196f3a1;
 }
 
 /* Availability status */
-.status {
-  background-color: #9e9e9e;
+.status-field {
+  background-color: rgb(185, 169, 169);
   margin: 20px 0;
   color: white;
   width: fit-content;
-  text-transform: uppercase;
   padding: 10px 20px;
   text-align: left;
   border-radius: 50px;
   user-select: none;
   padding-left: 40px;
   position: relative;
+  font-family: var(--font-family);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-#status-icon {
-  color: white;
+#status-field-icon {
   width: 25px;
   height: 25px;
   position: absolute;
   left: 10px;
   top: 6px;
+}
+
+.available {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.unavailable {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
 }
 
 /* Buttons */
@@ -335,21 +347,35 @@ hr {
 
 /* *********** Description ********* */
 .description {
-  margin-top: 50px;
-  width: 70%;
+  margin-top: 60px;
 }
 
-.description h2 {
+.description h3 {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+
   font-size: 1.8rem;
-  color: rgba(0, 0, 0, 0.8);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--title-color);
+  line-height: 32px;
+  font-size: 2rem;
+  border-bottom: 1px solid #DBDBE8;
+  padding-bottom: 20px;
 }
 
 .description p {
+  /* font */
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+
   margin: 20px auto;
-  color: rgba(0, 0, 0, 0.5);
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 24px;
+  color: #16162E;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 26px;
 }
 
 /* Medium screens */

@@ -5,8 +5,9 @@ const bookAuthor = document.querySelector(".book-title > p");
 const categoryField = document.querySelector("#category-field");
 const dateField = document.querySelector("#date-field");
 const statusBanner = document.querySelector("#status-banner");
-const statusIco = document.querySelector("#status-icon");
-const statusBlock = document.querySelector("#status-block");
+const statusField = document.querySelector(".status-field");
+const statusFieldIcon = document.querySelector("#status-field-icon");
+const statusFieldText = document.querySelector("#status-field-text");
 const favBtn = document.querySelector("#favorite-button");
 const borrowBtn = document.querySelector("#borrow-button");
 const adminButtons = document.querySelector(".admin-buttons");
@@ -30,8 +31,7 @@ const fetchId = () => {
 
 // Rating
 const addRating = (n = 0) => {
-  let stars = document.querySelectorAll(".stars > span");
-
+  const stars = document.querySelectorAll("#rate > span");
   for (let i = 0; i < n; ++i) {
     stars[i].classList.add("checked");
   }
@@ -57,7 +57,6 @@ const loadedRequest = (method, url, body) => {
 
     xhr.onload = function () {
       if (this.status >= 200 && this.status < 300) {
-        console.log(this.response);
         resolve(this.response);
       } else {
         reject(Error(`Request failed with status code: ${this.status}`));
@@ -85,18 +84,14 @@ const emptyRequest = (method, url) => {
 
 function setAvailability(isAvailable) {
   if (isAvailable) {
-    statusBanner.innerHTML = "available";
-    statusBlock.innerHTML =
-      '<span class="material-symbols-rounded" id="status-icon">mood</span>available';
-    statusBanner.style.backgroundColor = "#56cb5b";
-    statusBlock.style.backgroundColor = "#56cb5b";
+    statusFieldIcon.textContent = "check_circle";
+    statusBanner.textContent = statusFieldText.textContent = "available";
+    statusBanner.style.backgroundColor = statusField.style.backgroundColor = "var(--available-bg-color)";
   }
   else {
-    statusBanner.innerHTML = "unavailable";
-    statusBlock.innerHTML =
-      '<span class="material-symbols-rounded" id="status-icon">sentiment_dissatisfied</span>unavailable';
-    statusBanner.style.backgroundColor = "#dd4034";
-    statusBlock.style.backgroundColor = "#dd4034";
+    statusFieldIcon.textContent = "cancel";
+    statusBanner.textContent = statusFieldText.textContent = "unavailable";
+    statusBanner.style.backgroundColor = statusField.style.backgroundColor = "var(--unavailable-bg-color)";
   }
 
 }
@@ -119,19 +114,25 @@ function checkFavorites() {
 
 // checks if the current book is borrowed
 function checkBorrowed() {
-  emptyRequest("GET", `${getBaseUrl()}/api.BorrowTransaction/`).then((borrows) => {
-    const json = JSON.parse(borrows);
-    for (let i = 0; i < json.length; ++i) {
-      if (json[i].user == user.id && json[i].book == book.id) {
-        borrowBtn.dataset.state = json[i].id;
-        borrowBtn.classList.add("borrowed");
-        borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrowed';
-        return;
+  return new Promise((resolve, reject) => {
+    emptyRequest("GET", `${getBaseUrl()}/api.BorrowTransaction/`)
+    .then((borrows) => {
+      const json = JSON.parse(borrows);
+      for (let i = 0; i < json.length; ++i) {
+        if (json[i].user == user.id && json[i].book == book.id) {
+          borrowBtn.dataset.state = json[i].id;
+          borrowBtn.classList.add("borrowed");
+          borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrowed';
+          resolve(true);
+          return;
+        }
       }
-    }
-    borrowBtn.dataset.state = 0;
-    borrowBtn.classList.remove("checked");
-    borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrow';
+      borrowBtn.dataset.state = 0;
+      borrowBtn.classList.remove("checked");
+      borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrow';
+      resolve(false);
+    })
+    .catch((error) => reject(error));
   });
 }
 
@@ -197,7 +198,7 @@ function updatePage(id) {
       if (book.cover != "book-cover-placeholder.png") {
         zoomImage = true;
       }
-
+      
       bookTitle.innerHTML = book.title;
       dateField.innerHTML = book.publish_date;
       descriptionBox.innerHTML = book.description;
@@ -219,12 +220,12 @@ function updatePage(id) {
           categoryField.innerHTML = JSON.parse(category).name;
         })
         .catch(() => {
-          categoryField.innerHTML = "N.A";
+          categoryField.innerHTML = "Undefined";
         });
 
       resolve(book);
     }).catch(() => {
-      console.error("Book is undefined");
+      console.error("Error occurred while fetching book data");
       reject(book);
     });
   });
@@ -236,7 +237,7 @@ function handleButtons() {
   if (!user) {
     adminButtons.remove();
     borrowBtn.disabled = true;
-    favBtn.style.pointerEvents = 'none';
+    favBtn.disabled = true;
   }
   else if (user.isAdmin) {
     borrowBtn.remove();
@@ -246,6 +247,16 @@ function handleButtons() {
   }
   else {
     adminButtons.remove();
+
+    // Check borrow button status
+    checkBorrowed().then((borrowed) => {
+      // Apply borrowBtn disabled on unavailable books
+      // If I'm not the user who borrowed
+      if (!borrowed) {
+        borrowBtn.disabled = !book.available;
+      }
+    })
+
   }
   document.querySelector(".dynamic-buttons").style.display = 'block';
 }
@@ -275,7 +286,6 @@ function main() {
       emptyRequest("GET", `${getBaseUrl()}/api.users/${localStorage.user_id}/`)
         .then((json) => {
           user = JSON.parse(json);
-          checkBorrowed();
           checkFavorites();
         })
         .catch((error) => console.error(error, "User is not defined"))
@@ -330,7 +340,6 @@ favBtn.addEventListener("click", (e) => {
 
 // Handles edit button
 adminButtons.querySelector(".edit-button").addEventListener("click", (e) => {
-  console.log("hi");
   window.location = `http://127.0.0.1:5500/HTML/edit_book.html?id=${book.id}`;
 });
 
