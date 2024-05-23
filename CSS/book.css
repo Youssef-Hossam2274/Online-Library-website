@@ -184,7 +184,6 @@ hr {
   padding: 10px 20px;
   text-align: left;
   border-radius: 50px;
-  user-select: none;
   padding-left: 40px;
   position: relative;
   font-family: var(--font-family);

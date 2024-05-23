@@ -194,10 +194,7 @@ function updatePage(id) {
       zoomBox.style.backgroundImage = `url(../backend/covers/${book.cover})`;
 
       // FIXME: Handle to make zoomImage true 
-      // when the image is different from the placeholder
-      if (book.cover != "book-cover-placeholder.png") {
-        zoomImage = true;
-      }
+      zoomImage = true;
       
       bookTitle.innerHTML = book.title;
       dateField.innerHTML = book.publish_date;
@@ -290,30 +287,30 @@ function main() {
         })
         .catch((error) => console.error(error, "User is not defined"))
         .finally(() => handleButtons());
-    })
-    .then(() => {
-      // Adding the zooming event to book image in-case of wide screen
-      if (screen.width > 768 && zoomImage) {
-        bookImage.addEventListener("mousemove", (e) => {
-          // Showing the container
-          zoomBox.style.display = "block";
+      })
+      .then(() => {
+        // Adding the zooming event to book image in-case of wide screen
+        if (screen.width > 768 && zoomImage) {
+          bookImage.addEventListener("mousemove", (e) => {
+            // Showing the container
+            zoomBox.style.display = "block";
 
-          // Extracting the current width and height
-          let width = parseFloat(window.getComputedStyle(bookImage).width);
-          let height = parseFloat(window.getComputedStyle(bookImage).height);
+            // Extracting the current width and height
+            let width = parseFloat(window.getComputedStyle(bookImage).width);
+            let height = parseFloat(window.getComputedStyle(bookImage).height);
 
-          // Extracting the current mouse position portion
-          let x = e.offsetX / width;
-          let y = e.offsetY / height;
+            // Extracting the current mouse position portion
+            let x = e.offsetX / width;
+            let y = e.offsetY / height;
 
-          // Moving to the current part
-          zoomBox.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
-        });
+            // Moving to the current part
+            zoomBox.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
+          });
 
-        bookImage.addEventListener("mouseleave", (e) => {
-          zoomBox.style.display = "none";
-        });
-      }
+          bookImage.addEventListener("mouseleave", (e) => {
+            zoomBox.style.display = "none";
+          });
+        }
     })
 }
 
