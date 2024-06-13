@@ -2,42 +2,6 @@
 
 This project is an online library website designed to facilitate the borrowing of books. Users can browse through a diverse collection of books, check availability, and borrow their desired titles. The platform provides a seamless experience for book enthusiasts to discover, read, and return books online.
 
-## Phase 2 Objects schema
-
-Books => [Book Object]
-<br>Attributes:
-
--   title
--   Author
--   Image
--   rating
--   category
--   publishDate
--   availability
--   description
-
-Categories => [Category Object]
-<br>Attributes:
-
--   Name
--   books [Books indices]
-
-Users => [User Object]
-<br>Attibutes:
-
--   username
--   email
--   password
--   borrowedBooks [Books indices]
-
-Admins => [Admin Object]
-<br>Attributes:
-
--   username
--   email
--   password
--   addedBooks [Books indices]
-
 ## Features
 
 -   **Book Catalog:** Browse a wide range of books categorized by genre, author, or popularity.
@@ -52,18 +16,10 @@ Admins => [Admin Object]
 ## Technologies Used
 
 -   **Frontend:** HTML, CSS, JavaScript
--   **Backend:** Node.js, Express.js
--   **Database:** MongoDB
--   **Additional Tools:** Bootstrap, React (optional for frontend)
+-   **Backend:** Python, Django
+-   **Database:** SQL Lite3
+-   **Additional Tools:** Figma, Postman
 
-## Getting Started
-
-1. Clone the repository.
-2. Install dependencies using `npm install`.
-3. Set up the MongoDB database.
-4. Run the server using `npm start`.
-5. Access the website through the provided URL.
-6. Start borrowing and enjoying your favorite books!
 
 ## Contributors
 
