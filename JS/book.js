@@ -184,23 +184,44 @@ function toggleFavoritesButton() {
   }
 }
 
+// Gets the book cover
+const getCover = () => {
+  const photoId = book.cover;
+  fetch(`${getBaseUrl()}/photo/${photoId}/`, {
+      method: 'GET',
+  })
+  .then((response) => {
+    if (response.ok) {
+        response.blob().then((blob) => {
+          const url = URL.createObjectURL(blob);
+          bookImage.src = url;
+          zoomBox.style.backgroundImage = url;
+          photoDisplay.style.display = 'block';
+          zoomImage = true;
+        });
+    } else {
+        console.error('Photo not found');
+    }
+  })
+  .catch ((error) => {
+      console.error('Error fetching photo:', error);
+  })
+}
+
 // Fetching the book data using its id
 function updatePage(id) {
   return new Promise((resolve, reject) => {
     emptyRequest("GET", `${getBaseUrl()}/api.books/${id}/`).then((json) => {
       book = JSON.parse(json);
-
-      bookImage.src = `../backend/covers/${book.cover}`;
-      zoomBox.style.backgroundImage = `url(../backend/covers/${book.cover})`;
-
-      // FIXME: Handle to make zoomImage true 
-      zoomImage = true;
       
       bookTitle.innerHTML = book.title;
       dateField.innerHTML = book.publish_date;
       descriptionBox.innerHTML = book.description;
       addRating(book.rating);
       setAvailability(book.available);
+      if (book.cover) {
+        getCover();
+      }
 
       // Author
       emptyRequest("GET", `${getBaseUrl()}/api.authors/${book.author}/`)
@@ -227,6 +248,7 @@ function updatePage(id) {
     });
   });
 }
+
 
 // Adding admin buttons
 function handleButtons() {
