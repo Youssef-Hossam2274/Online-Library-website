@@ -146,3 +146,9 @@ CSRF_TRUSTED_ORIGINS = [
     'https://app.apidog.com/project/530394',
     'http://127.0.0.1:5500',
 ]
+
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

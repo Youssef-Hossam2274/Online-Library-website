@@ -1,10 +1,34 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
-from .models import Book, Author, Category, User, Favorite, BorrowTransaction
-from .serializers import BookSerializer,AuthorSerializer, UserSerializer , FavoriteSerializer, BorrowTransactionSerializer, CategorySerializer
+from .models import Book, Author, Category, User, Favorite, BorrowTransaction, Photo
+from .serializers import BookSerializer,AuthorSerializer, UserSerializer , FavoriteSerializer, BorrowTransactionSerializer, CategorySerializer, PhotoSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
+
+
+
+@csrf_exempt
+def upload_photo(request):
+    if request.method == 'POST':
+        image = request.FILES.get('image')
+        if image:
+            photo = Photo(image=image)
+            photo.save()
+            return JsonResponse({'id': photo.id, 'image': photo.image.url})
+    return JsonResponse({'error': 'No image uploaded'}, status=400)
+
+def get_photo(request, pk):
+    try:
+        photo = Photo.objects.get(pk=pk)
+        with open(photo.image.path, 'rb') as f:
+            return HttpResponse(f.read(), content_type='image/jpeg')
+    except Photo.DoesNotExist:
+        return JsonResponse({'error': 'Photo not found'}, status=404)
+
+
+
 
 
 @api_view(['GET', 'POST']) 
