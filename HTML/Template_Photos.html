@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Upload and Retrieve Photo</title>
+    <title>Upload, Retrieve, Update, Delete Photo</title>
 </head>
 
 <body>
@@ -12,6 +12,8 @@
     <br>
     <input type="text" id="photoIdInput" placeholder="Enter photo ID">
     <button onclick="getPhoto()">Get Photo</button>
+    <button onclick="updatePhoto()">Update Photo</button>
+    <button onclick="deletePhoto()">Delete Photo</button>
     <br>
     <img id="photoDisplay" alt="Uploaded Photo" style="display:none;">
 
@@ -23,7 +25,7 @@
             formData.append('image', file);
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/upload/', {
+                const response = await fetch('http://127.0.0.1:8000/photo/', {
                     method: 'POST',
                     body: formData,
                 });
@@ -35,6 +37,7 @@
                 console.error('Error uploading photo:', error);
             }
         }
+
         async function getPhoto() {
             const photoIdInput = document.getElementById('photoIdInput');
             const photoId = photoIdInput.value;
@@ -57,8 +60,62 @@
                 console.error('Error fetching photo:', error);
             }
         }
-   
-   </script>
+
+        async function updatePhoto() {
+            const photoIdInput = document.getElementById('photoIdInput');
+            const photoId = photoIdInput.value;
+
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/photo/${photoId}/`, {
+                    method: 'PUT',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Photo updated:', data);
+                    alert(`Photo with ID ${photoId} updated successfully.`);
+                } else {
+                    const data = await response.json();
+                    console.error('Error updating photo:', data);
+                    alert(`Error updating photo: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error updating photo:', error);
+            }
+        }
+
+        async function deletePhoto() {
+            const photoIdInput = document.getElementById('photoIdInput');
+            const photoId = photoIdInput.value;
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/photo/${photoId}/`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    console.log(`Photo with ID ${photoId} deleted.`);
+                    alert(`Photo with ID ${photoId} deleted successfully.`);
+                    const photoDisplay = document.getElementById('photoDisplay');
+                    photoDisplay.src = '';
+                    photoDisplay.style.display = 'none';
+                    photoIdInput.value = '';
+                } else {
+                    const data = await response.json();
+                    console.error('Error deleting photo:', data);
+                    alert(`Error deleting photo: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error deleting photo:', error);
+            }
+        }
+    </script>
 </body>
 
 </html>

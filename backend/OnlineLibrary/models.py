@@ -17,7 +17,7 @@ class User(models.Model):
     secondName = models.CharField(max_length=255,null=True)
     email = models.CharField(max_length=255,null=True)
     phoneNumber = models.CharField(max_length=11,null=True)
-    photo = models.ForeignKey(Photo, on_delete=models.SET_DEFAULT, default='photo_default.png', null=True, max_length=255)
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
     isAdmin = models.BooleanField(null=True)
     
     def __str__(self):
@@ -41,13 +41,13 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=255,null=True)
     author = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE, null=True)
-    cover = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True, default="cover_default.png")
+    cover = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
     rating = models.IntegerField(null=True)
     category = models.ForeignKey(Category, related_name='books', on_delete=models.CASCADE, default= 1)
     publish_date = models.DateField(null=True)
     available = models.BooleanField(default=True)
     description = models.TextField(null=False)
-    publisher = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    publisher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.title

@@ -17,6 +17,6 @@ urlpatterns = [
     path('api.favorites/<int:id>/',views.favorite_detail),
     path('api.BorrowTransaction/',views.BorrowTransaction_list),
     path('api.BorrowTransaction/<int:id>/',views.borrow_transaction_detail),
-    path('upload/', views.upload_photo, name='photo-upload'),
-    path('photo/<int:pk>/', views.get_photo, name='photo-detail'),
+    path('photo/', views.photo_view, name='photo-upload'),
+    path('photo/<int:pk>/', views.photo_view, name='photo-detail'),
 ]
