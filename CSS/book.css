@@ -307,6 +307,15 @@ hr {
 /* heart button */
 .favorite-button {
   transform: scale(0.75);
+  transition: 0.3s;
+}
+
+.favorite-button:hover {
+  transform: scale(0.9);
+}
+
+.favorite-button.disabled {
+  pointer-events: none;
 }
 
 .favorite-button .heart-icon {
@@ -337,11 +346,6 @@ hr {
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 20px 0px #0000002b;
-  transition: 0.3s;
-}
-
-.favorite-button .heart-bg:hover {
-  transform: scale(1.1);
 }
 
 /* *********** Description ********* */

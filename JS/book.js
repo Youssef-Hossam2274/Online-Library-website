@@ -116,23 +116,23 @@ function checkFavorites() {
 function checkBorrowed() {
   return new Promise((resolve, reject) => {
     emptyRequest("GET", `${getBaseUrl()}/api.BorrowTransaction/`)
-    .then((borrows) => {
-      const json = JSON.parse(borrows);
-      for (let i = 0; i < json.length; ++i) {
-        if (json[i].user == user.id && json[i].book == book.id) {
-          borrowBtn.dataset.state = json[i].id;
-          borrowBtn.classList.add("borrowed");
-          borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrowed';
-          resolve(true);
-          return;
+      .then((borrows) => {
+        const json = JSON.parse(borrows);
+        for (let i = 0; i < json.length; ++i) {
+          if (json[i].user == user.id && json[i].book == book.id) {
+            borrowBtn.dataset.state = json[i].id;
+            borrowBtn.classList.add("borrowed");
+            borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrowed';
+            resolve(true);
+            return;
+          }
         }
-      }
-      borrowBtn.dataset.state = 0;
-      borrowBtn.classList.remove("checked");
-      borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrow';
-      resolve(false);
-    })
-    .catch((error) => reject(error));
+        borrowBtn.dataset.state = 0;
+        borrowBtn.classList.remove("checked");
+        borrowBtn.innerHTML = '<span class="material-symbols-rounded icon">book</span>Borrow';
+        resolve(false);
+      })
+      .catch((error) => reject(error));
   });
 }
 
@@ -187,25 +187,29 @@ function toggleFavoritesButton() {
 // Gets the book cover
 const getCover = () => {
   const photoId = book.cover;
-  fetch(`${getBaseUrl()}/photo/${photoId}/`, {
+  if (photoId) {
+    fetch(`${getBaseUrl()}/photo/${photoId}/`, {
       method: 'GET',
-  })
-  .then((response) => {
-    if (response.ok) {
-        response.blob().then((blob) => {
-          const url = URL.createObjectURL(blob);
-          bookImage.src = url;
-          zoomBox.style.backgroundImage = url;
-          photoDisplay.style.display = 'block';
-          zoomImage = true;
-        });
-    } else {
-        console.error('Photo not found');
-    }
-  })
-  .catch ((error) => {
-      console.error('Error fetching photo:', error);
-  })
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.blob().then((blob) => {
+            const url = URL.createObjectURL(blob);
+            bookImage.src = url;
+            zoomBox.style.backgroundImage = url;
+            photoDisplay.style.display = 'block';
+            if (photoId != 20) {
+              zoomImage = true;
+            }
+          });
+        } else {
+          console.error('Photo not found');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching photo:', error);
+      })
+  }
 }
 
 // Fetching the book data using its id
@@ -213,15 +217,13 @@ function updatePage(id) {
   return new Promise((resolve, reject) => {
     emptyRequest("GET", `${getBaseUrl()}/api.books/${id}/`).then((json) => {
       book = JSON.parse(json);
-      
+
       bookTitle.innerHTML = book.title;
       dateField.innerHTML = book.publish_date;
       descriptionBox.innerHTML = book.description;
       addRating(book.rating);
       setAvailability(book.available);
-      if (book.cover) {
-        getCover();
-      }
+      getCover();
 
       // Author
       emptyRequest("GET", `${getBaseUrl()}/api.authors/${book.author}/`)
@@ -256,7 +258,7 @@ function handleButtons() {
   if (!user) {
     adminButtons.remove();
     borrowBtn.disabled = true;
-    favBtn.disabled = true;
+    favBtn.classList.toggle("disabled");
   }
   else if (user.isAdmin) {
     borrowBtn.remove();
@@ -309,30 +311,30 @@ function main() {
         })
         .catch((error) => console.error(error, "User is not defined"))
         .finally(() => handleButtons());
-      })
-      .then(() => {
-        // Adding the zooming event to book image in-case of wide screen
-        if (screen.width > 768 && zoomImage) {
-          bookImage.addEventListener("mousemove", (e) => {
-            // Showing the container
-            zoomBox.style.display = "block";
+    })
+    .then(() => {
+      // Adding the zooming event to book image in-case of wide screen
+      if (screen.width > 768 && zoomImage) {
+        bookImage.addEventListener("mousemove", (e) => {
+          // Showing the container
+          zoomBox.style.display = "block";
 
-            // Extracting the current width and height
-            let width = parseFloat(window.getComputedStyle(bookImage).width);
-            let height = parseFloat(window.getComputedStyle(bookImage).height);
+          // Extracting the current width and height
+          let width = parseFloat(window.getComputedStyle(bookImage).width);
+          let height = parseFloat(window.getComputedStyle(bookImage).height);
 
-            // Extracting the current mouse position portion
-            let x = e.offsetX / width;
-            let y = e.offsetY / height;
+          // Extracting the current mouse position portion
+          let x = e.offsetX / width;
+          let y = e.offsetY / height;
 
-            // Moving to the current part
-            zoomBox.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
-          });
+          // Moving to the current part
+          zoomBox.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
+        });
 
-          bookImage.addEventListener("mouseleave", (e) => {
-            zoomBox.style.display = "none";
-          });
-        }
+        bookImage.addEventListener("mouseleave", (e) => {
+          zoomBox.style.display = "none";
+        });
+      }
     })
 }
 
