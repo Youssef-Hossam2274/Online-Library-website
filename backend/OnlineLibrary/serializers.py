@@ -6,7 +6,6 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = Author
         fields = ['id', 'name']
 
-
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
@@ -62,17 +61,25 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'password', 'firstName', 'secondName', 'email', 'phoneNumber', 'photo', 'isAdmin']
-        def update(self, instance, validated_data):
-            instance.password = validated_data.get('password', instance.password)
-            instance.firstNmae = validated_data.get('firstNmae', instance.firstNmae)
-            instance.secondName = validated_data.get('secondName', instance.secondName)
-            instance.email = validated_data.get('email', instance.email)
-            instance.phoneNumber = validated_data.get('phoneNumber', instance.phoneNumber)
-            instance.photo = validated_data.get('photo', instance.photo)
-            
-            instance.save()
-            return instance
+
+    def update(self, instance, validated_data):
+        instance.password = validated_data.get('password', instance.password)
+        instance.firstName = validated_data.get('firstName', instance.firstName)  # Corrected field name
+        instance.secondName = validated_data.get('secondName', instance.secondName)
+        instance.email = validated_data.get('email', instance.email)
+        instance.phoneNumber = validated_data.get('phoneNumber', instance.phoneNumber)
         
+        # Handle the photo field separately
+        photo_id = validated_data.get('photo')
+        if photo_id is not None:
+            try:
+                photo_instance = Photo.objects.get(id=photo_id)
+                instance.photo = photo_instance
+            except Photo.DoesNotExist:
+                raise serializers.ValidationError("Photo instance with given id does not exist")
+
+        instance.save()
+        return instance      
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
@@ -85,5 +92,3 @@ class BorrowTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = BorrowTransaction
         fields = ['id', 'user', 'book', 'borrow_date']
-
-

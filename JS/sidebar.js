@@ -18,12 +18,12 @@ function SignOutClick() {
   localStorage.clear();
 }
 
-function addSideBar(username, photo){
+function addSideBar(username){
     let sideBar =
     `
     <div class = "sidebar-content">
       <div class="profile-info">
-        <img src="../backend/photos/${photo}"  alt="placeholder" id="profile-pic">
+        <img src=""  alt="placeholder" id="profile-pic">
         <div>Hello <span id="hello-user" style="color: black;">${username}</span> </div>
       </div>
       
@@ -64,6 +64,49 @@ function addSideBar(username, photo){
 }
 
 
+async function getPhoto(photoID) {
+  try {
+      const response = await fetch(`http://127.0.0.1:8000/photo/${photoID}/`, {
+          method: 'GET',
+      });
+
+      if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const photoDisplay = document.getElementById('profile-pic');
+          photoDisplay.src = url;
+          photoDisplay.style.display = 'block';
+      } else {
+          console.error('Photo not found');
+      }
+  } catch (error) {
+      console.error('Error fetching photo:', error);
+  }
+}
+
+async function uploadPhoto() {
+  const fileInput = document.getElementById('upload-photo');
+  const file = fileInput.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+  try {
+      const response = await fetch('http://127.0.0.1:8000/photo/', {
+          method: 'POST',
+          body: formData,
+      });
+
+      const data = await response.json();
+      const editData = {
+        photo: data.id
+      };
+      updateUser(userId, editData);
+
+  } catch (error) {
+      console.error('Error uploading photo:', error);
+  }
+}
+
 async function updateUser(userId, userData) {
   const url = `http://127.0.0.1:8000/api.users/${userId}/`;
 
@@ -93,52 +136,33 @@ async function main(){
   const resolve = await fetch(`http://127.0.0.1:8000/api.users/${userId}/`);
   let myData = resolve.json();
   const userData = await myData;
-  addSideBar(userData.username, userData.photo);
+  addSideBar(userData.username);
+  getPhoto(userData.photo);
 
   const myImage = document.getElementById("profile-pic");
   const uploadInput = document.getElementById("upload-photo");
   let remove_photo = document.querySelector(".remove-photo-label");
-  
-  let isEditPhoto = false;
-  let newPhoto;
+
   remove_photo.onclick = ()=>{
-    newPhoto = "photo_default.png";
-    isEditPhoto = true;
     const editData = {
-      photo: newPhoto
+      photo: 11
     };
     updateUser(userId, editData);
-
+    location.reload();
   }
 
   uploadInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            myImage.src = e.target.result;
-            myImage.style.borderRadius  = 35 + "px";
-            // saveImage(myImage.src);
-        };
+    // const file = event.target.files[0];
+    // if (file) {
+    //     const reader = new FileReader();
+    //     reader.onload = (e) => {
+    //         myImage.src = e.target.result;
+    //         myImage.style.borderRadius  = 35 + "px";
+    //     };
 
-    }
-    for(let i = 0; i < uploadInput.value.length; ++i){
-      if(uploadInput.value[i] == '\\'){
-        newPhoto = (uploadInput.value.substring(i+1));
-      }
-    }
-
-    const editData = {
-      photo: newPhoto
-    };
-    updateUser(userId, editData);
+    // }
+    uploadPhoto();
   });
-
-  function resetImage() {
-    myImage.src = "../img/profile-icon.png";
-    saveImage(myImage.src);
-  }
-  
 }
 
 main();
