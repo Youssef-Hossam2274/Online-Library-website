@@ -1,8 +1,5 @@
 AddAllBooks();
 
-// if (sessionStorage.getItem("searchValue")) {
-//     window.onload = searchBooks();
-// }
 
 function searchBooks() {
 
@@ -11,16 +8,6 @@ function searchBooks() {
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     books = document.querySelectorAll(".Book");
-
-    // if there is a searchValue in the session storage,
-    // get it and set the search input value to it.
-    // This is used in the home page search bar
-    // if (sessionStorage.getItem("searchValue")) {
-    //     input.value = sessionStorage.getItem("searchValue");
-    //     filter = input.value.toUpperCase();
-    //     sessionStorage.removeItem("searchValue");
-    //     input.focus();
-    // }
 
     for (i = 0; i < books.length; i++) {
 
@@ -97,6 +84,22 @@ function get_by_id(arr, id) {
 }
 
 
+async function get_src(photoId) {
+
+    const response = await fetch(`http://127.0.0.1:8000/photo/${photoId}/`, {
+        method: 'GET',
+    });
+
+    if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        return url
+    } else {
+        return`../img/book-cover-placeholder.png`;
+    }   
+
+}
+
 
 function AddAllBooks() {
 
@@ -130,7 +133,7 @@ function AddAllBooks() {
                 <div class="Book"  data-category="${get_by_id(categories, data[i]["category"])}">
                 <div class="background-img">
                     <a href="../HTML/book.html?id=${data[i]["id"]}">
-                        <img src="../backend/covers/${data[i]["cover"]}" alt="">
+                        <img src="get_src(${data[i]["cover"]})" alt="">
                     </a>
                 </div>
                 <div class="content">
@@ -180,7 +183,7 @@ document.getElementById("addBook").addEventListener("click", function () {
 // Show addBook button for Admin only
 function addBookButton() {
     let isAdmin = JSON.parse(window.localStorage.getItem("isAdmin"));
-    if(isAdmin == null || isAdmin == false)
+    if (isAdmin == null || isAdmin == false)
         document.getElementById("addBook").style.display = "none";
 }
 

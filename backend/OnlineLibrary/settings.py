@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-(gpy_d-tua-xt+5t++u9dfvdiajf_l(l-s48!o8zh00t*uoiha
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
 
 
 # Application definition
@@ -127,6 +128,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ALLOW_CREDENTIALS = True
+
 
 CORS_ALLOW_METHODS = [
     'GET',
@@ -141,8 +144,19 @@ CORS_ALLOW_HEADERS = [
     'Content-Type',
 ]
 
+
 CSRF_TRUSTED_ORIGINS = [
     'chrome-extension://dmhljjnonlhapikmelaefohecogokhio',
     'https://app.apidog.com/project/530394',
     'http://127.0.0.1:5500',
+    'http://localhost:3000',
+    'http://localhost:8000', 
+    'http://127.0.0.1:8000',
+    'http://app.apidog.com',
 ]
+
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
