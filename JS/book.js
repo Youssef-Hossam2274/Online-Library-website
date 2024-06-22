@@ -187,29 +187,27 @@ function toggleFavoritesButton() {
 // Gets the book cover
 const getCover = () => {
   const photoId = book.cover;
-  if (photoId) {
-    fetch(`${getBaseUrl()}/photo/${photoId}/`, {
-      method: 'GET',
+  fetch(`${getBaseUrl()}/photo/${photoId}/`, {
+    method: 'GET',
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.blob().then((blob) => {
+          const url = URL.createObjectURL(blob);
+          bookImage.src = url;
+          zoomBox.style.backgroundImage = url;
+          photoDisplay.style.display = 'block';
+          if (photoId != 20) {
+            zoomImage = true;
+          }
+        });
+      } else {
+        console.error('Photo not found');
+      }
     })
-      .then((response) => {
-        if (response.ok) {
-          response.blob().then((blob) => {
-            const url = URL.createObjectURL(blob);
-            bookImage.src = url;
-            zoomBox.style.backgroundImage = url;
-            photoDisplay.style.display = 'block';
-            if (photoId != 20) {
-              zoomImage = true;
-            }
-          });
-        } else {
-          console.error('Photo not found');
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching photo:', error);
-      })
-  }
+    .catch((error) => {
+      console.error('Error fetching photo:', error);
+    })
 }
 
 // Fetching the book data using its id

@@ -40,10 +40,10 @@ class Author(models.Model):
     
 class Book(models.Model):
     title = models.CharField(max_length=255,null=True)
-    author = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE, null=True)
-    cover = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True, default=20)
+    author = models.ForeignKey(Author, related_name='books', on_delete=models.SET_NULL, null=True)
+    cover = models.ForeignKey(Photo, on_delete=models.SET_DEFAULT, null=True, default=20)
     rating = models.IntegerField(null=True)
-    category = models.ForeignKey(Category, related_name='books', on_delete=models.CASCADE, default= 1)
+    category = models.ForeignKey(Category, related_name='books', on_delete=models.SET_NULL, null=True)
     publish_date = models.DateField(null=True)
     available = models.BooleanField(default=True)
     description = models.TextField(null=False)
