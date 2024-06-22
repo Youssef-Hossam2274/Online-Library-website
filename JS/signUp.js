@@ -102,6 +102,7 @@ function addToAPI(userName, userPassword, userEmail, userType){
             window.localStorage.setItem("user_id", response["id"]);
             window.localStorage.setItem("isAdmin", response["isAdmin"]);
             window.localStorage.setItem("isSignUp", true);
+            window.location.href= "../HTML/Home.html"; 
         }
     })
 }
@@ -137,8 +138,3 @@ signupButton.onclick = async () =>{
 
     addToAPI(userName, userPassword, userEmail, userType);
 }
-
-
-
-if(userId != null)
-    window.location.href= "../HTML/Home.html"; 
