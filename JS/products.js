@@ -1,6 +1,5 @@
 AddAllBooks();
 
-
 function searchBooks() {
 
     var input, filter, books, i, title, author, txtValue, authorValue;
@@ -17,10 +16,11 @@ function searchBooks() {
         txtValue = title.innerText.toUpperCase();
         authorValue = author.innerText.toUpperCase();
 
-        if (txtValue.indexOf(filter) > -1 || authorValue.indexOf(filter) > -1) { books[i].style.display = ""; }
-
-        else { books[i].style.display = "none"; }
-
+        if (txtValue.indexOf(filter) > -1 || authorValue.indexOf(filter) > -1) { 
+            books[i].style.display = ""; 
+        } else { 
+            books[i].style.display = "none"; 
+        }
     }
 }
 
@@ -36,15 +36,16 @@ function filterByCategory() {
 
             var bookCategory = books[i].getAttribute("data-category");
 
-            if (selectedCategory === "all" || bookCategory === selectedCategory) { books[i].style.display = ""; }
-
-            else { books[i].style.display = "none"; }
-
+            if (selectedCategory === "all" || bookCategory === selectedCategory) { 
+                books[i].style.display = ""; 
+            } else { 
+                books[i].style.display = "none"; 
+            }
         }
     }
 }
 
-function fech_authors(callback) {
+function fetch_authors(callback) {
     let myRequest = new XMLHttpRequest();
     myRequest.open("GET", "http://127.0.0.1:8000/api.authors/");
     myRequest.send();
@@ -59,7 +60,7 @@ function fech_authors(callback) {
     };
 }
 
-function fech_categories(callback) {
+function fetch_categories(callback) {
     let myRequest = new XMLHttpRequest();
     myRequest.open("GET", "http://127.0.0.1:8000/api.categories/");
     myRequest.send();
@@ -74,18 +75,15 @@ function fech_categories(callback) {
     };
 }
 
-
 function get_by_id(arr, id) {
     for (let i = 0; i < arr.length; ++i) {
         if (arr[i]["id"] == id) {
-            return arr[i]["name"]
+            return arr[i]["name"];
         }
     }
 }
 
-
 async function get_src(photoId) {
-
     const response = await fetch(`http://127.0.0.1:8000/photo/${photoId}/`, {
         method: 'GET',
     });
@@ -93,34 +91,30 @@ async function get_src(photoId) {
     if (response.ok) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
-        return url
+        return url;
     } else {
-        return`../img/book-cover-placeholder.png`;
-    }   
-
+        return `../img/book-cover-placeholder.png`;
+    }
 }
-
 
 function AddAllBooks() {
 
-    fech_categories(function (categories, error) {
+    fetch_categories(function (categories, error) {
         if (error) {
             console.error(error);
             return;
         }
 
-
-        fech_authors(function (authors, error) {
+        fetch_authors(function (authors, error) {
             if (error) {
                 console.error(error);
                 return;
             }
 
-
             let myRequest = new XMLHttpRequest();
             myRequest.open("GET", "http://127.0.0.1:8000/api.books/");
             myRequest.send();
-            myRequest.onreadystatechange = function () {
+            myRequest.onreadystatechange = async function () {
 
                 if (this.readyState == 4 && this.status == 200) {
 
@@ -128,29 +122,31 @@ function AddAllBooks() {
 
                     for (let i = 0; i < data.length; ++i) {
 
-                        let book =
-                            `;
-                <div class="Book"  data-category="${get_by_id(categories, data[i]["category"])}">
-                <div class="background-img">
-                    <a href="../HTML/book.html?id=${data[i]["id"]}">
-                        <img src="get_src(${data[i]["cover"]})" alt="">
-                    </a>
-                </div>
-                <div class="content">
-                    <h3>${data[i]["title"]}</h3> 
-                    <span><strong>Author(s):</strong>${get_by_id(authors, data[i]["author"])}</span>
-                    <a href="../HTML/book.html?id=${data[i]["id"]}">
-                    <button id= "ShowDetails">Show details</button> 
-                    </a>
-                </div>
-                </div>
-                `;
+                        let coverSrc = await get_src(data[i]["cover"]);
+                        let book = `
+                            <div class="Book" data-category="${get_by_id(categories, data[i]["category"])}">
+                                <div class="background-img">
+                                    <a href="../HTML/book.html?id=${data[i]["id"]}">
+                                        <img src="${coverSrc}" alt="">
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <h3>${data[i]["title"]}</h3> 
+                                    <span><strong>Author(s):</strong> ${get_by_id(authors, data[i]["author"])}</span>
+                                    <a href="../HTML/book.html?id=${data[i]["id"]}">
+                                        <button id="ShowDetails">Show details</button>
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+
                         const parser = new DOMParser();
                         const parsedDocument = parser.parseFromString(book, "text/html");
 
                         let MyMain = document.querySelector(".main-books");
-                        MyMain.append(parsedDocument.querySelector(".book"));
+                        MyMain.append(parsedDocument.querySelector(".Book"));
                     }
+
                     // set category select list
                     let select_list = document.getElementById("categorySelect");
                     let uniqueCategories = new Set();
@@ -167,13 +163,10 @@ function AddAllBooks() {
                         }
                     }
                 }
-
             };
         });
     });
 }
-
-
 
 // Link addBook button with addBook page
 document.getElementById("addBook").addEventListener("click", function () {
