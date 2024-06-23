@@ -23,7 +23,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
-        instance.cover = validated_data.get('cover', instance.cover)
+        # instance.cover = validated_data.get('cover', instance.cover)
         instance.rating = validated_data.get('rating', instance.rating)
         instance.publish_date = validated_data.get('publish_date', instance.publish_date)
         instance.available = validated_data.get('available', instance.available)
@@ -46,6 +46,14 @@ class BookSerializer(serializers.ModelSerializer):
             except Category.DoesNotExist:
                 raise serializers.ValidationError({'category': 'Category not found'})
         
+        cover_id = validated_data.get('cover')
+        if cover_id:
+            try:
+                cover = Photo.objects.get(id=cover_id)
+                instance.cover = cover
+            except Photo.DoesNotExist:
+                raise serializers.ValidationError({'cover': 'Photo not found'})
+            
         publisher_id = validated_data.get('publisher')
         if publisher_id:
             try:
