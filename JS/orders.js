@@ -1,3 +1,18 @@
+async function get_src(photoId) {
+  const response = await fetch(`http://127.0.0.1:8000/photo/${photoId}/`, {
+      method: 'GET',
+  });
+
+  if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      return url;
+  } else {
+      return `../img/book-cover-placeholder.png`;
+  }
+}
+
+
 function AddAllBooks() {
     
   let request =  new XMLHttpRequest();
@@ -11,10 +26,9 @@ function AddAllBooks() {
             let bookRequest = new XMLHttpRequest();
             bookRequest.open("GET", `http://127.0.0.1:8000/api.books/${T["book"]}`);
             bookRequest.send();
-            bookRequest.onload = () =>{
-                console.log(booksIDs);
+            bookRequest.onload = async() =>{
                 let bookData = JSON.parse(bookRequest.responseText);
-                console.log(bookData);
+                let bookCover = await get_src(bookData["cover"]);
                 let order = `
                     <div class="order">
                       <div class="order-id">#${T["book"]}</div>
@@ -42,7 +56,7 @@ function AddAllBooks() {
                       </div>
                       <div class="cover-and-price">
                         <div id="book-cover">
-                          <img src="../backend/covers/${bookData["cover"]}" />
+                          <img src="${bookCover}" />
                         </div>
                       </div>
                   </div>

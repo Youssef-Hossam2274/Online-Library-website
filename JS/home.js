@@ -19,14 +19,28 @@ function succsessRegistiration()
 
 /* dispaly the most recent 5 books */
 
-function addBook(id, title, cover, author){
-    
+async function get_src(photoId) {
+    const response = await fetch(`http://127.0.0.1:8000/photo/${photoId}/`, {
+        method: 'GET',
+    });
+
+    if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        return url;
+    } else {
+        return `../img/book-cover-placeholder.png`;
+    }
+}
+
+async function addBook(id, title, cover, author){
+    let bookCover = await get_src(cover);
     let book =
     `
         <div class="Book"  data-category="">
         <div class="background-img">
         <a href="../HTML/book.html?id=${id}">
-        <img src="../backend/covers/${cover}" alt="">
+        <img src="${bookCover}" alt="">
         </a>
         </div>
         <div class="content">

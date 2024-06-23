@@ -2,14 +2,6 @@ const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
 const myForm = document.getElementById("book_details");
 const categoryList = document.getElementById("category-list");
-function get_name() {
-  let imagename = uploadInput.value;
-  let img = null;
-  for (let i = 0; i < imagename.length; ++i) {
-    if (imagename[i] == "\\") img = imagename.substring(i + 1);
-  }
-  return img;
-}
 
 function reset() {
   myImage.src = "../img/book-cover-placeholder.png";
@@ -88,6 +80,9 @@ xhr.onload = function () {
     }
   });
 };
+
+
+
 myForm.addEventListener("submit", function (event) {
   event.preventDefault();
   const Title = document.getElementById("book_title").value.trim();
@@ -210,22 +205,40 @@ function addBorrowTransaction(bookID) {
   };
 
   xhr.send(JSON.stringify(requestBody));
+  window.location.href = "all_books.html";
 }
 
-function addBook(authorId) {
+async function addBook(authorId) {
+  const fileInput = document.getElementById('upload-img');
+  const file = fileInput.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+  let photoID;
+
+  try {
+      const response =  await fetch('http://127.0.0.1:8000/photo/', {
+          method: 'POST',
+          body: formData,
+      });
+
+      const data =  await response.json();
+      console.log(data);
+      photoID = data.id;
+      
+    } catch (error) {
+      console.error('Error uploading photo:', error);
+    }
+    
   return new Promise((resolve, reject) => {
     let bookRequest = new XMLHttpRequest();
     bookRequest.open("POST", "http://127.0.0.1:8000/api.books/");
     bookRequest.responseType = "json";
     bookRequest.setRequestHeader("Content-type", "application/json");
-    let image = get_name();
-    if (!image) {
-      image = "cover_default.png";
-    }
     let bookRequestBody = `{
       "title": "${document.getElementById("book_title").value}",
       "author": ${authorId},
-      "cover": "${image}",
+      "cover": "${photoID}",
       "rating": ${Math.floor(Math.random() * 5) + 1},
       "category": ${categoryList.value},
       "publish_date": "${document.getElementById("publish_date").value}",

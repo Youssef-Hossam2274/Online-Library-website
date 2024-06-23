@@ -1,8 +1,24 @@
-function AddAllBooks() {
+async function get_src(photoId) {
+    const response = await fetch(`http://127.0.0.1:8000/photo/${photoId}/`, {
+        method: 'GET',
+    });
+
+    if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        return url;
+    } else {
+        return `../img/book-cover-placeholder.png`;
+    }
+}
+
+
+async function AddAllBooks() {
     
     let request =  new XMLHttpRequest();
     request.open("GET", "http://127.0.0.1:8000/api.favorites/");
     request.send();
+    // let coverSrc = await get_src(data[i]["cover"]);
     request.onload = () =>{
         let data = JSON.parse(request.responseText);
         let booksIDs = [];
@@ -21,13 +37,14 @@ function AddAllBooks() {
                 let bookData = JSON.parse(bookRequest.responseText);
                 authorRequest.open("GET", `http://127.0.0.1:8000/api.authors/${bookData["author"]}/`);
                 authorRequest.send();
-                authorRequest.onload = () =>{
+                authorRequest.onload = async() =>{
+                    let bookCover = await get_src(bookData["cover"]);
                     let book =
                     `
                     <div class="Book">
                         <div class="background-img">
                             <a href="../HTML/book.html?id=${bookID}">
-                                <img src="../backend/covers/${bookData["cover"]}" />
+                                <img src= "${bookCover}"/>
                             </a>
                         </div>
                         <div class="content-book">

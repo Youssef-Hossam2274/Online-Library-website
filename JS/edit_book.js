@@ -8,17 +8,29 @@ function fetchId() {
   let params = new URLSearchParams(window.location.search);
   return params.get("id");
 }
-function get_name() {
-  let imagename = uploadInput.value;
-  let img = curBookCover;
-  for (let i = 0; i < imagename.length; ++i) {
-    if (imagename[i] == "\\") img = imagename.substring(i + 1);
+
+async function getPhoto(photoID) {
+  try {
+      const response = await fetch(`http://127.0.0.1:8000/photo/${photoID}/`, {
+          method: 'GET',
+      });
+
+      if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const photoDisplay = document.getElementById('cover-pic');
+          photoDisplay.src = url;
+          // photoDisplay.style.display = 'block';
+      } else {
+          console.error('Photo not found');
+      }
+  } catch (error) {
+      console.error('Error fetching photo:', error);
   }
-  return img;
 }
 
 //populate the form with the book data
-function populateForm(book) {
+async function populateForm(book) {
   document.getElementById("book_title").value = book.title;
   fetchAuthorName(book.author)
     .then((authorName) => {
@@ -31,10 +43,8 @@ function populateForm(book) {
   document.getElementById("category-list").value = book.category.id;
   document.getElementById("description").value = book.description;
 
-  if (book.cover == "cover_default.png")
-    myImage.src = `../backend/covers/book-cover-placeholder.png`;
-  else myImage.src = `../backend/covers/${book.cover}`;
-  curBookCover = book.cover;
+
+  await getPhoto(book.cover);
   fetchCategories(book.category);
 }
 async function fetchAuthorName(authorId) {
@@ -74,9 +84,9 @@ function fetchCategories(selectedCategoryId) {
       );
     });
 }
-window.onload = function () {
+window.onload = async function () {
   const bookId = fetchId();
-  fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
+  await fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
     .then((response) => response.json())
     .then((data) => populateForm(data));
 };
@@ -133,7 +143,7 @@ function findAuthorIdByName(authorName) {
     xhr.send();
   });
 }
-editForm.addEventListener("submit", function (event) {
+editForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
   const bookId = fetchId();
@@ -171,6 +181,34 @@ editForm.addEventListener("submit", function (event) {
     return;
   }
 
+
+  let photoID;
+  const fileInput = document.getElementById('upload-img');
+  const file = fileInput.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+
+  try {
+      const response =  await fetch('http://127.0.0.1:8000/photo/', {
+          method: 'POST',
+          body: formData,
+      });
+
+      const data =  await response.json();
+      console.log(data);
+      photoID = data.id;
+      
+    } catch (error) {
+      console.error('Error uploading photo:', error);
+    }
+    
+    if(uploadInput.value.length == 0 && was_reset)
+        photoID = 20;
+
+
+
+
   findAuthorIdByName(authorName)
     .then((authorId) => {
       return updateBook(
@@ -179,7 +217,8 @@ editForm.addEventListener("submit", function (event) {
         authorId,
         publishDate,
         categoryId,
-        description
+        description,
+        photoID
       );
     })
     .then(() => {
@@ -192,26 +231,23 @@ editForm.addEventListener("submit", function (event) {
 });
 
 // update the book
-function updateBook(
+async function updateBook(
   bookId,
   title,
   authorId,
   publishDate,
   categoryId,
-  description
+  description,
+  photoID
 ) {
+
   return new Promise((resolve, reject) => {
     let bookRequest = new XMLHttpRequest();
     bookRequest.open("PUT", `http://127.0.0.1:8000/api.books/${bookId}/`);
     bookRequest.responseType = "json";
     bookRequest.setRequestHeader("Content-type", "application/json");
-    let newImg = get_name();
-    // const testImg = document.getElementById("cover-pic");
-    // console.log(uploadInput.value.length);
-    // console.log(testImg.src);
-    if (!newImg) newImg = curBookCover;
-    if (uploadInput.value.length == 0 && was_reset)
-      newImg = "cover_default.png";
+
+
     let bookRequestBody = `{
       "title": "${title}",
       "author": ${authorId},
@@ -219,7 +255,7 @@ function updateBook(
       "publish_date": "${publishDate}",
       "available": true,
       "description": "${description}",
-      "cover" : "${newImg}"
+      "cover" : "${photoID}"
     }`;
 
     bookRequest.onload = function () {
