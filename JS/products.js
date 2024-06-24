@@ -1,10 +1,20 @@
 AddAllBooks();
+if (sessionStorage.getItem("searchValue")) {
+  window.onload = searchBooks();
+}
 
 function searchBooks() {
 
     var input, filter, books, i, title, author, txtValue, authorValue;
 
     input = document.getElementById("searchInput");
+
+    // search for the value stored in the session storage
+    if (sessionStorage.getItem("searchValue") != null){
+        input.value = sessionStorage.getItem("searchValue");
+        sessionStorage.removeItem("searchValue");
+        input.focus();
+    }
     filter = input.value.toUpperCase();
     books = document.querySelectorAll(".Book");
 

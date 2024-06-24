@@ -1,6 +1,41 @@
 let userId = JSON.parse(window.localStorage.getItem("user_id"));
 
 
+async function getPhoto(photoID) {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/photo/${photoID}/`, {
+      method: "GET",
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const photoDisplay = document.querySelector(".profile .profile-icon")
+      photoDisplay.innerHTML = `<img src="${url}" alt="profile picture" width="40" height="40" style="border-radius: 50%;"/>`;
+    } else {
+      console.error("Photo not found");
+    }
+  } catch (error) {
+    console.error("Error fetching photo:", error);
+  }
+}
+
+async function fetchUserPhoto(userId) {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api.users/${userId}/`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const userData = await response.json();
+    getPhoto(userData.photo);
+
+
+  } catch (error) {
+    console.error('Error fetching user photo:', error);
+    throw error;
+  }
+}
+
 function displayHeader(userImage) {
   if(userImage == null)
       userImage = `photo_default.png`;
@@ -21,7 +56,7 @@ function displayHeader(userImage) {
     <ul>
     <li><a href="Home.html">Home</a></li>
     <li><a href="all_books.html">Books</a></li>
-    <li><a href="#">About</a></li>
+    <li><a href="about.html">About</a></li>
     </ul>
     </nav>
     
@@ -207,5 +242,6 @@ const openModal = (title, bodyText, options) => {
 
 //     ---> calling functions <--
 displayHeader();
+fetchUserPhoto(userId);
 scrollToTop();
 displayLoginSignup();
