@@ -2,23 +2,63 @@ const editForm = document.getElementById("book_details");
 const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
 var curBookCover;
+var before_edit_cover;
+var after_edit_cover;
 let was_reset = false;
 // Function to get the book ID from the URL parameters
 function fetchId() {
   let params = new URLSearchParams(window.location.search);
   return params.get("id");
 }
-function get_name() {
-  let imagename = uploadInput.value;
-  let img = curBookCover;
-  for (let i = 0; i < imagename.length; ++i) {
-    if (imagename[i] == "\\") img = imagename.substring(i + 1);
-  }
-  return img;
-}
 
+async function getPhoto(photoID) {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/photo/${photoID}/`, {
+      method: "GET",
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const photoDisplay = document.getElementById("cover-pic");
+      photoDisplay.src = url;
+      // photoDisplay.style.display = 'block';
+    } else {
+      console.error("Photo not found");
+    }
+  } catch (error) {
+    console.error("Error fetching photo:", error);
+  }
+}
+function addCategory(newCategory) {
+  return new Promise((resolve, reject) => {
+    let newcategoryRequest = new XMLHttpRequest();
+    newcategoryRequest.open("POST", "http://127.0.0.1:8000/api.categories/");
+    newcategoryRequest.responseType = "json";
+    newcategoryRequest.setRequestHeader("Content-type", "application/json");
+    let categoryRequestBody = `{
+          "name": "${newCategory}"
+      }`;
+    newcategoryRequest.send(categoryRequestBody);
+    newcategoryRequest.onload = function () {
+      if (newcategoryRequest.status == 201) {
+        resolve(newcategoryRequest.response);
+      } else {
+        reject(
+          "Error:",
+          newcategoryRequest.status,
+          newcategoryRequest.statusText
+        );
+      }
+    };
+    newcategoryRequest.onerror = function () {
+      reject("Network Error");
+    };
+    location.reload();
+  });
+}
 //populate the form with the book data
-function populateForm(book) {
+async function populateForm(book) {
   document.getElementById("book_title").value = book.title;
   fetchAuthorName(book.author)
     .then((authorName) => {
@@ -30,11 +70,8 @@ function populateForm(book) {
   document.getElementById("publish_date").value = book.publish_date;
   document.getElementById("category-list").value = book.category.id;
   document.getElementById("description").value = book.description;
-
-  if (book.cover == "cover_default.png")
-    myImage.src = `../backend/covers/book-cover-placeholder.png`;
-  else myImage.src = `../backend/covers/${book.cover}`;
-  curBookCover = book.cover;
+  before_edit_cover = book.cover;
+  await getPhoto(book.cover);
   fetchCategories(book.category);
 }
 async function fetchAuthorName(authorId) {
@@ -43,7 +80,7 @@ async function fetchAuthorName(authorId) {
       `http://127.0.0.1:8000/api.authors/${authorId}`
     );
     const data = await response.json();
-    return data.name; 
+    return data.name;
   } catch (error) {
     throw new Error("Failed to fetch author name");
   }
@@ -64,28 +101,35 @@ function fetchCategories(selectedCategoryId) {
         }
         categoryDropdown.appendChild(option);
       });
-
-      const addCategoryOption = document.createElement("option");
-      addCategoryOption.value = "add-new";
-      addCategoryOption.textContent = "Add New Category";
-      categoryDropdown.insertBefore(
-        addCategoryOption,
-        categoryDropdown.firstChild
-      );
     });
 }
-window.onload = function () {
+
+window.onload = async function () {
   const bookId = fetchId();
-  fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
+  await fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
     .then((response) => response.json())
     .then((data) => populateForm(data));
+  const categoryDropdown = document.getElementById("category-list");
+  const addCategoryOption = document.createElement("option");
+  addCategoryOption.value = "add-new";
+  addCategoryOption.textContent = "Add New Category";
+  categoryDropdown.insertBefore(addCategoryOption, categoryDropdown.firstChild);
+
+  categoryDropdown.addEventListener("change", (event) => {
+    if (event.target.value === "add-new") {
+      const newCategory = prompt("Enter a new category:");
+      if (newCategory) {
+        addCategory(newCategory);
+      }
+    }
+  });
 };
 function findAuthorIdByName(authorName) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     const apiUrl = "http://127.0.0.1:8000/api.authors/";
 
-    xhr.open("GET", apiUrl, true); 
+    xhr.open("GET", apiUrl, true);
 
     xhr.onload = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
@@ -96,7 +140,6 @@ function findAuthorIdByName(authorName) {
           );
 
           if (existingAuthor) {
-
             resolve(existingAuthor.id);
           } else {
             const newAuthorXhr = new XMLHttpRequest();
@@ -133,7 +176,7 @@ function findAuthorIdByName(authorName) {
     xhr.send();
   });
 }
-editForm.addEventListener("submit", function (event) {
+editForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
   const bookId = fetchId();
@@ -171,6 +214,28 @@ editForm.addEventListener("submit", function (event) {
     return;
   }
 
+  let photoID;
+  const fileInput = document.getElementById("upload-img");
+  const file = fileInput.files[0];
+  const formData = new FormData();
+  formData.append("image", file);
+  if (uploadInput.value.length != 0) {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/photo/", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data);
+      photoID = data.id;
+    } catch (error) {
+      console.error("Error uploading photo:", error);
+    }
+  } else photoID = before_edit_cover;
+
+  if (uploadInput.value.length == 0 && was_reset) photoID = 20;
+
   findAuthorIdByName(authorName)
     .then((authorId) => {
       return updateBook(
@@ -179,7 +244,8 @@ editForm.addEventListener("submit", function (event) {
         authorId,
         publishDate,
         categoryId,
-        description
+        description,
+        photoID
       );
     })
     .then(() => {
@@ -192,35 +258,51 @@ editForm.addEventListener("submit", function (event) {
 });
 
 // update the book
-function updateBook(
+async function updateBook(
   bookId,
   title,
   authorId,
   publishDate,
   categoryId,
-  description
+  description,
+  photoID
 ) {
   return new Promise((resolve, reject) => {
     let bookRequest = new XMLHttpRequest();
     bookRequest.open("PUT", `http://127.0.0.1:8000/api.books/${bookId}/`);
     bookRequest.responseType = "json";
     bookRequest.setRequestHeader("Content-type", "application/json");
-    let newImg = get_name();
-    // const testImg = document.getElementById("cover-pic");
-    // console.log(uploadInput.value.length);
-    // console.log(testImg.src);
-    if (!newImg) newImg = curBookCover;
-    if (uploadInput.value.length == 0 && was_reset)
-      newImg = "cover_default.png";
-    let bookRequestBody = `{
-      "title": "${title}",
-      "author": ${authorId},
-      "category": ${categoryId},
-      "publish_date": "${publishDate}",
-      "available": true,
-      "description": "${description}",
-      "cover" : "${newImg}"
-    }`;
+    var bookRequestBody;
+    if (photoID != before_edit_cover) {
+      bookRequestBody = `{
+    "title": "${title}",
+    "author": ${authorId},
+    "category": ${categoryId},
+    "publish_date": "${publishDate}",
+    "available": true,
+    "description": "${description}",
+    "cover" : "${photoID}"
+  }`;
+    } else {
+      bookRequestBody = `{
+        "title": "${title}",
+        "author": ${authorId},
+        "category": ${categoryId},
+        "publish_date": "${publishDate}",
+        "available": true,
+        "description": "${description}",
+        "cover" : "${before_edit_cover}"
+      }`;
+    }
+    // bookRequestBody = `{
+    //   "title": "${title}",
+    //   "author": ${authorId},
+    //   "category": ${categoryId},
+    //   "publish_date": "${publishDate}",
+    //   "available": true,
+    //   "description": "${description}",
+    //   "cover" : "${photoID}"
+    // }`;
 
     bookRequest.onload = function () {
       if (bookRequest.status >= 200 && bookRequest.status < 300) {
