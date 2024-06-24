@@ -39,12 +39,15 @@
       <label for="publish_date">Publish Date</label>
       <input type="date" name="" id="publish_date" />
       <label for="category">Book Category</label>
-      <select name="category" id="category-list">
-        <option value="" disabled selected hidden>Select book category</option>
-      </select>
+      <div class="category-container">
+        <select name="category" id="category-list">
+          <option value="" disabled selected hidden>Select book category</option>
+        </select>
+        <button id="add-category" type="button">+</button>
+      </div>
       <!-- <input type="number" name="" id="price" required> -->
       <div class="button-container">
-        <input type="submit" name="" id="" value="Edit" />
+        <input type="submit" name="" id="" value="Update" />
         <input type="reset" name="" id="reset_button" value="Reset" />
       </div>
     </form>

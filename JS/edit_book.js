@@ -1,36 +1,72 @@
 const editForm = document.getElementById("book_details");
 const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
+const addCategoryButton = document.getElementById("add-category");
+const categoryList = document.getElementById("category-list");
 var curBookCover;
 let was_reset = false;
+
+///////////////////// Request senders ////////////////////////////
+const loadedRequest = (method, url, body) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.responseType = "json";
+
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 300) {
+        resolve(this.response);
+      } else {
+        reject(Error(`Request failed with status code: ${this.status}`));
+      }
+    };
+    xhr.send(JSON.stringify(body));
+  });
+}
+// Made for empty requests such as delete and get
+const emptyRequest = (method, url) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) resolve(JSON.parse(this.responseText));
+      else {
+        reject(Error(`Request failed with status code: ${xhr.status}`));
+      }
+    };
+    xhr.send();
+  });
+}
+
+////////////////// Main functions ////////////////////////////
 // Function to get the book ID from the URL parameters
 function fetchId() {
   let params = new URLSearchParams(window.location.search);
   return params.get("id");
 }
-
 async function getPhoto(photoID) {
   try {
-      const response = await fetch(`http://127.0.0.1:8000/photo/${photoID}/`, {
-          method: 'GET',
-      });
+    const response = await fetch(`http://127.0.0.1:8000/photo/${photoID}/`, {
+      method: 'GET',
+    });
 
-      if (response.ok) {
-          const blob = await response.blob();
-          const url = URL.createObjectURL(blob);
-          const photoDisplay = document.getElementById('cover-pic');
-          photoDisplay.src = url;
-          // photoDisplay.style.display = 'block';
-      } else {
-          console.error('Photo not found');
-      }
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const photoDisplay = document.getElementById('cover-pic');
+      photoDisplay.src = url;
+      // photoDisplay.style.display = 'block';
+    } else {
+      console.error('Photo not found');
+    }
   } catch (error) {
-      console.error('Error fetching photo:', error);
+    console.error('Error fetching photo:', error);
   }
 }
-
 //populate the form with the book data
-async function populateForm(book) {
+function populateForm(book) {
   document.getElementById("book_title").value = book.title;
   fetchAuthorName(book.author)
     .then((authorName) => {
@@ -43,8 +79,7 @@ async function populateForm(book) {
   document.getElementById("category-list").value = book.category.id;
   document.getElementById("description").value = book.description;
 
-
-  await getPhoto(book.cover);
+  getPhoto(book.cover);
   fetchCategories(book.category);
 }
 async function fetchAuthorName(authorId) {
@@ -53,7 +88,7 @@ async function fetchAuthorName(authorId) {
       `http://127.0.0.1:8000/api.authors/${authorId}`
     );
     const data = await response.json();
-    return data.name; 
+    return data.name;
   } catch (error) {
     throw new Error("Failed to fetch author name");
   }
@@ -74,28 +109,25 @@ function fetchCategories(selectedCategoryId) {
         }
         categoryDropdown.appendChild(option);
       });
-
-      const addCategoryOption = document.createElement("option");
-      addCategoryOption.value = "add-new";
-      addCategoryOption.textContent = "Add New Category";
-      categoryDropdown.insertBefore(
-        addCategoryOption,
-        categoryDropdown.firstChild
-      );
     });
 }
-window.onload = async function () {
-  const bookId = fetchId();
-  await fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
-    .then((response) => response.json())
-    .then((data) => populateForm(data));
-};
+// Add a new category to database
+function addCategory(newCategory) {
+  loadedRequest("POST", "http://127.0.0.1:8000/api.categories/", {"name": newCategory})
+    .then((response) => {
+      const option = document.createElement("option");
+      option.value = response.id;
+      option.textContent = response.name;
+      categoryList.add(option);
+      categoryList.value = response.id;
+    })
+}
 function findAuthorIdByName(authorName) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     const apiUrl = "http://127.0.0.1:8000/api.authors/";
 
-    xhr.open("GET", apiUrl, true); 
+    xhr.open("GET", apiUrl, true);
 
     xhr.onload = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
@@ -143,6 +175,62 @@ function findAuthorIdByName(authorName) {
     xhr.send();
   });
 }
+// update the book
+async function updateBook(
+  bookId,
+  title,
+  authorId,
+  publishDate,
+  categoryId,
+  description,
+  photoID
+) {
+
+  return new Promise((resolve, reject) => {
+    let bookRequest = new XMLHttpRequest();
+    bookRequest.open("PUT", `http://127.0.0.1:8000/api.books/${bookId}/`);
+    bookRequest.responseType = "json";
+    bookRequest.setRequestHeader("Content-type", "application/json");
+
+
+    let bookRequestBody = `{
+      "title": "${title}",
+      "author": ${authorId},
+      "category": ${categoryId},
+      "publish_date": "${publishDate}",
+      "available": true,
+      "description": "${description}",
+      "cover" : "${photoID}"
+    }`;
+
+    bookRequest.onload = function () {
+      if (bookRequest.status >= 200 && bookRequest.status < 300) {
+        resolve(bookRequest.response);
+      } else {
+        reject(`Error: ${bookRequest.status}`);
+      }
+    };
+
+    bookRequest.onerror = function () {
+      reject("Network Error");
+    };
+
+    bookRequest.send(bookRequestBody);
+  });
+}
+function reset() {
+  myImage.src = "../img/book-cover-placeholder.png";
+  uploadInput.value = "";
+  was_reset = true;
+}
+
+//////////// Event handlers ////////////////////
+window.onload = async function () {
+  const bookId = fetchId();
+  await fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
+    .then((response) => response.json())
+    .then((data) => populateForm(data));
+};
 editForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
@@ -190,24 +278,21 @@ editForm.addEventListener("submit", async function (event) {
 
 
   try {
-      const response =  await fetch('http://127.0.0.1:8000/photo/', {
-          method: 'POST',
-          body: formData,
-      });
+    const response = await fetch('http://127.0.0.1:8000/photo/', {
+      method: 'POST',
+      body: formData,
+    });
 
-      const data =  await response.json();
-      console.log(data);
-      photoID = data.id;
-      
-    } catch (error) {
-      console.error('Error uploading photo:', error);
-    }
-    
-    if(uploadInput.value.length == 0 && was_reset)
-        photoID = 20;
+    const data = await response.json();
+    console.log(data);
+    photoID = data.id;
 
+  } catch (error) {
+    console.error('Error uploading photo:', error);
+  }
 
-
+  if (uploadInput.value.length == 0 && was_reset)
+    photoID = 20;
 
   findAuthorIdByName(authorName)
     .then((authorId) => {
@@ -223,57 +308,12 @@ editForm.addEventListener("submit", async function (event) {
     })
     .then(() => {
       showMessage("Book Updated Successfully");
-      window.location.href = "all_books.html";
+      // window.location.href = "all_books.html";
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 });
-
-// update the book
-async function updateBook(
-  bookId,
-  title,
-  authorId,
-  publishDate,
-  categoryId,
-  description,
-  photoID
-) {
-
-  return new Promise((resolve, reject) => {
-    let bookRequest = new XMLHttpRequest();
-    bookRequest.open("PUT", `http://127.0.0.1:8000/api.books/${bookId}/`);
-    bookRequest.responseType = "json";
-    bookRequest.setRequestHeader("Content-type", "application/json");
-
-
-    let bookRequestBody = `{
-      "title": "${title}",
-      "author": ${authorId},
-      "category": ${categoryId},
-      "publish_date": "${publishDate}",
-      "available": true,
-      "description": "${description}",
-      "cover" : "${photoID}"
-    }`;
-
-    bookRequest.onload = function () {
-      if (bookRequest.status >= 200 && bookRequest.status < 300) {
-        resolve(bookRequest.response);
-      } else {
-        reject(`Error: ${bookRequest.status}`);
-      }
-    };
-
-    bookRequest.onerror = function () {
-      reject("Network Error");
-    };
-
-    bookRequest.send(bookRequestBody);
-  });
-}
-
 uploadInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -284,11 +324,10 @@ uploadInput.addEventListener("change", (event) => {
     reader.readAsDataURL(file);
   }
 });
-
-function reset() {
-  myImage.src = "../img/book-cover-placeholder.png";
-  uploadInput.value = "";
-  was_reset = true;
-}
-
+addCategoryButton.addEventListener("click", (event) => {
+  const newCategory = prompt("Enter a new category:");
+  if (newCategory) {
+    addCategory(newCategory);
+  }
+})
 editForm.addEventListener("reset", reset);

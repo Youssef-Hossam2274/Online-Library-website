@@ -67,9 +67,12 @@
         <input type="radio" name="rating" id="rate-5" value="5" />
       </span> -->
       <label for="category">Book Category</label>
-      <select name="category" id="category-list">
-        <option value="" disabled selected hidden>Select book category</option>
-      </select>
+      <div class="category-container">
+        <select name="category" id="category-list">
+          <option value="" disabled selected hidden>Select book category</option>
+        </select>
+        <button id="add-category" type="button">+</button>
+      </div>
       <div class="button-container">
         <input type="submit" name="" id="" value="Add" />
         <input type="reset" name="" id="" value="Reset" />

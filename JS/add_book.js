@@ -2,12 +2,9 @@ const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
 const myForm = document.getElementById("book_details");
 const categoryList = document.getElementById("category-list");
+const addCategoryButton = document.getElementById("add-category");
 
-function reset() {
-  myImage.src = "../img/book-cover-placeholder.png";
-  uploadInput.value = "";
-}
-
+////////////////////// Event Handlers ///////////////////////////
 // Changing the Book Cover
 uploadInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
@@ -19,70 +16,13 @@ uploadInput.addEventListener("change", (event) => {
     reader.readAsDataURL(file);
   }
 });
+// Resting the form
+myForm.addEventListener("reset", () => {
+  myImage.src = "../img/book-cover-placeholder.png";
+  uploadInput.value = "";
+});
 
-myForm.addEventListener("reset", reset);
-
-function addCategory(newCategory) {
-  return new Promise((resolve, reject) => {
-    let newcategoryRequest = new XMLHttpRequest();
-    newcategoryRequest.open("POST", "http://127.0.0.1:8000/api.categories/");
-    newcategoryRequest.responseType = "json";
-    newcategoryRequest.setRequestHeader("Content-type", "application/json");
-    let categoryRequestBody = `{
-          "name": "${newCategory}"
-      }`;
-    newcategoryRequest.send(categoryRequestBody);
-    newcategoryRequest.onload = function () {
-      if (newcategoryRequest.status == 201) {
-        resolve(newcategoryRequest.response);
-      } else {
-        reject(
-          "Error:",
-          newcategoryRequest.status,
-          newcategoryRequest.statusText
-        );
-      }
-    };
-    newcategoryRequest.onerror = function () {
-      reject("Network Error");
-    };
-  });
-}
-// Getting the categories
-var xhr = new XMLHttpRequest();
-
-xhr.open("GET", "http://127.0.0.1:8000/api.categories/", true);
-
-xhr.send();
-
-xhr.onload = function () {
-  const categoryDropdown = document.getElementById("category-list");
-  const categories = JSON.parse(xhr.response);
-
-  categories.forEach((category) => {
-    const option = document.createElement("option");
-    option.value = category.id;
-    option.textContent = category.name;
-    categoryDropdown.appendChild(option);
-  });
-
-  const addCategoryOption = document.createElement("option");
-  addCategoryOption.value = "add-new";
-  addCategoryOption.textContent = "Add New Category";
-  categoryDropdown.insertBefore(addCategoryOption, categoryDropdown.firstChild);
-
-  categoryDropdown.addEventListener("change", (event) => {
-    if (event.target.value === "add-new") {
-      const newCategory = prompt("Enter a new category:");
-      if (newCategory) {
-        addCategory(newCategory);
-      }
-    }
-  });
-};
-
-
-
+// Submit
 myForm.addEventListener("submit", function (event) {
   event.preventDefault();
   const Title = document.getElementById("book_title").value.trim();
@@ -115,17 +55,80 @@ myForm.addEventListener("submit", function (event) {
   }
 
   findAuthorIdByName(document.getElementById("author_name").value)
-    .then(addBook)
-    .then((bookId) => addBorrowTransaction(bookId))
+    .then((id) => addBook(id))
     .then(() => {
-      showMessage("Book Added Succesfully");
-      window.location.href = "all_books.html";
+      showMessage("Book Added Successfully");
+      myForm.reset();
+      // window.location.href = "all_books.html";
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 });
 
+///////////////////// Request senders ////////////////////////////
+const loadedRequest = (method, url, body) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.responseType = "json";
+
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 300) {
+        resolve(this.response);
+      } else {
+        reject(Error(`Request failed with status code: ${this.status}`));
+      }
+    };
+    xhr.send(JSON.stringify(body));
+  });
+}
+
+// Made for empty requests such as delete and get
+const emptyRequest = (method, url) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) resolve(JSON.parse(this.responseText));
+      else {
+        reject(Error(`Request failed with status code: ${xhr.status}`));
+      }
+    };
+    xhr.send();
+  });
+}
+
+//////////////////////////// Helping functions //////////////////////
+// Add a new category to database
+function addCategory(newCategory) {
+  loadedRequest("POST", "http://127.0.0.1:8000/api.categories/", {"name": newCategory})
+    .then((response) => {
+      const option = document.createElement("option");
+      option.value = response.id;
+      option.textContent = response.name;
+      categoryList.add(option);
+      categoryList.value = response.id;
+    })
+}
+
+// Getting the categories
+function fetchCategories() {
+  emptyRequest("GET", "http://127.0.0.1:8000/api.categories/")
+  .then((response) => {
+    response.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.textContent = category.name;
+      categoryList.appendChild(option);
+    });
+  })
+}
+fetchCategories();
+
+// Creates an author if not found and resolve with its id
 function findAuthorIdByName(authorName) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -179,57 +182,35 @@ function findAuthorIdByName(authorName) {
     xhr.send();
   });
 }
-// Borrow Transaction adding
-function addBorrowTransaction(bookID) {
-  const UID = window.localStorage.getItem("user_id");
-  const requestBody = {
-    user: UID,
-    book: bookID,
-  };
 
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://127.0.0.1:8000/api.BorrowTransaction/");
-  xhr.setRequestHeader("Content-Type", "application/json");
-
-  xhr.onload = function () {
-    if (xhr.status >= 200 && xhr.status < 300) {
-      resolve(JSON.parse(xhr.responseText));
-    } else {
-      reject(`Error: ${xhr.status}`);
-    }
-  };
-
-  // Set up the onerror event
-  xhr.onerror = function () {
-    reject("Network error");
-  };
-
-  xhr.send(JSON.stringify(requestBody));
-  window.location.href = "all_books.html";
-}
-
-async function addBook(authorId) {
-  const fileInput = document.getElementById('upload-img');
+function uploadPhoto(fileInput) {
   const file = fileInput.files[0];
   const formData = new FormData();
   formData.append('image', file);
 
-  let photoID;
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:8000/photo/', {
+        method: 'POST',
+        body: formData,
+    })
+    .then((response) => resolve(response.json()))
+    .catch((error) => reject(error))
+  })
+}
 
-  try {
-      const response =  await fetch('http://127.0.0.1:8000/photo/', {
-          method: 'POST',
-          body: formData,
-      });
+async function addBook(authorId) {
+  const fileInput = document.getElementById("upload-img");
+  let photoID = 20;
 
-      const data =  await response.json();
-      console.log(data);
-      photoID = data.id;
-      
-    } catch (error) {
-      console.error('Error uploading photo:', error);
-    }
-    
+  // Upload photo if found
+  if (uploadInput.value.length > 0) {
+    await uploadPhoto(fileInput)
+      .then((response) => {
+        photoID = response.id;
+      })
+  }
+
+  // Upload the book
   return new Promise((resolve, reject) => {
     let bookRequest = new XMLHttpRequest();
     bookRequest.open("POST", "http://127.0.0.1:8000/api.books/");
