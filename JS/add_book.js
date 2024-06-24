@@ -23,7 +23,7 @@ myForm.addEventListener("reset", () => {
 });
 
 // Submit
-myForm.addEventListener("submit", function (event) {
+myForm.addEventListener("submit", () => {
   event.preventDefault();
   const Title = document.getElementById("book_title").value.trim();
   const Name = document.getElementById("author_name").value.trim();
@@ -65,6 +65,13 @@ myForm.addEventListener("submit", function (event) {
       console.error("Error:", error);
     });
 });
+
+addCategoryButton.addEventListener("click", () => {
+  const category = prompt("Enter a new category");
+  if (category.trim()) {
+    addCategory(category);
+  }
+})
 
 ///////////////////// Request senders ////////////////////////////
 const loadedRequest = (method, url, body) => {
@@ -126,6 +133,7 @@ function fetchCategories() {
     });
   })
 }
+
 fetchCategories();
 
 // Creates an author if not found and resolve with its id

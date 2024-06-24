@@ -12,7 +12,6 @@ const favBtn = document.querySelector("#favorite-button");
 const borrowBtn = document.querySelector("#borrow-button");
 const adminButtons = document.querySelector(".admin-buttons");
 const descriptionBox = document.querySelector(".description > p");
-let zoomImage = false;
 let user = null;
 let book = null;
 
@@ -184,6 +183,28 @@ function toggleFavoritesButton() {
   }
 }
 
+const setZoomOnHover = () => {
+  bookImage.addEventListener("mousemove", (e) => {
+    // Showing the container
+    zoomBox.style.display = "block";
+
+    // Extracting the current width and height
+    let width = parseFloat(window.getComputedStyle(bookImage).width);
+    let height = parseFloat(window.getComputedStyle(bookImage).height);
+
+    // Extracting the current mouse position portion
+    let x = e.offsetX / width;
+    let y = e.offsetY / height;
+
+    // Moving to the current part
+    zoomBox.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
+  });
+
+  bookImage.addEventListener("mouseleave", (e) => {
+    zoomBox.style.display = "none";
+  });
+}
+
 // Gets the book cover
 const getCover = () => {
   const photoId = book.cover;
@@ -195,10 +216,9 @@ const getCover = () => {
         response.blob().then((blob) => {
           const url = URL.createObjectURL(blob);
           bookImage.src = url;
-          zoomBox.style.backgroundImage = url;
-          photoDisplay.style.display = 'block';
+          zoomBox.style.backgroundImage = `url(${url})`;
           if (photoId != 20) {
-            zoomImage = true;
+            setZoomOnHover();
           }
         });
       } else {
@@ -248,7 +268,6 @@ function updatePage(id) {
     });
   });
 }
-
 
 // Adding admin buttons
 function handleButtons() {
@@ -309,31 +328,7 @@ function main() {
         })
         .catch((error) => console.error(error, "User is not defined"))
         .finally(() => handleButtons());
-    })
-    .then(() => {
-      // Adding the zooming event to book image in-case of wide screen
-      if (screen.width > 768 && zoomImage) {
-        bookImage.addEventListener("mousemove", (e) => {
-          // Showing the container
-          zoomBox.style.display = "block";
-
-          // Extracting the current width and height
-          let width = parseFloat(window.getComputedStyle(bookImage).width);
-          let height = parseFloat(window.getComputedStyle(bookImage).height);
-
-          // Extracting the current mouse position portion
-          let x = e.offsetX / width;
-          let y = e.offsetY / height;
-
-          // Moving to the current part
-          zoomBox.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
-        });
-
-        bookImage.addEventListener("mouseleave", (e) => {
-          zoomBox.style.display = "none";
-        });
-      }
-    })
+    });
 }
 
 

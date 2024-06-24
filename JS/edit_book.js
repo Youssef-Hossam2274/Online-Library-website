@@ -3,8 +3,9 @@ const myImage = document.getElementById("cover-pic");
 const uploadInput = document.getElementById("upload-img");
 const addCategoryButton = document.getElementById("add-category");
 const categoryList = document.getElementById("category-list");
-var curBookCover;
+let bookInfo;
 let was_reset = false;
+let photo_changed = false;
 
 ///////////////////// Request senders ////////////////////////////
 const loadedRequest = (method, url, body) => {
@@ -65,8 +66,23 @@ async function getPhoto(photoID) {
     console.error('Error fetching photo:', error);
   }
 }
+function uploadPhoto(fileInput) {
+  const file = fileInput.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:8000/photo/', {
+        method: 'POST',
+        body: formData,
+    })
+    .then((response) => resolve(response.json()))
+    .catch((error) => reject(error))
+  })
+}
 //populate the form with the book data
 function populateForm(book) {
+  bookInfo = book;
   document.getElementById("book_title").value = book.title;
   fetchAuthorName(book.author)
     .then((authorName) => {
@@ -229,8 +245,9 @@ window.onload = async function () {
   const bookId = fetchId();
   await fetch(`http://127.0.0.1:8000/api.books/${bookId}`)
     .then((response) => response.json())
-    .then((data) => populateForm(data));
+    .then((data) => {populateForm(data)});
 };
+
 editForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
@@ -269,30 +286,19 @@ editForm.addEventListener("submit", async function (event) {
     return;
   }
 
-
-  let photoID;
-  const fileInput = document.getElementById('upload-img');
-  const file = fileInput.files[0];
-  const formData = new FormData();
-  formData.append('image', file);
-
-
-  try {
-    const response = await fetch('http://127.0.0.1:8000/photo/', {
-      method: 'POST',
-      body: formData,
-    });
-
-    const data = await response.json();
-    console.log(data);
-    photoID = data.id;
-
-  } catch (error) {
-    console.error('Error uploading photo:', error);
+  // Photo id
+  let photoID = bookInfo.cover;
+  if (was_reset) {
+    photoID = 20;
+  }
+  else if (photo_changed) {
+    const fileInput = document.getElementById('upload-img');
+    await uploadPhoto(fileInput)
+      .then((response) => {
+        photoID = response.id;
+      })
   }
 
-  if (uploadInput.value.length == 0 && was_reset)
-    photoID = 20;
 
   findAuthorIdByName(authorName)
     .then((authorId) => {
@@ -311,6 +317,7 @@ editForm.addEventListener("submit", async function (event) {
       // window.location.href = "all_books.html";
     })
     .catch((error) => {
+      showMessage("Error occurred while updating", 'red', false);
       console.error("Error:", error);
     });
 });
@@ -322,6 +329,7 @@ uploadInput.addEventListener("change", (event) => {
       myImage.src = e.target.result;
     };
     reader.readAsDataURL(file);
+    photo_changed = true;
   }
 });
 addCategoryButton.addEventListener("click", (event) => {
