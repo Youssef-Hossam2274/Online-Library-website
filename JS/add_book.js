@@ -59,7 +59,7 @@ myForm.addEventListener("submit", () => {
     .then(() => {
       showMessage("Book Added Successfully");
       myForm.reset();
-      // window.location.href = "all_books.html";
+      window.location.href = "all_books.html";
     })
     .catch((error) => {
       console.error("Error:", error);

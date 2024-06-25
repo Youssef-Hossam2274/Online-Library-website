@@ -1,6 +1,41 @@
 let userId = JSON.parse(window.localStorage.getItem("user_id"));
 
 
+async function getPHOTO(photoID) {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/photo/${photoID}/`, {
+      method: "GET",
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const photoDisplay = document.querySelector(".profile .profile-icon")
+      photoDisplay.innerHTML = `<img src="${url}" alt="profile picture" width="40" height="40" style="border-radius: 50%;"/>`;
+    } else {
+      console.error("Photo not found");
+    }
+  } catch (error) {
+    console.error("Error fetching photo:", error);
+  }
+}
+
+async function fetchUserPhoto(userId) {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api.users/${userId}/`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const userData = await response.json();
+    getPHOTO(userData.photo);
+
+
+  } catch (error) {
+    console.error('Error fetching user photo:', error);
+    throw error;
+  }
+}
+
 function displayHeader(userImage) {
   if(userImage == null)
       userImage = `photo_default.png`;
@@ -9,7 +44,7 @@ function displayHeader(userImage) {
     <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <link
+        <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
@@ -25,12 +60,12 @@ function displayHeader(userImage) {
     <ul>
     <li><a href="Home.html">Home</a></li>
     <li><a href="all_books.html">Books</a></li>
-    <li><a href="#">About</a></li>
+    <li><a href="about.html">About</a></li>
     </ul>
     </nav>
     
     <div class="profile">
-      <a class="profile-icon" href="../HTML/profile.html"> <i class="fa-regular fa-user"></i> </a>
+      <a class="profile-icon" href="../HTML/profile.html">  </a>
       <button class="login-btn" onclick="location.href='../HTML/Login.html'">Log In</button>
       <button class="signUp-btn" onclick="location.href='../HTML/SignUp.html'">Sign Up</button>
     </div>
@@ -211,5 +246,6 @@ const openModal = (title, bodyText, options) => {
 
 //     ---> calling functions <--
 displayHeader();
+fetchUserPhoto(userId);
 scrollToTop();
 displayLoginSignup();
