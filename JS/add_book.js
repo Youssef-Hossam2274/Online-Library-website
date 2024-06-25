@@ -59,7 +59,7 @@ myForm.addEventListener("submit", () => {
     .then(() => {
       showMessage("Book Added Successfully");
       myForm.reset();
-      window.location.href = "all_books.html";
+      // window.location.href = "all_books.html";
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -206,6 +206,13 @@ function uploadPhoto(fileInput) {
   })
 }
 
+const markAsBorrowed = (id) => {
+  loadedRequest("POST", `http://127.0.0.1:8000/api.BorrowTransaction/`, {
+    "user": parseInt(localStorage.user_id),
+    "book": id,
+  });
+}
+
 async function addBook(authorId) {
   const fileInput = document.getElementById("upload-img");
   let photoID = 20;
@@ -240,6 +247,7 @@ async function addBook(authorId) {
     bookRequest.onload = function () {
       if (bookRequest.status >= 200 && bookRequest.status < 300) {
         const bookData = bookRequest.response;
+        markAsBorrowed(bookData.id);
         resolve(bookData.id);
       } else {
         reject(`Error: ${bookRequest.status}`);
