@@ -7,7 +7,7 @@ function searchBooks() {
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     books = document.querySelectorAll(".Book");
-
+    console.log(books.length);
     for (i = 0; i < books.length; i++) {
 
         title = books[i].querySelector("h3");
@@ -97,7 +97,7 @@ async function get_src(photoId) {
     }
 }
 
-function AddAllBooks() {
+async function AddAllBooks() {
 
     fetch_categories(function (categories, error) {
         if (error) {
@@ -181,3 +181,14 @@ function addBookButton() {
 }
 
 addBookButton();
+
+setTimeout(()=> {
+    
+    let searchValue = sessionStorage.getItem("searchValue");
+    if(searchValue != null){
+        document.getElementById("searchInput").value = searchValue;
+        searchBooks();
+    }
+    sessionStorage.clear();
+
+}, 200);

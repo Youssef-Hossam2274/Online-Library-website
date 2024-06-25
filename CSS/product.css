@@ -38,13 +38,14 @@ main {
 }
 
 .background-img img {
-  width: 100%;
+  /* width: 100%; */
+  width: 150px;
   height: 180px;
   border-radius: 10px;
-  object-fit: contain;
+  /* object-fit: contain; */
 }
 .background-img a {
-  width: 100%;
+  /* width: 100%; */
 }
 
 .Book button {

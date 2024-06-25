@@ -23,7 +23,9 @@
 }
 
 .col1 {
-    padding: 20px;
+    /* padding: 20px; */
+    margin-left: 200px;
+    margin-top: 50px;
 
 }
 
@@ -34,6 +36,6 @@
 }
 
 .col2 img {
-    width: 100%;
-    height: 100%;
+    width: 600px;
+    margin-left: 50px;
 }
