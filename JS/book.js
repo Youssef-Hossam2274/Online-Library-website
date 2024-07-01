@@ -354,6 +354,7 @@ favBtn.addEventListener("click", (e) => {
 
 // Handles edit button
 adminButtons.querySelector(".edit-button").addEventListener("click", (e) => {
+  // go to edit book page
   window.location = `edit_book.html?id=${book.id}`;
 });
 
