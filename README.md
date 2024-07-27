@@ -1,6 +1,6 @@
 # Online-Library-website
 
-This project is an online library website designed to facilitate the borrowing of books. Users can browse through a diverse collection of books, check availability, and borrow their desired titles. The platform provides a seamless experience for book enthusiasts to discover, read, and return books online.
+This project is an online library website designed to facilitate the borrowing of books. Users can browse through a diverse collection of books, check availability, and borrow their desired titles. The platform provides a seamless experience for book enthusiasts to discover, borrow books online.
 
 ## Features
 
